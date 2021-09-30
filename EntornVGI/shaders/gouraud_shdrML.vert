@@ -46,7 +46,9 @@ uniform mat4 modelMatrix;	// Model Matrix.
 
 uniform sampler2D texture0;	// Imatge textura
 uniform bool textur;		// Booleana d’activació (TRUE) de textures o no (FALSE).
+uniform bool flag_invert_y;	// Booleana que activa la inversió coordenada textura t (o Y) a 1.0-cty segons llibreria SOIL (TRUE) o no (FALSE).
 uniform bool fixedLight;	// Booleana que defineix la font de llum fixe en Coordenades Món (TRUE) o no (FALSE).
+uniform bool sw_material;	// Booleana que indica si el color del vèrtex ve del Material emission, ambient, diffue, specular (TRUE) o del vector de color del vèrtex in_Color (FALSE)
 uniform bvec4 sw_intensity;	// Filtre per a cada tipus de reflexió: Emissiva (sw_intensity[0]), Ambient (sw_intensity[1]), Difusa (sw_intensity[2]) o Especular (sw_intensity[2]).
 uniform vec4 LightModelAmbient;	// Intensitat de llum ambient (r,g,b,a)-
 uniform Light LightSource[MaxLights];	// Vector de fonts de llum.
@@ -75,17 +77,18 @@ void main ()
 
 //-L73- Textura
         //VertexTexCoord = in_TexCoord;
-	VertexTexCoord = vec2(in_TexCoord.x,1.0-in_TexCoord.y); // SOIL_FLAG_INVERT_Y
- 
+	if (flag_invert_y) VertexTexCoord = vec2(in_TexCoord.x,1.0-in_TexCoord.y); // SOIL_FLAG_INVERT_Y
+ 	 else VertexTexCoord = vec2(in_TexCoord.x,in_TexCoord.y);
+
 //-L77- Compute emissive term
     vec3 Iemissive = vec3 (0.0,0.0,0.0);	// Intensitat emissiva de l’objecte.
     if (sw_intensity[0])  Iemissive = material.emission.rgb;
 
 //-L81- Compute ambient term
     vec3 Iambient = vec3 (0.0,0.0,0.0);		// Intensitat ambient reflexada
-    if (sw_intensity[1]) {	//Iambient = material.ambient.rgb * in_Color.rgb * LightModelAmbient.rgb;
-				//Iambient = material.ambient.rgb * LightModelAmbient.rgb; // Material
-				Iambient = in_Color.rgb * LightModelAmbient.rgb; // Color geometria
+    if (sw_intensity[1]) {	if (sw_material) Iambient = material.ambient.rgb * LightModelAmbient.rgb;
+					else Iambient = in_Color.rgb * LightModelAmbient.rgb;
+        			Iambient = clamp(Iambient, 0.0, 1.0);
     			}
 
 //-L87- Multiples llums
@@ -107,9 +110,8 @@ void main ()
 		Idiffuse = vec3 (0.0,0.0,0.0);
      		if (sw_intensity[2]) {
         		float diffuseLight = max(dot(L, N), 0.0);
-			//Idiffuse = material.diffuse.rgb * in_Color.rgb * LightSource[i].diffuse.rgb * diffuseLight;
-			//Idiffuse = material.diffuse.rgb * LightSource[i].diffuse.rgb * diffuseLight;	// Material
-			Idiffuse = in_Color.rgb * LightSource[i].diffuse.rgb * diffuseLight;	// Color geometria
+			if (sw_material) Idiffuse = material.diffuse.rgb * LightSource[i].diffuse.rgb * diffuseLight;
+				else Idiffuse = in_Color.rgb * LightSource[i].diffuse.rgb * diffuseLight;
         		Idiffuse = clamp(Idiffuse, 0.0, 1.0);
      			}
 
@@ -119,9 +121,8 @@ void main ()
         		//vec3 V = normalize(-vertexPV);
         		vec3 R = normalize(-reflect(L,N));
         		float specularLight = pow(max(dot(R, V), 0.0), material.shininess);
-			//Ispecular = material.specular.rgb * in_Color.rgb * LightSource[i].specular.rgb * specularLight;
-			//Ispecular = material.specular.rgb * LightSource[i].specular.rgb * specularLight; // Material
-			Ispecular = in_Color.rgb * LightSource[i].specular.rgb * specularLight;	// Color geometria
+			if (sw_material) Ispecular = material.specular.rgb * LightSource[i].specular.rgb * specularLight;
+				else Ispecular = in_Color.rgb * LightSource[i].specular.rgb * specularLight;
         		Ispecular = clamp(Ispecular, 0.0, 1.0);
     			}
 
@@ -134,5 +135,5 @@ void main ()
 
 // ---L124- Calcul intensitat final del vertex
     VertexColor.rgb = Iemissive + Iambient + ILlums;
-    VertexColor.a = 1.0;
+    VertexColor.a = in_Color.a;
 }

@@ -53,8 +53,10 @@
 								 // 12: GLU_TEAPOT, 12: GLU_CYLINDER, 14: GLU_DISK, 15: GLU_PARTIALDISK,
 								 // 16: GLU_SPHERE, 17: CRV_POLYLINE, 18: CRV_LEMNISCATA2D, 19: CRV_LEMNISCATA3D.
 								 // 20: CRV_BSPLINE, 21: CRV_BEZIER, 22:SUP_BSPLINE, 23: SUP_BEZIER, 24: GLUT_LINES,
-								 // 25: GLUT_TRIANGLES, 26: GLUT_USER.
-GLint VAOId[MAX_SIZE_VAOID] = { -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1 };
+								// 25: GLUT_TRIANGLES, 26: CUBE_SKYBOX, 27: GLU_CILINDRE_SENCER, 28: MAR_FRACTAL_VAO, 29: O_FRACTAL_VAO,
+								// 30: FIT_3DS, 31: FIT_3DS2, 32: FIT_3DS3, 33: FIT_OBJ, 34:FIT_OBJ2, 35:FIT_OBJ3, 36:GLUT_USER1, 
+								// 37: GLUT_USER2, 38: GLUT_USER3, 39: GLUT_USER4.
+GLint VAOId[MAX_SIZE_VAOID] = { -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1 };
 
 // VBOId: Vector d'identificadors de Vertex Buffer Objects per a primitives glut_geometry.
 								// Cada posició del vector correspon a una primitiva:
@@ -64,8 +66,11 @@ GLint VAOId[MAX_SIZE_VAOID] = { -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
 								// 12: GLU_TEAPOT, 12: GLU_CYLINDER, 14: GLU_DISK, 15: GLU_PARTIALDISK,
 								// 16: GLU_SPHERE, 17: CRV_POLYLINE, 18: CRV_LEMNISCATA2D, 19: CRV_LEMNISCATA3D.
 								// 20: CRV_BSPLINE, 21: CRV_BEZIER, 22:SUP_BSPLINE, 23: SUP_BEZIER, 24: GLUT_LINES,
-								// 25: GLUT_TRIANGLES, 26: GLUT_USER.
-GLint VBOId[MAX_SIZE_VBOID] = { -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1 };
+								// 25: GLUT_TRIANGLES, 26: CUBE_SKYBOX, 27: GLU_CILINDRE_SENCER, 28: MAR_FRACTAL_VAO, 29: O_FRACTAL_VAO,
+								// 30: FIT_3DS, 31: FIT_3DS2, 32: FIT_3DS3, 33: FIT_OBJ, 34:FIT_OBJ2, 35:FIT_OBJ3, 36:GLUT_USER1, 
+								// 37: GLUT_USER2, 38: GLUT_USER3, 39: GLUT_USER4.
+GLint VBOId[MAX_SIZE_VBOID] = { -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1 };
+
 
 // Clor de primitiva
 GLdouble cColor[4] = { 0.0, 0.0, 0.0, 1.0 };
@@ -253,8 +258,8 @@ void glutSolidCube_VAO( GLdouble dSize )
 		0.0, 0.0, 1.0, 0.0, 1.0, 1.0,      // v4-v7-v6 (back)
 		1.0, 1.0, 0.0, 1.0, 0.0, 0.0 };    // v6-v5-v4
 
-	vaoId = load_TRIANGLES_VAO(vertices, normals, colors, textures);
-	VAOId[GLUT_CUBE] = vaoId;
+	vaoId = load_TRIANGLES_VAO(GLUT_CUBE, vertices, normals, colors, textures);
+	//VAOId[GLUT_CUBE] = vaoId;
 
 #   undef V
 #   undef N
@@ -370,8 +375,8 @@ void glutSolidCubeRGB_VAO(GLdouble dSize)
 		0, 0, 1, 0, 1, 1,      // v4-v7-v6 (back)
 		1, 1, 0, 1, 0, 0 };    // v6-v5-v4
 
-	vaoId = load_TRIANGLES_VAO(vertices, normals, colors, textures);
-	VAOId[GLUT_CUBE_RGB] = vaoId;
+	vaoId = load_TRIANGLES_VAO(GLUT_CUBE_RGB, vertices, normals, colors, textures);
+	//VAOId[GLUT_CUBE_RGB] = vaoId;
 }
 
 void drawSolidCubeRGB()
@@ -709,8 +714,8 @@ GLint glutSolidSphere_VAO(GLdouble radius, GLint slices, GLint stacks)
 // ----------------------- VAO
 	std::vector <int>::size_type nv = vertices.size();	// Tamany del vector vertices en elements.
 
-	vaoId = load_TRIANGLES_VAO(vertices, normals, colors, textures);
-	VAOId[GLUT_SPHERE] = vaoId;
+	vaoId = load_TRIANGLES_VAO(GLUT_SPHERE, vertices, normals, colors, textures);
+	//VAOId[GLUT_SPHERE] = vaoId;
 
 //---- DEFINICIÓ COORDENADES TEXTURA
 	//Desactiva_Coordenades_Textura();
@@ -952,8 +957,8 @@ GLint glutSolidCone_VAO(GLdouble base, GLdouble height, GLint slices, GLint stac
 //---- DEFINICIÓ COORDENADES TEXTURA
 	//Desactiva_Coordenades_Textura();
 
-	vaoId = load_TRIANGLES_VAO(vertices, normals, colors, textures);
-	VAOId[GLUT_CONE] = vaoId;
+	vaoId = load_TRIANGLES_VAO(GLUT_CONE, vertices, normals, colors, textures);
+	//VAOId[GLUT_CONE] = vaoId;
 
 /* Release sin and cos tables */
     free(sint);
@@ -1154,8 +1159,8 @@ GLint glutSolidCylinder_VAO(GLdouble radius, GLdouble height, GLint slices, GLin
 // ------------------------ VAO
 	std::vector <int>::size_type nv = vertices.size();	// Tamany del vector vertices en elements.
 
-	vaoId = load_TRIANGLES_VAO(vertices, normals, colors, textures);
-	VAOId[GLUT_CYLINDER] = vaoId;
+// Creació d'un VAO i un VBO i càrrega de la geometria. Guardar identificador VAO a vector VAOId i identificador VBO a vector VBOId.
+	vaoId = load_TRIANGLES_VAO(GLUT_CYLINDER, vertices, normals, colors, textures);
 
 /* Release sin and cos tables */
     free(sint);
@@ -1322,8 +1327,8 @@ GLint glutSolidTorus_VAO(GLdouble dInnerRadius, GLdouble dOuterRadius, GLint nSi
 // ------------------------ VAO
   std::vector <int>::size_type nv = vertices.size();	// Tamany del vector vertices en elements.
 
-  vaoId = load_TRIANGLES_VAO(vertices, normals, colors, textures);
-  VAOId[GLUT_TORUS] = vaoId;
+  vaoId = load_TRIANGLES_VAO(GLUT_TORUS, vertices, normals, colors, textures);
+  //VAOId[GLUT_TORUS] = vaoId;
 
   free ( vertex ) ;
   free ( normal ) ;
@@ -2124,8 +2129,8 @@ void glutSolidDodecahedron_VAO( void )
 // ------------------------ VAO
   std::vector <int>::size_type nv = vertices.size();		// Tamany del vector vertices en elements.
 
-  vaoId = load_TRIANGLES_VAO(vertices, normals, colors, textures);
-  VAOId[GLUT_DODECAHEDRON] = vaoId;
+// Creació d'un VAO i un VBO i càrrega de la geometria. Guardar identificador VAO a vector VAOId i identificador VBO a vector VBOId.
+  vaoId = load_TRIANGLES_VAO(GLUT_DODECAHEDRON, vertices, normals, colors, textures);
 
  //---- DEFINICIÓ COORDENADES TEXTURA
   //Desactiva_Coordenades_Textura();
@@ -2241,9 +2246,8 @@ void glutSolidOctahedron_VAO( void )
   glEnd();
 */
 
-	vaoId= load_TRIANGLES_VAO(vertices, normals, colors, textures);
-// Guardar identificador VAO a vector VAOId
-	VAOId[GLUT_OCTAHEDRON] = vaoId;
+// Creació d'un VAO i un VBO i càrrega de la geometria. Guardar identificador VAO a vector VAOId i identificador VBO a vector VBOId.
+	vaoId= load_TRIANGLES_VAO(GLUT_OCTAHEDRON, vertices, normals, colors, textures);
 
  //---- DEFINICIÓ COORDENADES TEXTURA
   //Desactiva_Coordenades_Textura();
@@ -2334,10 +2338,10 @@ void glutSolidTetrahedron_VAO( void )
 		-tet_r[0][0] + tet_r[0][1], -tet_r[0][0] + tet_r[0][2], -tet_r[3][0] + tet_r[3][1], -tet_r[3][0] + tet_r[3][2], -tet_r[1][0] + tet_r[1][1], -tet_r[1][0] + tet_r[1][2],    // v0-v3-v1 (top)
 		-tet_r[0][0] + tet_r[0][1], -tet_r[0][0] + tet_r[0][2], -tet_r[1][0] + tet_r[1][1], -tet_r[1][0] + tet_r[1][2], -tet_r[2][0] + tet_r[2][1], -tet_r[2][0] + tet_r[2][2] };  // v0-v1-v2 (back)
 
-
-	vaoId = load_TRIANGLES_VAO(vertices, normals, colors, textures);
+// Creació d'un VAO i un VBO i càrrega de la geometria. Guardar identificador VAO a vector VAOId i identificador VBO a vector VBOId.
+	vaoId = load_TRIANGLES_VAO(GLUT_TETRAHEDRON, vertices, normals, colors, textures);
 // Guardar identificador VAO a vector VAOId
-	VAOId[GLUT_TETRAHEDRON] = vaoId;
+	//VAOId[GLUT_TETRAHEDRON] = vaoId;
 
 //---- DEFINICIÓ COORDENADES TEXTURA
   //Desactiva_Coordenades_Textura();
@@ -2418,9 +2422,8 @@ void glutSolidIcosahedron_VAO( void )
 // ----------------------- VAO
 	std::vector <int>::size_type nv = vertices.size();	// Tamany del vector vertices en elements.
 
-	vaoId = load_TRIANGLES_VAO(vertices, normals, colors, textures);
-// Guardar identificador VAO a vector VAOId
-	VAOId[GLUT_ICOSAHEDRON] = vaoId;
+// Creació d'un VAO i un VBO i càrrega de la geometria. Guardar identificador VAO a vector VAOId i identificador VBO a vector VBOId.
+	vaoId = load_TRIANGLES_VAO(GLUT_ICOSAHEDRON, vertices, normals, colors, textures);
 
 //---- DEFINICIÓ COORDENADES TEXTURA
   //Desactiva_Coordenades_Textura();
@@ -2516,9 +2519,8 @@ void glutSolidRhombicDodecahedron_VAO( void )
 // ----------------------- VAO
 	std::vector <int>::size_type nv = vertices.size();	// Tamany del vector vertices en elements.
 
-	vaoId = load_TRIANGLES_VAO(vertices, normals, colors, textures);
-// Guardar identificador VAO a vector VAOId
-	VAOId[GLUT_RHOMBICDODECAHEDRON] = vaoId;
+// Creació d'un VAO i un VBO i càrrega de la geometria. Guardar identificador VAO a vector VAOId i identificador VBO a vector VBOId.
+	vaoId = load_TRIANGLES_VAO(GLUT_RHOMBICDODECAHEDRON, vertices, normals, colors, textures);
 
 //---- DEFINICIÓ COORDENADES TEXTURA
   //Desactiva_Coordenades_Textura();
@@ -2572,9 +2574,8 @@ GLint glutSolidSierpinskiSponge_VAO(int num_levels, GLdouble offset[3], GLdouble
 // ----------------------- VAO
 	std::vector <int>::size_type nv = vertices.size();	// Tamany del vector vertices en elements.
 
-	vaoId = load_TRIANGLES_VAO(vertices, normals, colors, textures);
-// Guardar identificador VAO a vector VAOId
-	VAOId[GLUT_SIERPINSKISPONGE] = vaoId;
+// Creació d'un VAO i un VBO i càrrega de la geometria. Guardar identificador VAO a vector VAOId i identificador VBO a vector VBOId.
+	vaoId = load_TRIANGLES_VAO(GLUT_SIERPINSKISPONGE, vertices, normals, colors, textures);
 
 	return int(nv / 3);
 }
@@ -2732,9 +2733,8 @@ static void fghTeapot(GLint grid, GLdouble scale, GLenum type)
 // ----------------------- VAO
 	std::vector <int>::size_type nv = vertices.size();	// Tamany del vector vertices en elements.
 
-	vaoId = load_TRIANGLES_VAO(vertices, normals, colors, textures);
-// Guardar identificador VAO a vector VAOId
-	VAOId[GLUT_TEAPOT] = vaoId;
+	vaoId = load_TRIANGLES_VAO(GLUT_TEAPOT, vertices, normals, colors, textures);
+
 }
 
 
@@ -2900,9 +2900,8 @@ GLint gluCylinder_VAO(GLdouble baseRadius, GLdouble topRadius, GLdouble height, 
 // ----------------------- VAO
 	std::vector <int>::size_type nv = vertices.size();	// Tamany del vector vertices en elements.
 
-	vaoId = load_TRIANGLES_VAO(vertices, normals, colors, textures);
-// Guardar identificador VAO a vector VAOId
-	VAOId[GLU_CYLINDER] = vaoId;
+// Creació d'un VAO i un VBO i càrrega de la geometria. Guardar identificador VAO a vector VAOId i identificador VBO a vector VBOId.
+	vaoId = load_TRIANGLES_VAO(GLU_CYLINDER, vertices, normals, colors, textures);
 
 	return int(nv / 3);
 }
@@ -3114,9 +3113,8 @@ GLint gluPartialDisk_VAO(GLdouble innerRadius, GLdouble outerRadius, GLint slice
 // ------------------------ VAO
 	std::vector <int>::size_type nv = vertices.size();	// Tamany del vector vertices en elements.
 
-	vaoId = load_TRIANGLES_VAO(vertices, normals, colors, textures);
-// Guardar identificador VAO a vector VAOId
-	VAOId[index] = vaoId;
+// Creació d'un VAO i un VBO i càrrega de la geometria. Guardar identificador VAO a vector VAOId i identificador VBO a vector VBOId.
+	vaoId = load_TRIANGLES_VAO(GLU_PARTIALDISK, vertices, normals, colors, textures);
 
 	return int(nv / 3);
 }
@@ -3284,8 +3282,9 @@ GLint gluSphere_VAO(GLdouble radius, GLint slices, GLint stacks)
 // ----------------------- VAO
 	std::vector <int>::size_type nv = vertices.size();	// Tamany del vector vertices en elements.
 
-	vaoId = load_TRIANGLES_VAO(vertices, normals, colors, textures);
-	VAOId[GLU_SPHERE] = vaoId;
+// Creació d'un VAO i un VBO i càrrega de la geometria. Guardar identificador VAO a vector VAOId i identificador VBO a vector VBOId.
+	vaoId = load_TRIANGLES_VAO(GLU_SPHERE, vertices, normals, colors, textures);
+
 	return int(nv / 3);
 }
 
@@ -4895,7 +4894,7 @@ void draw_LINES_VAO(int nvert, GLint vaoId)
 }
 
 
-GLint load_TRIANGLES_VAO(std::vector <double> vertices, std::vector <double> normals, std::vector <double> colors, std::vector <double> textures)
+GLint load_TRIANGLES_VAO(int prim_Id, std::vector <double> vertices, std::vector <double> normals, std::vector <double> colors, std::vector <double> textures)
 {
 	GLuint vaoId=0, vboId = 0;
 
@@ -4952,15 +4951,15 @@ GLint load_TRIANGLES_VAO(std::vector <double> vertices, std::vector <double> nor
 	glBindVertexArray(0);
 
 // Assignació identificadors VBO a vector VBOId
-	VBOId[GLUT_TRIANGLES] = vboId;
+	VBOId[prim_Id] = vboId;
 
 // Assignació identificadors VAO a vector VAOId
-	VAOId[GLUT_TRIANGLES] = vaoId;
+	VAOId[prim_Id] = vaoId;
 
 	return vaoId;
 }
 
-void draw_TRIANGLES_VAO(int nvert, GLint vaoId)
+void draw_TRIANGLES_VAO(GLint vaoId, int nvert)
 {
 //	GLuint vaoId = 0;
 

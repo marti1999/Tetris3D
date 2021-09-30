@@ -67,7 +67,7 @@ class OBJLOADER_CLASS_DECL COBJModel
   public:
 	  void _stdcall DrawModel();
 //	  bool _stdcall LoadModel(const char szFileName[],unsigned int iDisplayList);
-	  bool _stdcall LoadModel(char *szFileName, unsigned int iDisplayList,bool texture);
+	  GLuint _stdcall LoadModel(char *szFileName, int prim_Id, int& nvert);
 	  _stdcall COBJModel();
 	  virtual _stdcall ~COBJModel();
 	  void _stdcall EliminaLlista(unsigned int iDisplayList);
@@ -80,8 +80,8 @@ class OBJLOADER_CLASS_DECL COBJModel
 	  void _stdcall MakePath(char szFileAndPath[]);
 	  bool _stdcall LoadMaterialLib(const char szFileName[], Material *pMaterials,
 		  unsigned int *iCurMaterialIndex, char szBasePath[]);
-	  void _stdcall RenderToDisplayList(const Face *pFaces, const unsigned int iFaceCount,
-		  const Material *pMaterials,bool texture);
+	  GLuint _stdcall RenderToDisplayList(const Face *pFaces, const unsigned int iFaceCount,
+		  const Material *pMaterials, int prim_Id, int& nvert);
 	  void _stdcall GetFaceNormal(float fNormalOut[3], const Face *pFace);
 	  void _stdcall ParseFaceString(char szFaceString[], Face *FaceOut, const Vector3D *pVertices,
 		  const Vector3D *pNormals, const Vector2D *pTexCoords, const unsigned int iMaterialIndex);

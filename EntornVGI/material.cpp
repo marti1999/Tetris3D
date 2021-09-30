@@ -205,7 +205,7 @@ void SeleccionaMaterial(GLuint sh_programID, int quin,bool sw_mater[4])
 |* SeleccionaColorMaterial                                                         *|
 |* Selecciona el Color del material                                           *|
 \******************************************************************************/
-void SeleccionaColorMaterial(GLuint sh_programID, CColor c_obj, bool sw_mater[4])
+void SeleccionaColorMaterial(GLuint sh_programID, CColor c_obj, bool sw_mater[5])
 {
 	//const float zeros[4]={0.0f,0.0f,0.0f,1.0f};
 	//float color[4] = { c_obj.r, c_obj.g, c_obj.b, c_obj.a };
@@ -214,9 +214,9 @@ void SeleccionaColorMaterial(GLuint sh_programID, CColor c_obj, bool sw_mater[4]
 //	glColor4fv(color);	//glColor3f(c_obj.r, c_obj.g, c_obj.b);
 	SetColor4d(c_obj.r, c_obj.g, c_obj.b, c_obj.a);		// Definir color a primitives GLUT.
 
-// Pas vector booleà sw_materials al Shader
-	//glUniform4iv(glGetUniformLocation(sh_programID, "sw_intensity"), 1, *sw_mater);
+// Pas vector booleans sw_materials al Shader
 	glUniform4i(glGetUniformLocation(sh_programID, "sw_intensity"), sw_mater[0], sw_mater[1], sw_mater[2], sw_mater[3]);
+	glUniform1i(glGetUniformLocation(sh_programID, "sw_material"), sw_mater[4]);
 
 // Component de reflectivitat d'emissió de llum del material
 //	glColorMaterial(GL_FRONT, GL_EMISSION);

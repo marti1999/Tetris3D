@@ -202,13 +202,17 @@
 #define ID_CORBES_TRIEDREFRENET         32878
 #define ID_OBJECTE_CUBRGB32879          32879
 #define ID_OBJECTE_CUB_RGB              32880
+#define ID_ILUMINACI32881               32881
+#define ID_ILUMINACIO_TEXTURA_FLAGINVERTY 32882
+#define ID_MATERIAL_REFL                32883
+#define ID_MATERIAL_REFLMATERIAL        32884
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        311
-#define _APS_NEXT_COMMAND_VALUE         32881
+#define _APS_NEXT_COMMAND_VALUE         32885
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           310
 #endif

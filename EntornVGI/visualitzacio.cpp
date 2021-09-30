@@ -712,24 +712,6 @@ glm::mat4 instancia(bool TR, INSTANCIA tg, INSTANCIA tgF)
 	if (TR) MatriuTG = glm::translate(MatriuTG, glm::vec3(tg.VTras.x, tg.VTras.y, tg.VTras.z));
 	MatriuTG = glm::translate(MatriuTG, glm::vec3(tgF.VTras.x, tgF.VTras.y, tgF.VTras.z));	// Traslacio fixada amb la INSERT dins l'opcio Transformacions
 
-/*
-// ---- ROTACIONS PER TG GLM
-// Transformacions geometriques sobre objecte (Traslacio, Rotacions i Escalatge)
-	if (TR) MatriuTG = glm::translate(MatriuTG,glm::vec3(tg.VTras.x, tg.VTras.y, tg.VTras.z));
-	MatriuTG = glm::translate(MatriuTG, glm::vec3(tg.VTras.x, tg.VTras.y, tg.VTras.z));	// Traslacio fixada amb la INSERT dins l'opcio Transformacions
-	angle = (GLfloat)tg.VRota.x;
-	if (TR) MatriuTG = glm::rotate(MatriuTG,angle, glm::vec3(1, 0, 0));
-	MatriuTG = glm::rotate(MatriuTG, angle, glm::vec3(1, 0, 0));			// Rotacio X fixada amb la INSERT dins l'opcio Transformacions
-	angle = (GLfloat)tg.VRota.y;
-	if (TR) MatriuTG = glm::rotate(MatriuTG, angle, glm::vec3(0, 1, 0));
-	MatriuTG = glm::rotate(MatriuTG, angle, glm::vec3(0, 1, 0));			// Rotacio Y fixada amb la INSERT dins l'opcio Transformacions
-	angle = (GLfloat)tg.VRota.z;
-	if (TR) MatriuTG = glm::rotate(MatriuTG, angle, glm::vec3(0, 0, 1));
-	MatriuTG = glm::rotate(MatriuTG, angle, glm::vec3(0, 0, 1));			// Rotacio Z fixada amb la INSERT dins l'opcio Transformacions
-	if (TR) MatriuTG = glm::scale(MatriuTG, vec3(tg.VScal.x, tg.VScal.y, tg.VScal.z));
-	MatriuTG = glm::scale(MatriuTG, vec3(tgF.VScal.x, tgF.VScal.y, tgF.VScal.z));	// Escalatge fixada amb la INSERT dins l'opcio Transformacions
-*/
-
 	return MatriuTG;
 }
 
@@ -1184,7 +1166,7 @@ GLint loadIMA_SOIL(const char * filename)
 	return textureID;
 }
 
-/*
+
 // TEXTURES------------------------------------------------------
 // loadIMA_ILUT: This function receives as input the image filename and an 
 // integer identifier (0 for the first texture) and creates an OpenGL 
@@ -1237,7 +1219,7 @@ GLint loadIMA_ILUT(const char * filename)
 // If execution arrives here it means that all went well. Return true
 	return auxID;
 }
-*/
+
 
 
 // ----------------- CUBEMAP TEXTURE

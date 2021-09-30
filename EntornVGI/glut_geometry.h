@@ -80,10 +80,10 @@
 
  /* -- INTERFACE CONSTANTS -------------------------------------------------- */
 //--------------- VGI: Màxim tamany vector vboId
-#define MAX_SIZE_VBOID 27
+#define MAX_SIZE_VBOID 40
 
 //--------------- VGI: Màxim tamany vector vaoId
-#define MAX_SIZE_VAOID 27
+#define MAX_SIZE_VAOID 40
 
 //--------------- VGI: Apuntados estructures VBO dins vboId per primitives
 
@@ -114,7 +114,19 @@
 #define GLUT_LINES 24
 #define GLUT_TRIANGLES 25
 #define CUBE_SKYBOX 26
-
+#define GLU_CILINDRE_SENCER 27
+#define MAR_FRACTAL_VAO 28
+#define O_FRACTAL_VAO 29
+#define FIT_3DS 30
+#define FIT_3DS2 31
+#define FIT_3DS3 32
+#define FIT_OBJ 33
+#define FIT_OBJ2 34
+#define FIT_OBJ3 35
+#define GLUT_USER1 36
+#define GLUT_USER2 37
+#define GLUT_USER3 38
+#define GLUT_USER4 39
 
  /* -- INTERFACE VARIABLES -------------------------------------------------- */
 // vboId: Vector d'identificadors de Vertex Buffer Objects per a primitives glut_geometry.
@@ -2765,9 +2777,8 @@ CPunt3D VBN_Bezier_Curve(float t, CPunt3D* ctr);
 // ------------------------- ACTIVACIÓ VERTEX ARRAY DE CADA FORMA GL_* PER A VBO
 GLint load_LINES_VAO(std::vector <double> vertices, std::vector <double> colors);
 void draw_LINES_VAO(int nvert, GLint vaoId);
-GLint load_TRIANGLES_VAO(std::vector <double> vertices, std::vector <double> normals, std::vector <double> colors, std::vector <double> textures);
-GLint load_TRIANGLES_VAO(std::vector <double> vertices, std::vector <double> normals, std::vector <double> colors, std::vector <double> textures);
-void draw_TRIANGLES_VAO(int nvert, GLint vaoId);
+GLint load_TRIANGLES_VAO(int prim_Id, std::vector <double> vertices, std::vector <double> normals, std::vector <double> colors, std::vector <double> textures);
+void draw_TRIANGLES_VAO(GLint vaoId, int nvert);
 void draw_GL_LINES_VAO(std::vector <double> vertices, std::vector <double> colors);
 void draw_GL_POLYGON_VAO(std::vector <double> vertices, std::vector <double> normals, std::vector <double> colors, std::vector <double> textures);
 void draw_GL_QUADS_VAO(std::vector <double> vertices, std::vector <double> normals, std::vector <double> colors, std::vector <double> textures);

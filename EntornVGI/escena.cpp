@@ -41,7 +41,7 @@ void dibuixa_Eixos(GLuint ax_programID, bool eix, GLuint axis_Id, CMask3D reixa,
 }
 
 // Dibuixa Skybox en forma de Cub, activant un shader propi.
-void dibuixa_Skybox(GLuint sk_programID, GLuint cmTexture, glm::mat4 MatriuProjeccio, glm::mat4 MatriuVista)
+void dibuixa_Skybox(GLuint sk_programID, GLuint cmTexture, char eix_Polar, glm::mat4 MatriuProjeccio, glm::mat4 MatriuVista)
 {
 	glm::mat4 ModelMatrix(1.0);
 
@@ -53,6 +53,10 @@ void dibuixa_Skybox(GLuint sk_programID, GLuint cmTexture, glm::mat4 MatriuProje
 // Pas Matrius Projecció i Vista a shader
 	glUniformMatrix4fv(glGetUniformLocation(sk_programID, "projectionMatrix"), 1, GL_FALSE, &MatriuProjeccio[0][0]);
 	glUniformMatrix4fv(glGetUniformLocation(sk_programID, "viewMatrix"), 1, GL_FALSE, &MatriuVista[0][0]);
+
+// Rotar skyBox per a orientar sobre eix superior Z o X en Vista Esfèrica (POLARX, POLARY, POLARZ)
+	if (eix_Polar == POLARZ) ModelMatrix = glm::rotate(ModelMatrix, radians(90.0f), vec3(1.0f, 0.0f, 0.0f));
+	else if (eix_Polar == POLARX) ModelMatrix = glm::rotate(ModelMatrix, radians(-90.0f), vec3(0.0f, 0.0f, 1.0f));
 
 // Escalar Cub Skybox a 5000 per encabir objectes escena a l'interior
 	ModelMatrix = glm::scale(ModelMatrix, vec3(5000.0f, 5000.0f, 5000.0f));		//glScaled(5000.0, 5000.0, 5000.0);
@@ -74,9 +78,10 @@ void dibuixa_Skybox(GLuint sk_programID, GLuint cmTexture, glm::mat4 MatriuProje
 
 // dibuixa_EscenaGL: Dibuix de l'escena amb comandes GL
 void dibuixa_EscenaGL(GLuint sh_programID, bool eix, GLuint axis_Id, CMask3D reixa, CPunt3D hreixa, char objecte, 
-			CColor col_object, bool ref_mat, bool sw_mat[4],
-			bool textur, GLint texturID[NUM_MAX_TEXTURES], bool textur_map,
+			CColor col_object, bool sw_mat[5],
+			bool textur, GLint texturID[NUM_MAX_TEXTURES], bool textur_map, bool flagInvertY,
 			int nptsU, CPunt3D PC_u[MAX_PATCH_CORBA], GLfloat pasCS, bool sw_PC, bool dib_TFrenet,
+			GLuint vaoId3DS, int nvert3DS, GLuint vaoIdOBJ, int nvertOBJ,
 			glm::mat4 MatriuVista, glm::mat4 MatriuTG)
 {
 	float altfar = 0;
@@ -84,14 +89,14 @@ void dibuixa_EscenaGL(GLuint sh_programID, bool eix, GLuint axis_Id, CMask3D rei
 	int i, j, k;
 	GLdouble tras[3]; //Sierpinski Sponge
 	CColor color_vermell, color_Mar;
-	bool sw_material[4];
+	bool sw_material[5];
 	
 // Matrius de Transformació
 	glm::mat4 NormalMatrix(1.0), ModelMatrix(1.0), TransMatrix(1.0), ScaleMatrix(1.0), RotMatrix(1.0);
 
 	tras[0] = 0.0;	tras[1] = 0.0; tras[2] = 0.0;
 	color_vermell.r = 1.0;	color_vermell.g = 0.0; color_vermell.b = 0.0; color_vermell.a = 1.0;
-	sw_material[0] = false;	sw_material[1] = true; sw_material[2] = true; sw_material[3] = false;
+	sw_material[0] = false;	sw_material[1] = true; sw_material[2] = true; sw_material[3] = false;	sw_material[4] = true;
 
 // Shader Visualització Objectes
 	glUseProgram(sh_programID);
@@ -104,12 +109,16 @@ void dibuixa_EscenaGL(GLuint sh_programID, bool eix, GLuint axis_Id, CMask3D rei
 		else {	glUniform1i(glGetUniformLocation(sh_programID, "textur"), GL_FALSE); //glDisable(GL_TEXTURE_2D);
 				glUniform1i(glGetUniformLocation(sh_programID, "modulate"), GL_FALSE); //glDisable(GL_MODULATE);
 			}
+	glUniform1i(glGetUniformLocation(sh_programID, "flag_invert_y"), flagInvertY);
 
 // Attribute Locations must be setup before calling glLinkProgram()
 	glBindAttribLocation(sh_programID, 0, "in_Vertex");		// Vèrtexs
 	glBindAttribLocation(sh_programID, 1, "in_Normal");		// Normals
 	glBindAttribLocation(sh_programID, 2, "in_TexCoord");	// Textura
 	glBindAttribLocation(sh_programID, 3, "in_Color");		// Color
+
+// Definició propietats de reflexió (emissió, ambient, difusa, especular) del material.
+	SeleccionaColorMaterial(sh_programID, col_object, sw_mat);
 
 	switch (objecte)
 	{
@@ -131,16 +140,24 @@ void dibuixa_EscenaGL(GLuint sh_programID, bool eix, GLuint axis_Id, CMask3D rei
 
 // Dibuix de l'objecte 3DS
 	case OBJ3DS:
-		// Dibuix de l'objecte 3DS amb textures (OBJECTE3DST) o sense textures (OBJECTE3DS)
-		if (textur) glCallList(OBJECTE3DST);
-		else glCallList(OBJECTE3DS);
+		// Pas ModelView Matrix a shader
+		glUniformMatrix4fv(glGetUniformLocation(sh_programID, "modelMatrix"), 1, GL_FALSE, &ModelMatrix[0][0]);
+		NormalMatrix = transpose(inverse(MatriuVista * ModelMatrix));
+		// Pas NormalMatrix a shader
+		glUniformMatrix4fv(glGetUniformLocation(sh_programID, "normalMatrix"), 1, GL_FALSE, &NormalMatrix[0][0]);
+		// Dibuix de l'objecte 3DS amb textures 
+		draw_TRIANGLES_VAO(vaoId3DS, nvert3DS);		// Dibuixar VAO a pantalla
 		break;
 
 // Dibuix de l'objecte OBJ
 	case OBJOBJ:
-		// Objecte OBJ: Dibuix de l'objecte OBJ amb textures (OBJECTEOBJT) o sense textures (OBJECTEOBJ)
-		if (textur) glCallList(OBJECTEOBJT);
-		else glCallList(OBJECTEOBJ);
+		// Pas ModelView Matrix a shader
+		glUniformMatrix4fv(glGetUniformLocation(sh_programID, "modelMatrix"), 1, GL_FALSE, &ModelMatrix[0][0]);
+		NormalMatrix = transpose(inverse(MatriuVista * ModelMatrix));
+		// Pas NormalMatrix a shader
+		glUniformMatrix4fv(glGetUniformLocation(sh_programID, "normalMatrix"), 1, GL_FALSE, &NormalMatrix[0][0]);
+		// Objecte OBJ: Dibuix de l'objecte OBJ amb textures
+		draw_TRIANGLES_VAO(vaoIdOBJ, nvertOBJ);		// Dibuixar VAO a pantalla
 		break;
 
 // Corba Bezier

@@ -1,6 +1,6 @@
 //******** PRACTICA VISUALITZACIÓ GRÀFICA INTERACTIVA (Escola Enginyeria - UAB)
 //******** Entorn bàsic VS2019 MULTIFINESTRA amb interfície MFC i Status Bar per a les pràctiques de l'assignatura
-//******** Ferran Poveda, Marc Vivet, Carme Julià, Débora Gil, Enric Martí (Setembre 2021)
+//******** Ferran Poveda, Marc Vivet, Carme Julià, Débora Gil, Enric Martí (Setembre 2020)
 // objLoader_VBO.cpp: Implements the class COBJModel.
 //
 //////////////////////////////////////////////////////////////////////
@@ -57,7 +57,7 @@ _stdcall COBJModel::~COBJModel()
 }
 
 //bool _stdcall COBJModel::LoadModel(const char szFileName[],unsigned int iDisplayList)
-bool _stdcall COBJModel::LoadModel(char *szFileName, unsigned int iDisplayList, bool texture)
+GLuint _stdcall COBJModel::LoadModel(char *szFileName, int prim_Id, int& nvert)
 {
 	////////////////////////////////////////////////////////////////////////
 	// Load a OBJ file and render its data into a display list
@@ -75,6 +75,9 @@ bool _stdcall COBJModel::LoadModel(char *szFileName, unsigned int iDisplayList, 
 	FILE *hFile=NULL;
 //	int errno;
 
+// VAO
+	GLuint vaoId=0;
+
 // Get base path
 	strcpy(szBasePath, szFileName);
 	MakePath(szBasePath);
@@ -90,8 +93,6 @@ bool _stdcall COBJModel::LoadModel(char *szFileName, unsigned int iDisplayList, 
 	if (errno!=0)
 	//if (!hFile)
 		return FALSE;
-
-
 
 ////////////////////////////////////////////////////////////////////////
 // Allocate space for structures that hold the model data
@@ -118,14 +119,14 @@ bool _stdcall COBJModel::LoadModel(char *szFileName, unsigned int iDisplayList, 
 	// Init structure that holds the current array index
 	memset(&CurrentIndex, 0, sizeof(OBJFileInfo));
 
-	////////////////////////////////////////////////////////////////////////
-	// Read the file contents
-	////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+// Read the file contents
+////////////////////////////////////////////////////////////////////////
 
-	// Start reading the file from the start
+// Start reading the file from the start
 	rewind(hFile);
 	
-	// Quit reading when end of file has been reached
+// Quit reading when end of file has been reached
 	while (!feof(hFile))
 	{
 		// Get next string
@@ -225,11 +226,11 @@ bool _stdcall COBJModel::LoadModel(char *szFileName, unsigned int iDisplayList, 
 		qsort(pFaces, OBJInfo.iFaceCount, sizeof(Face), CompareFaceByMaterial);
 	
 // Identificar el número de llista donat com a paràmetre a la variable local m_iDisplayList
-	m_iDisplayList = iDisplayList;
-	if (m_iDisplayList>0) glDeleteLists(m_iDisplayList, 1);
+	//m_iDisplayList = iDisplayList;
+	//if (m_iDisplayList>0) glDeleteLists(m_iDisplayList, 1);
 
 // Render all faces into a display list
-	RenderToDisplayList(pFaces, OBJInfo.iFaceCount, pMaterials,texture);
+	vaoId = RenderToDisplayList(pFaces, OBJInfo.iFaceCount, pMaterials,prim_Id, nvert);
 
 ////////////////////////////////////////////////////////////////////////
 // Free structures that hold the model data
@@ -256,7 +257,7 @@ bool _stdcall COBJModel::LoadModel(char *szFileName, unsigned int iDisplayList, 
 // Success
 ////////////////////////////////////////////////////////////////////////
 
-	return TRUE;
+	return vaoId;
 }
 
 void _stdcall COBJModel::ParseFaceString(char szFaceString[], Face *FaceOut, 
@@ -487,10 +488,10 @@ bool _stdcall COBJModel::LoadMaterialLib(const char szFileName[],
 	return TRUE;
 }
 
-void _stdcall COBJModel::RenderToDisplayList(const Face *pFaces, 
+GLuint _stdcall COBJModel::RenderToDisplayList(const Face *pFaces, 
 									const unsigned int iFaceCount,
 									const Material *pMaterials,
-									bool texture)
+									int prim_Id, int &nvert)
 {
 ////////////////////////////////////////////////////////////////////////
 // Render a list of faces into a display list
@@ -501,8 +502,8 @@ void _stdcall COBJModel::RenderToDisplayList(const Face *pFaces,
 	int iPreviousMaterial = -1;
 	double color[4] = { 1.0F, 0.0f, 0.0f, 1.0f };
 
-// VBO
-	GLuint vboId = 0;
+// VAO
+	GLuint vaoId = 0;
 	std::vector <double> vertices, colors, normals, textures;		// Definició vectors dinàmics per a vertexs i colors 
 	vertices.resize(0);		colors.resize(0);	normals.resize(0);		textures.resize(0);// Reinicialitzar vectors
 	
@@ -513,7 +514,7 @@ void _stdcall COBJModel::RenderToDisplayList(const Face *pFaces,
 // Generate & save display list index
 	
 // Render model into the display list
-	glNewList(m_iDisplayList, GL_COMPILE);
+	//glNewList(m_iDisplayList, GL_COMPILE);
 
 		// Save texture bit to recover from the various texture state changes
 		glPushAttrib(GL_TEXTURE_BIT);
@@ -529,60 +530,16 @@ void _stdcall COBJModel::RenderToDisplayList(const Face *pFaces,
 			// Process all faces
 			for (i=0; i<(int) iFaceCount; i++)
 			{
-				// Any materials loaded ?
-				if (pMaterials) 
-					{	// Set material (if it differs from the previous one)
-						if (iPreviousMaterial != (int)pFaces[i].iMaterialIndex)
-							{	iPreviousMaterial = pFaces[i].iMaterialIndex;
-								UseMaterial(&pMaterials[pFaces[i].iMaterialIndex]);
-							}
-						// Set Color
-						colors.push_back(pMaterials->fDiffuse[0]);
-						colors.push_back(pMaterials->fDiffuse[1]);
-						colors.push_back(pMaterials->fDiffuse[2]);
-						colors.push_back(1.0);
-					}
-				else {	// Set Color per defecte
-						colors.push_back(cColor[0]);
-						colors.push_back(cColor[1]);
-						colors.push_back(cColor[2]);
-						colors.push_back(cColor[3]);
-					}
-
-/*
-				// Set primitive of the current face
-				switch (pFaces[i].iNumVertices)
+				// Process all vertices as triangles
+				for (j = 1; j < (int)pFaces[i].iNumVertices-1; j++)
 				{
-					case 3:
-						glBegin(GL_TRIANGLES);
-						break;
-					case 4:
-						glBegin(GL_QUADS);
-						break;
-					default:
-						glBegin(GL_POLYGON);
-				}
-*/							
-/*
-				// Calculate and set face normal if no vertex normals are specified
-				if (!pFaces[i].pNormals)
-				{
-					GetFaceNormal(fNormal, &pFaces[i]);
-					//glNormal3fv(fNormal);
-					normals.push_back(fNormal[0]);
-					normals.push_back(fNormal[1]);
-					normals.push_back(fNormal[2]);
-				}
-*/
-				// Process all vertices
-				for (j=0; j<(int) pFaces[i].iNumVertices; j++)
-				{
+					// -----------VERTEX 0
 					// Set vertex normal (if vertex normals are specified)
 					if (pFaces[i].pNormals)
 						{	//glNormal3f(pFaces[i].pNormals[j].fX, pFaces[i].pNormals[j].fY, pFaces[i].pNormals[j].fZ);
-							normals.push_back(pFaces[i].pNormals[j].fX);
-							normals.push_back(pFaces[i].pNormals[j].fY);
-							normals.push_back(pFaces[i].pNormals[j].fZ);
+							normals.push_back(pFaces[i].pNormals[0].fX);
+							normals.push_back(pFaces[i].pNormals[0].fY);
+							normals.push_back(pFaces[i].pNormals[0].fZ);
 						}
 
 					else {	// Calculate and set face normal if no vertex normals are specified
@@ -594,13 +551,12 @@ void _stdcall COBJModel::RenderToDisplayList(const Face *pFaces,
 						}
 
 					// Set texture coordinates (if any specified)
-					//if (texture) {
 					if (pMaterials)
-					{	if ((pMaterials[pFaces[i].iMaterialIndex].iTextureID != 0) && (texture))
+					{	if (pMaterials[pFaces[i].iMaterialIndex].iTextureID != 0)
 							{	if (pFaces[i].pTexCoords)
 									{	// glTexCoord2f(pFaces[i].pTexCoords[j].fX, pFaces[i].pTexCoords[j].fY);
-										textures.push_back(pFaces[i].pTexCoords[j].fX);	
-										textures.push_back(pFaces[i].pTexCoords[j].fY);
+										textures.push_back(pFaces[i].pTexCoords[0].fX);	
+										textures.push_back(pFaces[i].pTexCoords[0].fY);
 									}
 									else {	textures.push_back(0.0); // textures.push_back(-0.1*pFaces[i].pVertices[j].fX);
 											textures.push_back(0.0); // textures.push_back(-0.1 * pFaces[i].pVertices[j].fZ);
@@ -614,39 +570,182 @@ void _stdcall COBJModel::RenderToDisplayList(const Face *pFaces,
 							textures.push_back(0.0);
 						}
 
-					// Set vertex
+					// Set COLOR: Any materials loaded ?
+					if (pMaterials)
+					{	// Set material (if it differs from the previous one)
+						if (iPreviousMaterial != (int)pFaces[i].iMaterialIndex)
+						{
+							iPreviousMaterial = pFaces[i].iMaterialIndex;
+							UseMaterial(&pMaterials[pFaces[i].iMaterialIndex]);
+						}
+						// Set Color
+						colors.push_back(pMaterials->fDiffuse[0]);
+						colors.push_back(pMaterials->fDiffuse[1]);
+						colors.push_back(pMaterials->fDiffuse[2]);
+						colors.push_back(1.0);
+					}
+					else {	// Set Color per defecte
+						colors.push_back(cColor[0]);
+						colors.push_back(cColor[1]);
+						colors.push_back(cColor[2]);
+						colors.push_back(cColor[3]);
+					}
+
+					// Set VERTEX
+					//glVertex3f(pFaces[i].pVertices[j].fX, pFaces[i].pVertices[j].fY, pFaces[i].pVertices[j].fZ);
+					vertices.push_back(pFaces[i].pVertices[0].fX);
+					vertices.push_back(pFaces[i].pVertices[0].fY);
+					vertices.push_back(pFaces[i].pVertices[0].fZ);
+
+					// -----------VERTEX j
+// Set vertex normal (if vertex normals are specified)
+					if (pFaces[i].pNormals)
+					{	//glNormal3f(pFaces[i].pNormals[j].fX, pFaces[i].pNormals[j].fY, pFaces[i].pNormals[j].fZ);
+						normals.push_back(pFaces[i].pNormals[j].fX);
+						normals.push_back(pFaces[i].pNormals[j].fY);
+						normals.push_back(pFaces[i].pNormals[j].fZ);
+					}
+
+					else {	// Calculate and set face normal if no vertex normals are specified
+						GetFaceNormal(fNormal, &pFaces[i]);
+						//glNormal3fv(fNormal);
+						normals.push_back(fNormal[0]);
+						normals.push_back(fNormal[1]);
+						normals.push_back(fNormal[2]);
+					}
+
+					// Set texture coordinates (if any specified)
+					if (pMaterials)
+					{
+						if (pMaterials[pFaces[i].iMaterialIndex].iTextureID != 0)
+						{
+							if (pFaces[i].pTexCoords)
+							{	// glTexCoord2f(pFaces[i].pTexCoords[j].fX, pFaces[i].pTexCoords[j].fY);
+								textures.push_back(pFaces[i].pTexCoords[j].fX);
+								textures.push_back(pFaces[i].pTexCoords[j].fY);
+							}
+							else {
+								textures.push_back(0.0); // textures.push_back(-0.1*pFaces[i].pVertices[j].fX);
+								textures.push_back(0.0); // textures.push_back(-0.1 * pFaces[i].pVertices[j].fZ);
+							}
+						}
+						else {
+							textures.push_back(0.0);
+							textures.push_back(0.0);
+						}
+					}
+					else {
+						textures.push_back(0.0);
+						textures.push_back(0.0);
+					}
+
+					// Set COLOR: Any materials loaded ?
+					if (pMaterials)
+					{	// Set material (if it differs from the previous one)
+						if (iPreviousMaterial != (int)pFaces[i].iMaterialIndex)
+						{
+							iPreviousMaterial = pFaces[i].iMaterialIndex;
+							UseMaterial(&pMaterials[pFaces[i].iMaterialIndex]);
+						}
+						// Set Color
+						colors.push_back(pMaterials->fDiffuse[0]);
+						colors.push_back(pMaterials->fDiffuse[1]);
+						colors.push_back(pMaterials->fDiffuse[2]);
+						colors.push_back(1.0);
+					}
+					else {	// Set Color per defecte
+						colors.push_back(cColor[0]);
+						colors.push_back(cColor[1]);
+						colors.push_back(cColor[2]);
+						colors.push_back(cColor[3]);
+					}
+
+					// Set VERTEX
 					//glVertex3f(pFaces[i].pVertices[j].fX, pFaces[i].pVertices[j].fY, pFaces[i].pVertices[j].fZ);
 					vertices.push_back(pFaces[i].pVertices[j].fX);
 					vertices.push_back(pFaces[i].pVertices[j].fY);
 					vertices.push_back(pFaces[i].pVertices[j].fZ);
-				}
 
-				//glEnd();
-				
-				// ----------------------- VBO
-				std::vector <int>::size_type nv = vertices.size();	// Tamany del vector vertices en elements.
 
-				// Set primitive of the current face
-				switch (pFaces[i].iNumVertices)
-				{
-				case 3:
-					//glBegin(GL_TRIANGLES);
-					draw_GL_TRIANGLES_VAO(vertices, normals, colors, textures);
-					vertices.resize(0);		colors.resize(0);	normals.resize(0);		textures.resize(0);// Reinicialitzar vectors
-					break;
-				case 4:
-					//glBegin(GL_QUADS);
-					draw_GL_QUADS_VAO(vertices, normals, colors, textures);
-					vertices.resize(0);		colors.resize(0);	normals.resize(0);		textures.resize(0);// Reinicialitzar vectors
-					break;
-				default:
-					//glBegin(GL_POLYGON);
-					draw_GL_POLYGON_VAO(vertices, normals, colors, textures);
-					vertices.resize(0);		colors.resize(0);	normals.resize(0);		textures.resize(0);// Reinicialitzar vectors
+					// -----------VERTEX j+1
+// Set vertex normal (if vertex normals are specified)
+					if (pFaces[i].pNormals)
+					{	//glNormal3f(pFaces[i].pNormals[j].fX, pFaces[i].pNormals[j].fY, pFaces[i].pNormals[j].fZ);
+						normals.push_back(pFaces[i].pNormals[j+1].fX);
+						normals.push_back(pFaces[i].pNormals[j+1].fY);
+						normals.push_back(pFaces[i].pNormals[j+1].fZ);
+					}
+
+					else {	// Calculate and set face normal if no vertex normals are specified
+						GetFaceNormal(fNormal, &pFaces[i]);
+						//glNormal3fv(fNormal);
+						normals.push_back(fNormal[0]);
+						normals.push_back(fNormal[1]);
+						normals.push_back(fNormal[2]);
+					}
+
+					// Set texture coordinates (if any specified)
+					if (pMaterials)
+					{
+						if (pMaterials[pFaces[i].iMaterialIndex].iTextureID != 0)
+						{
+							if (pFaces[i].pTexCoords)
+							{	// glTexCoord2f(pFaces[i].pTexCoords[j].fX, pFaces[i].pTexCoords[j].fY);
+								textures.push_back(pFaces[i].pTexCoords[j+1].fX);
+								textures.push_back(pFaces[i].pTexCoords[j+1].fY);
+							}
+							else {
+								textures.push_back(0.0); // textures.push_back(-0.1*pFaces[i].pVertices[j].fX);
+								textures.push_back(0.0); // textures.push_back(-0.1 * pFaces[i].pVertices[j].fZ);
+							}
+						}
+						else {
+							textures.push_back(0.0);
+							textures.push_back(0.0);
+						}
+					}
+					else {
+						textures.push_back(0.0);
+						textures.push_back(0.0);
+					}
+
+					// Set COLOR: Any materials loaded ?
+					if (pMaterials)
+					{	// Set material (if it differs from the previous one)
+						if (iPreviousMaterial != (int)pFaces[i].iMaterialIndex)
+						{
+							iPreviousMaterial = pFaces[i].iMaterialIndex;
+							UseMaterial(&pMaterials[pFaces[i].iMaterialIndex]);
+						}
+						// Set Color
+						colors.push_back(pMaterials->fDiffuse[0]);
+						colors.push_back(pMaterials->fDiffuse[1]);
+						colors.push_back(pMaterials->fDiffuse[2]);
+						colors.push_back(1.0);
+					}
+					else {	// Set Color per defecte
+						colors.push_back(cColor[0]);
+						colors.push_back(cColor[1]);
+						colors.push_back(cColor[2]);
+						colors.push_back(cColor[3]);
+					}
+
+					// Set VERTEX
+					//glVertex3f(pFaces[i].pVertices[j].fX, pFaces[i].pVertices[j].fY, pFaces[i].pVertices[j].fZ);
+					vertices.push_back(pFaces[i].pVertices[j+1].fX);
+					vertices.push_back(pFaces[i].pVertices[j+1].fY);
+					vertices.push_back(pFaces[i].pVertices[j+1].fZ);
 				}
 			}
 		glPopAttrib();
-	glEndList();
+	//glEndList();
+
+// ----------------------- VAO
+	std::vector <int>::size_type nv = vertices.size();	// Tamany del vector vertices en elements.
+
+	vaoId = load_TRIANGLES_VAO(prim_Id,vertices, normals, colors, textures);
+	nvert = (int) nv / 3;
+	return vaoId;
 }
 
 void _stdcall COBJModel::UseMaterial(const Material *pMaterial)

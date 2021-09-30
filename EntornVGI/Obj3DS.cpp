@@ -1,6 +1,6 @@
 //******** PRACTICA VISUALITZACIÓ GRÀFICA INTERACTIVA (Escola Enginyeria - UAB)
 //******** Entorn bàsic VS2019 MULTIFINESTRA amb interfície MFC i Status Bar per a les pràctiques de l'assignatura
-//******** Ferran Poveda, Marc Vivet, Carme Julià, Débora Gil, Enric Martí (Setembre 2021)
+//******** Ferran Poveda, Marc Vivet, Carme Julià, Débora Gil, Enric Martí (Setembre 2019)
 // Obj3DS_VBO.cpp: implementation of the Obj_3DS class.
 //
 //////////////////////////////////////////////////////////////////////
@@ -162,11 +162,11 @@ bool Obj_3DS::Carregar3DS(char *nomfitxer)
 //
 // Funció que dibuixa l'pbjecte 3DS. Si el parametre es false crea una llista nova.
 //
-void Obj_3DS::Dibuixa3DS(bool actualitza,int obj,bool text)
+GLuint Obj_3DS::Dibuixa3DS(bool actualitza,int prim_Id, int& nvert)
 {
 	
-// VBO
-	GLuint vboId = 0;
+// VAO
+	GLuint vaoId = 0;
 	std::vector <double> vertices, colors, normals, textures;		// Definició vectors dinàmics per a vertexs i colors 
 	vertices.resize(0);		colors.resize(0);	normals.resize(0);		textures.resize(0);// Reinicialitzar vectors
 
@@ -174,8 +174,8 @@ void Obj_3DS::Dibuixa3DS(bool actualitza,int obj,bool text)
 	GLfloat cColor[4];
 	glGetFloatv(GL_CURRENT_COLOR, cColor);
 
-	if (actualitza){glCallList(obj);}
-	else { glNewList(obj, GL_COMPILE);				
+	//if (actualitza){glCallList(obj);}
+	//else { //glNewList(obj, GL_COMPILE);				
 		// Procesem cada objecte del nostre model
 		for(int i = 0; i < g_3DModel.numOfObjects; i++)
 		{
@@ -187,7 +187,7 @@ void Obj_3DS::Dibuixa3DS(bool actualitza,int obj,bool text)
 				
 			// Check to see if this object has a texture map, if so bind the texture to it.
 			// Si l'objecte te textura, n'hi fiquem una
-			if ((pObject->bHasTexture) && (text)){
+			if (pObject->bHasTexture){
 
 				// Activem el texture mapping i desactivarem el color
 				glEnable(GL_TEXTURE_2D);
@@ -273,15 +273,24 @@ void Obj_3DS::Dibuixa3DS(bool actualitza,int obj,bool text)
 			//glEnd();
 // Dibuixarem triangles
 			//glBegin(GL_TRIANGLES);
-// ----------------------- VBO
+/* ---------------------- - VBO
 			std::vector <int>::size_type nv = vertices.size();	// Tamany del vector vertices en elements.
 			if (nv != 0) {
 				draw_GL_TRIANGLES_VAO(vertices, normals, colors, textures);
 				vertices.resize(0);		colors.resize(0);	normals.resize(0);		textures.resize(0);// Reinicialitzar vectors
 				}
-		}
-		glEndList();
+*/
+//		}
+		//glEndList();
 	}
+
+// ----------------------- VAO
+	std::vector <int>::size_type nv = vertices.size();	// Tamany del vector vertices en elements.
+
+	vaoId = load_TRIANGLES_VAO(prim_Id, vertices, normals, colors, textures);
+	nvert = (int)nv / 3;
+	return vaoId;
+
 }
 
 

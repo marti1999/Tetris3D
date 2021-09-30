@@ -33,7 +33,7 @@ public:
 //	bool Carregar3DS(CString nomfitxer);
 	void MakePath(char szFileAndPath[]);
 
-	void Dibuixa3DS(bool actualitza, int obj, bool text);
+	GLuint Dibuixa3DS(bool actualitza, int prim_Id, int& nvert);
 	vector<struct nomfitxer> fitxerstextures;
 
 // Array de textures dels materials

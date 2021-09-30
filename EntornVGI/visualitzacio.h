@@ -65,7 +65,7 @@ void FonsB(void);
 // Entorn VGI: Carregar fitxer imatge de formats admesos per la llibreria DevIL/OpenIL 
 //				com a textura
 GLint loadIMA_SOIL(const char *filename);
-//GLint loadIMA_ILUT(const char *filename);
+GLint loadIMA_ILUT(const char *filename);
 unsigned int loadCubemap(std::vector<std::string> faces);
 void SetTextureParameters(GLint IDText, bool extensT, bool filterT, bool blendT, bool genMipmpT);
 

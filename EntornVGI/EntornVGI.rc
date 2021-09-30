@@ -397,6 +397,8 @@ BEGIN
         MENUITEM SEPARATOR
         POPUP "Refl. Material"
         BEGIN
+            MENUITEM "Material (T) / Color (F)",    ID_MATERIAL_REFLMATERIAL, CHECKED
+            MENUITEM SEPARATOR
             MENUITEM "Emissio?",                    32814, CHECKED
             MENUITEM "Ambient?",                    32815, CHECKED
             MENUITEM "Difusa",                      32816, CHECKED
@@ -406,8 +408,9 @@ BEGIN
         MENUITEM "Textures?",                   32818, CHECKED
         POPUP "Textura"
         BEGIN
-            MENUITEM "FItxer Imatge",               ID_ILUMINACIO_TEXTURA_FITXERIMATGE, CHECKED
+            MENUITEM "FItxer Imatge SOIL",          ID_ILUMINACIO_TEXTURA_FITXERIMATGE, CHECKED
         END
+        MENUITEM "Flag_Invert_Y?",              ID_ILUMINACIO_TEXTURA_FLAGINVERTY, CHECKED
     END
     POPUP "Llums"
     BEGIN

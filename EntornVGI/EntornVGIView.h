@@ -125,6 +125,7 @@ public:
 										// 1-6: Textures assignables
 										// 7: Textura pel Fractal
 										// 8-9: Lliures
+	bool tFlag_invert_Y; // Booleana que activa la inversió coordenada textura t (o Y) a 1.0-cty segons llibreria SOIL (TRUE) o no (FALSE).
 
 // Entorn VGI: Variables de control del menú Llums
 	bool llum_ambient;	// Booleana que controla la llum ambient (SI/NO).
@@ -160,9 +161,13 @@ public:
 
 // Entorn VGI: Objecte 3DS:
 	Obj_3DS* Ob3DS;			// Variable d'objecte 3D Studio (*.3DS)
+	GLuint vaoId_3DS;		// Identificador VAO per a objecte 3DS
+	int nvert_3DS;			// Nombre de vèrtexs de l'objecte 3DS
 
 // Entorn VGI: Objecte OBJ:
 	COBJModel* ObOBJ;		// Variable d'objecte format OBJ (*.OBJ)
+	GLuint vaoId_OBJ;		// Identificador VAO per a objecte OBJ
+	int nvert_OBJ;			// Nombre de vèrtexs de l'objecte OBJ
 
 // Entorn VGI: OBJECTE --> Corbes Bezier i BSpline
 	int npts_T;							// Número de punts de control de la corba en el Vector corbaSpline (<=MAX_PATH_SPLINE)
@@ -428,6 +433,10 @@ public:
 	afx_msg void OnUpdateCorbesTriedreFrenet(CCmdUI* pCmdUI);
 	afx_msg void OnObjecteCubRGB();
 	afx_msg void OnUpdateObjecteCubRGB(CCmdUI* pCmdUI);
+	afx_msg void OnIluminacioTexturaFlagInvertY();
+	afx_msg void OnUpdateIluminacioTexturaFlagInvertY(CCmdUI* pCmdUI);
+	afx_msg void OnMaterialReflmaterial();
+	afx_msg void OnUpdateMaterialReflMaterial(CCmdUI* pCmdUI);
 };
 
 #ifndef _DEBUG  // Versión de depuración en EntornVGIView.cpp

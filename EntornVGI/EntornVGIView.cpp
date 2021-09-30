@@ -204,6 +204,10 @@ BEGIN_MESSAGE_MAP(CEntornVGIView, CView)
 		ON_UPDATE_COMMAND_UI(ID_CORBES_TRIEDREFRENET, &CEntornVGIView::OnUpdateCorbesTriedreFrenet)
 		ON_COMMAND(ID_OBJECTE_CUB_RGB, &CEntornVGIView::OnObjecteCubRGB)
 		ON_UPDATE_COMMAND_UI(ID_OBJECTE_CUB_RGB, &CEntornVGIView::OnUpdateObjecteCubRGB)
+		ON_COMMAND(ID_ILUMINACIO_TEXTURA_FLAGINVERTY, &CEntornVGIView::OnIluminacioTexturaFlagInvertY)
+		ON_UPDATE_COMMAND_UI(ID_ILUMINACIO_TEXTURA_FLAGINVERTY, &CEntornVGIView::OnUpdateIluminacioTexturaFlagInvertY)
+		ON_COMMAND(ID_MATERIAL_REFLMATERIAL, &CEntornVGIView::OnMaterialReflmaterial)
+		ON_UPDATE_COMMAND_UI(ID_MATERIAL_REFLMATERIAL, &CEntornVGIView::OnUpdateMaterialReflMaterial)
 		END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -266,10 +270,11 @@ CEntornVGIView::CEntornVGIView()
 // Entorn VGI: Variables de control del menú Iluminació		
 	ilumina = FILFERROS;			ifixe = false;					ilum2sides = false;
 // Reflexions actives: Ambient [1], Difusa [2] i Especular [3]. No actives: Emission [0]. 
-	sw_material[0] = false;			sw_material[1] = true;			sw_material[2] = true;			sw_material[3] = true;
-	sw_material_old[0] = false;		sw_material_old[1] = true;		sw_material_old[2] = true;		sw_material_old[3] = true;
+	sw_material[0] = false;			sw_material[1] = true;			sw_material[2] = true;			sw_material[3] = true;	sw_material[4] = false;
+	sw_material_old[0] = false;		sw_material_old[1] = true;		sw_material_old[2] = true;		sw_material_old[3] = true;	sw_material_old[4] = true;
 	textura = false;				t_textura = CAP;				textura_map = true;
 	for (i = 0; i < NUM_MAX_TEXTURES; i++) texturesID[i] = -1;
+	tFlag_invert_Y = false;
 
 // Entorn VGI: Variables de control del menú Llums
 // Entorn VGI: Inicialització variables Llums
@@ -410,10 +415,10 @@ CEntornVGIView::CEntornVGIView()
 	col_obj.r = 1.0;	col_obj.g = 1.0;	col_obj.b = 1.0;		col_obj.a = 1.0;
 
 // Entorn VGI: Objecte 3DS
-	Ob3DS = NULL;
+	Ob3DS = NULL;		vaoId_3DS = 0;		nvert_3DS = 0;
 
 // Entorn VGI: Objecte OBJ
-	ObOBJ = NULL;
+	ObOBJ = NULL;		vaoId_OBJ = 0;		nvert_OBJ = 0;
 
 // VGI: OBJECTE --> Corba B-Spline i Bezier
 	npts_T = 0;
@@ -1027,7 +1032,7 @@ void CEntornVGIView::configura_Escena()
 void CEntornVGIView::dibuixa_Escena() 
 {
 //	Dibuix SkyBox Cúbic.
-	if (SkyBoxCube) dibuixa_Skybox(skC_programID, cubemapTexture, ProjectionMatrix, ViewMatrix);
+	if (SkyBoxCube) dibuixa_Skybox(skC_programID, cubemapTexture, Vis_Polar, ProjectionMatrix, ViewMatrix);
 
 //	Dibuix Coordenades Món i Reixes.
 	dibuixa_Eixos(eixos_programID, eixos, eixos_Id, grid, hgrid, ProjectionMatrix, ViewMatrix);
@@ -1035,8 +1040,11 @@ void CEntornVGIView::dibuixa_Escena()
 //	GTMatrix = glm::scalef(GTMatrix,vec3());			// Escalat d'objectes, per adequar-los a les vistes ortogràfiques (Pràctica 2)
 
 //	Dibuix geometria de l'escena amb comandes GL.
-	dibuixa_EscenaGL(shader_programID, eixos, eixos_Id, grid, hgrid, objecte, col_obj, true, sw_material, textura, texturesID, textura_map,
-		npts_T, PC_t, pas_CS, sw_Punts_Control, dibuixa_TriedreFrenet, ViewMatrix, GTMatrix);
+	dibuixa_EscenaGL(shader_programID, eixos, eixos_Id, grid, hgrid, objecte, col_obj, sw_material, 
+		textura, texturesID, textura_map, tFlag_invert_Y,
+		npts_T, PC_t, pas_CS, sw_Punts_Control, dibuixa_TriedreFrenet, 
+		vaoId_3DS, nvert_3DS, vaoId_OBJ, nvert_OBJ, // VAO's i nombre de vèrtexs dels objectes 3DS i OBJ
+		ViewMatrix, GTMatrix);
 
 //	Dibuix Coordenades Món i Reixes.
 		//dibuixa_Eixos(eixos_programID, eixos, eixos_Id, grid, hgrid, ProjectionMatrix, ViewMatrix);
@@ -2345,7 +2353,8 @@ void CEntornVGIView::Teclat_PasCorbes(UINT nChar, UINT nRepCnt)
 		}
 		if (pan) Teclat_Pan(nChar, nRepCnt);
 		else if (camera == CAM_NAVEGA) Teclat_Navega(nChar, nRepCnt);
-		else Teclat_ColorFons(nChar, nRepCnt);
+		if (!sw_color) Teclat_ColorFons(nChar, nRepCnt);
+			else Teclat_ColorObjecte(nChar, nRepCnt);
 		break;
 	}
 }
@@ -2767,7 +2776,7 @@ void CEntornVGIView::OnArxiuObrirFitxerObj()
 // TODO: Agregue aquí su código de controlador de comandos
 //if (ObOBJ != NULL) delete ObOBJ;
 
-	objecte = OBJOBJ;	textura = true;
+	objecte = OBJOBJ;	textura = true;		tFlag_invert_Y = false;
 
 // Entorn VGI: Obrir diàleg de lectura de fitxer
 	CFileDialog openOBJ(TRUE, NULL, NULL,
@@ -2787,8 +2796,12 @@ void CEntornVGIView::OnArxiuObrirFitxerObj()
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);	// Activem contexte OpenGL
 
 	if (ObOBJ == NULL) ObOBJ = new COBJModel;
-	ObOBJ->LoadModel(nomfitx, OBJECTEOBJ,false);	// Carregar objecte OBJ SENSE textura
-	ObOBJ->LoadModel(nomfitx, OBJECTEOBJT,true);	// Carregar objecte OBJ AMB textura
+	if (vaoId_OBJ != 0) deleteVAO(FIT_OBJ); // Eliminar VAO anterior.
+	vaoId_OBJ = ObOBJ->LoadModel(nomfitx, FIT_OBJ, nvert_OBJ);	// Carregar objecte OBJ AMB textura
+
+//	Pas de paràmetres textura al shader
+	if (shader_menu != CAP_SHADER) glUniform1i(glGetUniformLocation(shader_programID, "textur"), textura);
+	if (shader_menu != CAP_SHADER) glUniform1i(glGetUniformLocation(shader_programID, "flag_invert_y"), tFlag_invert_Y);
 
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);	// Desactivem contexte OpenGL
 
@@ -2803,7 +2816,7 @@ void CEntornVGIView::OnArxiuObrirFitxer3ds()
 // TODO: Agregue aquí su código de controlador de comandos
 	//if(Ob3DS!=NULL) delete Ob3DS;
 
-	objecte = OBJ3DS;	textura = true;
+	objecte = OBJ3DS;	textura = true;		tFlag_invert_Y = false;
 
 // Entorn VGI: Obrir diàleg de lectura de fitxer
 	CFileDialog open3DS(TRUE, NULL, NULL,
@@ -2828,13 +2841,17 @@ void CEntornVGIView::OnArxiuObrirFitxer3ds()
 	Ob3DS->Carregar3DS(nomfitx);
 
 // Precompilació de dos objectes nous: OBJECTE3DS: Objecte 3DS sense textures i OBJECTE3DST amb textures,
-	Ob3DS->Dibuixa3DS(false, OBJECTE3DS, false);
-	Ob3DS->Dibuixa3DS(false, OBJECTE3DST, true);
+	if (vaoId_3DS != 0) deleteVAO(FIT_3DS); // Eliminar VAO anterior.
+	vaoId_3DS = Ob3DS->Dibuixa3DS(false, FIT_3DS, nvert_3DS);
+
+//	Pas de paràmetres textura al shader
+	if (shader_menu != CAP_SHADER) glUniform1i(glGetUniformLocation(shader_programID, "textur"), textura);
+	if (shader_menu != CAP_SHADER) glUniform1i(glGetUniformLocation(shader_programID, "flag_invert_y"), tFlag_invert_Y);
 
 	wglMakeCurrent(m_pDC->GetSafeHdc(), NULL); // Desactivem contexte OpenGL
 
 //  Entorn VGI: Modificar R per centrar Vista amb mida de l'objecte
-	mida = sqrtf(3.0) * 10;
+	mida = sqrtf(3.0f) * 10.0;
 	OPV.R = 0.5*mida / sin(30 * PI / 180) + p_near;
 
 // Crida a OnPaint() per redibuixar l'escena
@@ -3490,7 +3507,7 @@ void CEntornVGIView::OnObjeteCorbaBezier()
 {
 // TODO: Agregue aquí su código de controlador de comandos
 	nom = "";
-	objecte = C_BEZIER;
+	objecte = C_BEZIER;		sw_material[4] = true;
 
 // Entorn VGI: Obrir diàleg de lectura de fitxer (fitxers (*.crv)
 	CFileDialog openSpline(TRUE, NULL, NULL,
@@ -3527,7 +3544,7 @@ void CEntornVGIView::OnUpdateObjeteCorbaBezier(CCmdUI *pCmdUI)
 void CEntornVGIView::OnObjecteCorbaLemniscata()
 {
 // TODO: Agregue aquí su código de controlador de comandos
-	objecte = C_LEMNISCATA;
+	objecte = C_LEMNISCATA;		sw_material[4] = true;
 
 // 	---- Entorn VGI: Modificar R per centrar Vista amb mida de l'objecte
 
@@ -3549,7 +3566,7 @@ void CEntornVGIView::OnObjecteCorbaBSpline()
 {
 // TODO: Agregue aquí su código de controlador de comandos
 	nom = "";
-	objecte = C_BSPLINE;
+	objecte = C_BSPLINE;	sw_material[4] = true;
 
 // Entorn VGI: Obrir diàleg de lectura de fitxer (fitxers (*.crv)
 	CFileDialog openSpline(TRUE, NULL, NULL,
@@ -4083,6 +4100,34 @@ void CEntornVGIView::OnUpdateIluminacioPhong(CCmdUI* pCmdUI)
 	else pCmdUI->SetCheck(0);
 }
 
+// ILUMINACIÓ->REFLECTIVITAT MATERIAL / COLOR: Activació i desactivació de la reflectivitat pròpia del material com a color.
+void CEntornVGIView::OnMaterialReflmaterial()
+{
+// TODO: Agregue aquí su código de controlador de comandos
+	sw_material[4] = !sw_material[4];
+
+	sw_il = true;
+
+	if (shader_menu != CAP_SHADER) {
+		// Entorn VGI: Activació del contexte OpenGL
+		wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
+		// Pas màscara llums
+		glUniform1i(glGetUniformLocation(shader_programID, "sw_material"), sw_material[4]);
+		// Entorn VGI: Desactivació del contexte OpenGL. Permet la coexistencia d'altres contextes de generació
+		wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
+	}
+
+// Crida a OnPaint() per redibuixar l'escena
+	InvalidateRect(NULL, false);
+}
+
+
+void CEntornVGIView::OnUpdateMaterialReflMaterial(CCmdUI* pCmdUI)
+{
+// TODO: Agregue aquí su código de controlador de IU para actualización de comandos
+	if (sw_material[4])	pCmdUI->SetCheck(1);
+		else pCmdUI->SetCheck(0);
+}
 
 
 // ILUMINACIÓ->REFLECTIVITAT MATERIAL EMISSIÓ: Activació i desactivació de la reflectivitat pròpia del material.
@@ -4226,11 +4271,12 @@ void CEntornVGIView::OnUpdateIluminacioTextures(CCmdUI *pCmdUI)
 // TEXTURA Metall
 
 
+// ILUMINACIÓ --> TEXTURA: Càrrega fitxer textura per llibreria SOIL
 void CEntornVGIView::OnIluminacioTexturaFitxerimatge()
 {
 // TODO: Agregue aquí su código de controlador de comandos
 	CString nomf;
-	t_textura = FITXERIMA;
+	t_textura = FITXERIMA;		tFlag_invert_Y = true;
 
 // Obrir diàleg de lectura de fitxer
 	CFileDialog openTextur(TRUE, NULL, NULL,
@@ -4263,6 +4309,35 @@ void CEntornVGIView::OnUpdateIluminacioTexturaFitxerimatge(CCmdUI *pCmdUI)
 {
 // TODO: Agregue aquí su código de controlador de IU para actualización de comandos
 	if (t_textura == FITXERIMA) pCmdUI->SetCheck(1);
+		else pCmdUI->SetCheck(0);
+}
+
+
+// ILUMINACIÓ --> TEXTURA: FLAG_INVERT_Y Inversió coordenada t de textura (1-cty) per a textures SOIL (TRUE) 
+//			o no (FALSE) per a objectes 3DS i OBJ.
+void CEntornVGIView::OnIluminacioTexturaFlagInvertY()
+{
+// TODO: Agregue aquí su código de controlador de comandos
+	if (textura) tFlag_invert_Y = !tFlag_invert_Y;
+
+// Entorn VGI: Activació el contexte OpenGL
+	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
+
+//	Pas de paràmetres textura al shader
+	if (shader_menu != CAP_SHADER) glUniform1i(glGetUniformLocation(shader_programID, "flag_invert_y"), tFlag_invert_Y);
+
+// Desactivació contexte OpenGL: Permet la coexistencia d'altres contextes de generació
+	wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
+
+// Crida a OnPaint() per redibuixar l'escena
+	InvalidateRect(NULL, false);
+}
+
+
+void CEntornVGIView::OnUpdateIluminacioTexturaFlagInvertY(CCmdUI* pCmdUI)
+{
+// TODO: Agregue aquí su código de controlador de IU para actualización de comandos
+	if (tFlag_invert_Y) pCmdUI->SetCheck(1);
 		else pCmdUI->SetCheck(0);
 }
 
@@ -4749,3 +4824,4 @@ std::string CEntornVGIView::CString2String(const CString& cString)
 
 	return strStd;
 }
+
