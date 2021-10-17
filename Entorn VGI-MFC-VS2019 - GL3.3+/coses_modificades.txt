@@ -1,0 +1,8 @@
+MODIFICAT A DESTACAR:
+visualització.cpp --> vista_esfèrica --> lookAt
+entornVGIView.cpp --> onMouseMove --> primer if --> OPV de la càmera esfèrica
+entornVGIView.cpp --> constructor --> Vis_Polar
+
+PENDENT (preuntar al professor):
+Fer projecció perspectiva per defecte
+
