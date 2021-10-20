@@ -208,6 +208,7 @@ BEGIN_MESSAGE_MAP(CEntornVGIView, CView)
 		ON_UPDATE_COMMAND_UI(ID_ILUMINACIO_TEXTURA_FLAGINVERTY, &CEntornVGIView::OnUpdateIluminacioTexturaFlagInvertY)
 		ON_COMMAND(ID_MATERIAL_REFLMATERIAL, &CEntornVGIView::OnMaterialReflmaterial)
 		ON_UPDATE_COMMAND_UI(ID_MATERIAL_REFLMATERIAL, &CEntornVGIView::OnUpdateMaterialReflMaterial)
+		ON_COMMAND(ID_OBJECTE_TETRIS, &CEntornVGIView::OnObjecteTetris)
 		END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -4827,3 +4828,29 @@ std::string CEntornVGIView::CString2String(const CString& cString)
 	return strStd;
 }
 
+
+
+void CEntornVGIView::OnObjecteTetris()
+{
+	// TODO: Agregue aquí su código de controlador de comandos
+
+	objecte = OBJOBJ;	textura = false;		tFlag_invert_Y = false;
+
+
+	nom = "../../objects/fig2_color.obj";
+	
+	char* nomfitx = CString2Char(nom);
+
+	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);	// Activem contexte OpenGL
+
+	if (ObOBJ == NULL) ObOBJ = new COBJModel;
+	if (vaoId_OBJ != 0) deleteVAO(FIT_OBJ); // Eliminar VAO anterior.
+	vaoId_OBJ = ObOBJ->LoadModel(nomfitx, FIT_OBJ, nvert_OBJ);	// Carregar objecte OBJ AMB textura
+
+	if (shader_menu != CAP_SHADER) glUniform1i(glGetUniformLocation(shader_programID, "textur"), textura);
+	if (shader_menu != CAP_SHADER) glUniform1i(glGetUniformLocation(shader_programID, "flag_invert_y"), tFlag_invert_Y);
+
+	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);	// Desactivem contexte OpenGL
+
+	InvalidateRect(NULL, false);
+}

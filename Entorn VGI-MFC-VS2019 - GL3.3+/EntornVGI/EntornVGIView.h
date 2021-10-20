@@ -437,6 +437,7 @@ public:
 	afx_msg void OnUpdateIluminacioTexturaFlagInvertY(CCmdUI* pCmdUI);
 	afx_msg void OnMaterialReflmaterial();
 	afx_msg void OnUpdateMaterialReflMaterial(CCmdUI* pCmdUI);
+	afx_msg void OnObjecteTetris();
 };
 
 #ifndef _DEBUG  // Versión de depuración en EntornVGIView.cpp

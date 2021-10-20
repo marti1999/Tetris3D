@@ -17,7 +17,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Spanish (Spain, International Sort) resources
+// Español (España, alfabetización internacional) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ESN)
 LANGUAGE LANG_SPANISH, SUBLANG_SPANISH_MODERN
@@ -358,6 +358,7 @@ BEGIN
         MENUITEM "Tie",                         ID_OBJECTE_TIE, CHECKED
         MENUITEM "Matriu Primitives",           ID_OBJECTE_MATRIU_PRIMITIVES, CHECKED
         MENUITEM "Matriu Primitives VAO",       ID_OBJECTE_MATRIU_PRIMITIVES_VBO, CHECKED
+        MENUITEM "Tetris",                      ID_OBJECTE_TETRIS
     END
     POPUP "Transforma"
     BEGIN
@@ -788,7 +789,7 @@ BEGIN
     IDS_FIND_TAB            "Buscar"
 END
 
-#endif    // Spanish (Spain, International Sort) resources
+#endif    // Español (España, alfabetización internacional) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
