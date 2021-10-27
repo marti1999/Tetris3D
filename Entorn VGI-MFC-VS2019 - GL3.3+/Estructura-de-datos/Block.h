@@ -24,6 +24,7 @@ public:
     int getPosY(){return m_posicio[1];}
     int getPosZ(){return m_posicio[2];}
     void setPosition(int x, int y, int z);
+    void setFixed(bool fixed)
 };
 
 Block::Block()
@@ -38,6 +39,10 @@ void Block::setPosition(int x, int y, int z){
     m_posicio[0] = x;
     m_posicio[1] = y;
     m_posicio[2] = z;
+}
+
+void Block::setFixed(bool fixed) {
+    m_set = fixed;
 }
 
 bool Block::detectCollision(list<Block> setBlocks){

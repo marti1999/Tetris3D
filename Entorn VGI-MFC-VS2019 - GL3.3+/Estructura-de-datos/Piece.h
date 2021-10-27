@@ -5,6 +5,7 @@
 #define L 'L'
 #define CUBE 'C'
 #define I 'I'
+#define Z 'Z'
 
 class Piece
 {
@@ -21,6 +22,7 @@ public:
     Piece LForm();
     Piece CUBEForm();
     Piece IForm();
+    Piece ZForm();
 
     // rotacions
     void rotateRight();
@@ -36,17 +38,139 @@ public:
     void moveDown();
 };
 
-// TODO: peça en forma de T
+
 Piece Piece::TForm(){
+    //El primer bloc sera sempre el pivot el pivot.
+    Block BlockFromPiece;
+    // BlockFromPiece.setPosition(0, 0, 0);         //Per defecte ja ve a 0,0,0
+    m_blocks.push_back(BlockFromPiece);
+
+    BlockFromPiece.setPosition(1, 0, 0);
+    m_blocks.push_back(BlockFromPiece);
+
+    BlockFromPiece.setPosition(-1, 0, 0);
+    m_blocks.push_back(BlockFromPiece);
+
+    BlockFromPiece.setPosition(0, -1, 0);
+    m_blocks.push_back(BlockFromPiece);
+
+    /*
+    
+    0   0   0
+    3   1   2
+    0   4   0
+
+    */
+
 }
 // TODO: peça en forma de L
 Piece Piece::LForm(){
+    //El primer bloc sera sempre el pivot el pivot.
+    Block BlockFromPiece;
+    BlockFromPiece.setPosition(0, -1, 0);         
+    m_blocks.push_back(BlockFromPiece);
+
+    BlockFromPiece.setPosition(0, 0, 0);
+    m_blocks.push_back(BlockFromPiece);
+
+    BlockFromPiece.setPosition(0, -2, 0);
+    m_blocks.push_back(BlockFromPiece);
+
+    BlockFromPiece.setPosition(1, -2, 0);
+    m_blocks.push_back(BlockFromPiece);
+
+    /*
+
+    0   2   0
+    0   1   0
+    0   3   4
+
+    */
+
+
+
+
+
 }
 // TODO: peça en forma de CUB
 Piece Piece::CUBEForm(){
+    //El primer bloc sera sempre el pivot.
+    Block BlockFromPiece;
+    //BlockFromPiece.setPosition(0, 0, 0);  //Per defecte ja ve a 0,0,0
+    m_blocks.push_back(BlockFromPiece);
+
+    BlockFromPiece.setPosition(-1, 0, 0);
+    m_blocks.push_back(BlockFromPiece);
+
+    BlockFromPiece.setPosition(-1, -1, 0);
+    m_blocks.push_back(BlockFromPiece);
+
+    BlockFromPiece.setPosition(-1, 0, 0);
+    m_blocks.push_back(BlockFromPiece);
+
+    /*
+
+    2   1
+    3   4 
+
+    */
+
+
+
+
+
 }
 // TODO: peça en forma de I
 Piece Piece::IForm(){
+    //El primer bloc sera sempre el pivot.
+    Block BlockFromPiece;
+    BlockFromPiece.setPosition(0, -1, 0);
+    m_blocks.push_back(BlockFromPiece);
+
+    BlockFromPiece.setPosition(0, 0, 0);
+    m_blocks.push_back(BlockFromPiece);
+
+    BlockFromPiece.setPosition(0, -2, 0);
+    m_blocks.push_back(BlockFromPiece);
+
+    BlockFromPiece.setPosition(0, -3, 0);
+    m_blocks.push_back(BlockFromPiece);
+
+
+
+    /*
+     
+    0   0   2   0
+    0   0   1   0
+    0   0   3   0
+    0   0   4   0
+    
+    */
+}
+
+Piece Piece::ZForm() {
+    Block BlockFromPiece;
+    //BlockFromPiece.setPosition(0, 0, 0);  //Per defecte ja ve a 0,0,0
+    m_blocks.push_back(BlockFromPiece);
+
+    BlockFromPiece.setPosition(-1, 0, 0);
+    m_blocks.push_back(BlockFromPiece);
+
+    BlockFromPiece.setPosition(0, -1, 0);
+    m_blocks.push_back(BlockFromPiece);
+
+    BlockFromPiece.setPosition(1, -1, 0);
+    m_blocks.push_back(BlockFromPiece);
+
+    /*
+    
+    0   0   0
+    2   1   0
+    0   3   4
+
+    */
+
+
 }
 
 Piece::Piece(char form)
@@ -67,6 +191,8 @@ Piece::Piece(char form)
     case I:
         IForm();
         break;
+    case Z:
+        ZForm();
     default:
         break;
     }
