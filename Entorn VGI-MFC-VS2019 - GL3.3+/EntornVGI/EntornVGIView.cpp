@@ -968,7 +968,7 @@ void CEntornVGIView::OnPaint()
 				ViewMatrix = Vista_Esferica(shader_programID, OPV, Vis_Polar, pan, tr_cpv, tr_cpvF, c_fons, col_obj, objecte, mida, pas,
 				front_faces, oculta, test_vis, back_line,
 				ilumina, llum_ambient, llumGL, ifixe, ilum2sides,
-				eixos, grid, hgrid);
+				eixos, grid, hgrid, camerax);
 					}
 		else if (camera == CAM_NAVEGA) {
 			ViewMatrix = Vista_Navega(shader_programID, opvN, false, n, vpv, pan, tr_cpv, tr_cpvF, c_fons, col_obj, objecte, true, pas,
@@ -2462,6 +2462,7 @@ void CEntornVGIView::OnMouseMove(UINT nFlags, CPoint point)
 // Entorn VGI: Determinació dels angles (en graus) segons l'increment
 //				horitzontal i vertical de la posició del mouse per càmeres Esfèrica i Geode.
 		CSize gir = m_PosEAvall - point;
+		CPoint posEAvallOld = m_PosEAvall;
 		m_PosEAvall = point;
 		if (camera == CAM_ESFERICA)
 		{	// Càmera Esfèrica
@@ -2473,6 +2474,13 @@ void CEntornVGIView::OnMouseMove(UINT nFlags, CPoint point)
 			if (OPV.alfa < 0)			OPV.alfa = OPV.alfa + 360;
 			if (OPV.beta >= 360)	OPV.beta = OPV.beta - 360;
 			if (OPV.beta < 0)			OPV.beta = OPV.beta + 360;
+
+
+			// zoom amb el botó esquerra
+			CSize zoomincr = posEAvallOld - point;
+			long int incr = zoomincr.cy / 4.0;
+			OPV.R = OPV.R + incr;
+			if (OPV.R < 0.25) OPV.R = 0.25;
 		}
 		else { // Càmera Geode
 				OPV_G.beta = OPV_G.beta + gir.cx / 2;
