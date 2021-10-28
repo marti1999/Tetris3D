@@ -12,7 +12,7 @@ private:
     /* data */
     vector<int> m_posicio; // posició del bloc al taulell, es tracta d'un vector(x, y, z)
     bool m_collisionable; // indicador que utilitzarem per comprovar les col·lisions entre els blocs
-    bool m_set; // indicador de si el bloc ha sigut col·locat o no
+    bool m_fixed; // indicador de si el bloc ha sigut col·locat o no
     
 public:
     Block();
@@ -32,7 +32,7 @@ Block::Block()
     for(int i = 0; i < 3; i++)
         m_posicio.push_back(0);
     m_collisionable = true;
-    m_set = false;
+    m_fixed = false;
 }
 
 void Block::setPosition(int x, int y, int z){
@@ -42,7 +42,7 @@ void Block::setPosition(int x, int y, int z){
 }
 
 void Block::setFixed(bool fixed) {
-    m_set = fixed;
+    m_fixed = fixed;
 }
 
 bool Block::detectCollision(list<Block> setBlocks){

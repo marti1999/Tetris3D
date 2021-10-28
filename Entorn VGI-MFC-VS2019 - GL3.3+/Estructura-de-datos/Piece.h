@@ -65,12 +65,12 @@ Piece Piece::TForm(){
 }
 // TODO: peça en forma de L
 Piece Piece::LForm(){
-    //El primer bloc sera sempre el pivot el pivot.
+    //El primer bloc sera sempre el pivot.
     Block BlockFromPiece;
-    BlockFromPiece.setPosition(0, -1, 0);         
+    BlockFromPiece.setPosition(0, 0, 0);         
     m_blocks.push_back(BlockFromPiece);
 
-    BlockFromPiece.setPosition(0, 0, 0);
+    BlockFromPiece.setPosition(0, -1, 0);
     m_blocks.push_back(BlockFromPiece);
 
     BlockFromPiece.setPosition(0, -2, 0);
@@ -81,8 +81,8 @@ Piece Piece::LForm(){
 
     /*
 
-    0   2   0
     0   1   0
+    0   2   0
     0   3   4
 
     */
@@ -124,10 +124,10 @@ Piece Piece::CUBEForm(){
 Piece Piece::IForm(){
     //El primer bloc sera sempre el pivot.
     Block BlockFromPiece;
-    BlockFromPiece.setPosition(0, -1, 0);
+    BlockFromPiece.setPosition(0, 0, 0);
     m_blocks.push_back(BlockFromPiece);
 
-    BlockFromPiece.setPosition(0, 0, 0);
+    BlockFromPiece.setPosition(0, -1, 0);
     m_blocks.push_back(BlockFromPiece);
 
     BlockFromPiece.setPosition(0, -2, 0);
@@ -140,8 +140,8 @@ Piece Piece::IForm(){
 
     /*
      
-    0   0   2   0
     0   0   1   0
+    0   0   2   0
     0   0   3   0
     0   0   4   0
     
