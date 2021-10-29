@@ -358,7 +358,7 @@ BEGIN
         MENUITEM "Tie",                         ID_OBJECTE_TIE, CHECKED
         MENUITEM "Matriu Primitives",           ID_OBJECTE_MATRIU_PRIMITIVES, CHECKED
         MENUITEM "Matriu Primitives VAO",       ID_OBJECTE_MATRIU_PRIMITIVES_VBO, CHECKED
-        MENUITEM "Tetris",                      ID_OBJECTE_TETRIS
+        MENUITEM "tetris",                      ID_OBJECTE_TETRIS, CHECKED
     END
     POPUP "Transforma"
     BEGIN
