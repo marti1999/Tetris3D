@@ -1047,11 +1047,16 @@ void CEntornVGIView::dibuixa_Escena()
 //	GTMatrix = glm::scalef(GTMatrix,vec3());			// Escalat d'objectes, per adequar-los a les vistes ortogràfiques (Pràctica 2)
 
 //	Dibuix geometria de l'escena amb comandes GL.
-	dibuixa_EscenaGL(shader_programID, eixos, eixos_Id, grid, hgrid, objecte, col_obj, sw_material, 
-		textura, texturesID, textura_map, tFlag_invert_Y,
-		npts_T, PC_t, pas_CS, sw_Punts_Control, dibuixa_TriedreFrenet, 
-		FIT_3DS, FIT_OBJ, // VAO's i nombre de vèrtexs dels objectes 3DS i OBJ
-		ViewMatrix, GTMatrix);
+
+	for (int i = 0; i < 7; i++) {
+		dibuixa_EscenaGL(shader_programID, eixos, eixos_Id, grid, hgrid, objecte, col_obj, sw_material,
+			textura, texturesID, textura_map, tFlag_invert_Y,
+			npts_T, PC_t, pas_CS, sw_Punts_Control, dibuixa_TriedreFrenet,
+			FIT_3DS, FIT_OBJ+i, // VAO's i nombre de vèrtexs dels objectes 3DS i OBJ
+			ViewMatrix, GTMatrix);
+	}
+	
+	
 
 //	Dibuix Coordenades Món i Reixes.
 		//dibuixa_Eixos(eixos_programID, eixos, eixos_Id, grid, hgrid, ProjectionMatrix, ViewMatrix);
@@ -5032,5 +5037,47 @@ std::string CEntornVGIView::CString2String(const CString& cString)
 void CEntornVGIView::OnObjecteTetris()
 {
 	// TODO: Agregue aquí su código de controlador de comandos
-	glutSolidTetris(1, GLUT_USER1);
+	objecte = OBJOBJ;	textura = false;		tFlag_invert_Y = true;
+
+	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
+
+	
+	CString nom[7] = {
+		CString(_T("..\\..\\objects\\fig1_color.obj")),
+		CString(_T("..\\..\\objects\\fig2_color.obj")),
+		CString(_T("..\\..\\objects\\fig3_color.obj")),
+		CString(_T("..\\..\\objects\\fig4_color.obj")),
+		CString(_T("..\\..\\objects\\fig5_color.obj")),
+		CString(_T("..\\..\\objects\\fig6_color.obj")),
+		CString(_T("..\\..\\objects\\fig7_color.obj"))
+	};
+	for (int i = 0; i < 7; i++) {
+
+		char* nomfitx = CString2Char(nom[i]);
+		if (ObOBJ == NULL) ObOBJ = new COBJModel;
+		if (idVao[i] != 0) deleteVAOList(FIT_OBJ+i);
+		idVao[i] = ObOBJ->LoadModel(nomfitx, FIT_OBJ+i);
+
+	}
+	wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);	// Desactivem contexte OpenGL
+
+// Crida a OnPaint() per redibuixar l'escena
+	InvalidateRect(NULL, false); 
+
+	/*nom = "..\\..\\objects\\fig1_color.obj";
+
+	char* nomfitx = CString2Char(nom);
+	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);	// Activem contexte OpenGL
+
+	if (ObOBJ == NULL) ObOBJ = new COBJModel;
+	if (vaoId_OBJ != 0) deleteVAOList(FIT_OBJ); // Eliminar VAO anterior.
+	vaoId_OBJ = ObOBJ->LoadModel(nomfitx, FIT_OBJ);	// Carregar objecte OBJ AMB textura
+
+	if (shader_menu != CAP_SHADER) glUniform1i(glGetUniformLocation(shader_programID, "textur"), textura);
+	if (shader_menu != CAP_SHADER) glUniform1i(glGetUniformLocation(shader_programID, "flag_invert_y"), tFlag_invert_Y);
+
+	wglMakeCurrent(m_pDC->GetSafeHdc(), null);	// Desactivem contexte OpenGL
+
+// Crida a OnPaint() per redibuixar l'escena
+	InvalidateRect(NULL, false);*/
 }

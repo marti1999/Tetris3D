@@ -202,6 +202,10 @@ public:
 	CString buffer; // Buffer que magatzema string caracters corresponent a variables double a printar en Status Bar (funció Barra_Estat).
 //-------------- Entorn VGI: Fi De Variables globals de CEntornVGIView
 
+// Variables creades per nosaltres
+	GLuint idVao[7];
+//-------------- Entorn VGI: Fi De Variables globals de CEntornVGIView
+
 // Operaciones
 public:
 

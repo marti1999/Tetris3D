@@ -15,6 +15,10 @@ Afegida piece Z,
 Implementats els constructors de totes les peces, 
 Afegit el setter setFixed() a la classe block per a canviar el block.m_set remotament
 
-PENDENT (preuntar al professor):
 Fer projecció perspectiva per defecte
+
+SkyBox per defecte
+Gouround per defecte
+
+mostrar totes les peces de tetris en un mateix lloc(per la pocició)
 

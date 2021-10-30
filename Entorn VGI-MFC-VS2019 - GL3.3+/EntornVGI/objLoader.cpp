@@ -154,7 +154,7 @@ GLuint _stdcall COBJModel::LoadModel(char *szFileName, int prim_Id)
 			// Next texture coordinate
 			CurrentIndex.iTexCoordCount++;
 		}
-
+		
 		// Next three elements are floats of a vertex normal
 		if (!strncmp(szString, NORMAL_ID, sizeof(NORMAL_ID)))
 		{
