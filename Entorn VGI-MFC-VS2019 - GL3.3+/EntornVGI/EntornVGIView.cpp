@@ -1005,7 +1005,11 @@ void CEntornVGIView::OnPaint()
 		if (!eixos_Id) eixos_Id = deixos();						// Funció que defineix els Eixos Coordenades Món com un VAO.
 
 // Definció projecció PERSPECTIVA
-		//projeccio = PERSPECT;
+		
+		projeccio = PERSPECT;
+		OnIluminacioGouraud();
+		OnVistaSkyBox();
+
 
 // Crida a la funció Fons Blanc
 		FonsB();
