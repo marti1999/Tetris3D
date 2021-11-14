@@ -18,11 +18,11 @@ public:
     ~Piece();
 
     // funcions per generar les peces de la forma dessitjada
-    Piece TForm();
-    Piece LForm();
-    Piece CUBEForm();
-    Piece IForm();
-    Piece ZForm();
+    void TForm();
+    void LForm();
+    void CUBEForm();
+    void IForm();
+    void ZForm();
 
     // rotacions
     void rotateRight();
@@ -39,7 +39,7 @@ public:
 };
 
 
-Piece Piece::TForm(){
+void Piece::TForm(){
     //El primer bloc sera sempre el pivot el pivot.
     Block BlockFromPiece;
     // BlockFromPiece.setPosition(0, 0, 0);         //Per defecte ja ve a 0,0,0
@@ -64,7 +64,7 @@ Piece Piece::TForm(){
 
 }
 // TODO: peça en forma de L
-Piece Piece::LForm(){
+void Piece::LForm(){
     //El primer bloc sera sempre el pivot.
     Block BlockFromPiece;
     BlockFromPiece.setPosition(0, 0, 0);         
@@ -93,7 +93,7 @@ Piece Piece::LForm(){
 
 }
 // TODO: peça en forma de CUB
-Piece Piece::CUBEForm(){
+void Piece::CUBEForm(){
     //El primer bloc sera sempre el pivot.
     Block BlockFromPiece;
     //BlockFromPiece.setPosition(0, 0, 0);  //Per defecte ja ve a 0,0,0
@@ -121,7 +121,7 @@ Piece Piece::CUBEForm(){
 
 }
 // TODO: peça en forma de I
-Piece Piece::IForm(){
+void Piece::IForm(){
     //El primer bloc sera sempre el pivot.
     Block BlockFromPiece;
     BlockFromPiece.setPosition(0, 0, 0);
@@ -148,7 +148,7 @@ Piece Piece::IForm(){
     */
 }
 
-Piece Piece::ZForm() {
+void Piece::ZForm() {
     Block BlockFromPiece;
     //BlockFromPiece.setPosition(0, 0, 0);  //Per defecte ja ve a 0,0,0
     m_blocks.push_back(BlockFromPiece);

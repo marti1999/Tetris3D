@@ -36,27 +36,27 @@ Board::~Board()
 }
 
 void Board::checkFloors(){
-    list<list<Block>>::iterator it = m_blocks.begin();
+    //list<list<Block>>::iterator it = m_blocks.begin();
 
-    for(it; it != m_blocks.end(); it++){
-        if(it.length() == MAX_BLOCK){
-            // DESTROY pis
-            im_blocks[it].delete();
+    //for(it; it != m_blocks.end(); it++){
+    //    if(it.length() == MAX_BLOCK){
+    //        // DESTROY pis
+    //        im_blocks[it].delete();
 
-            // Bucle per baixar les peces de sobre
+    //        // Bucle per baixar les peces de sobre
 
-            // Creem un iterador auxiliar que anirá desde el pis on hem esborrat fins al pis mes alt
-            list<Block>::iterator it_aux = it;
-            // Per cada bloc dins cada pis decrementem la seva Y
-            for(it_aux; it_aux != m_blocks.end(); it_aux++){ // Pis
-                list<Block>::iterator it_block = m_blocks[it_aux].begin();
-                for(it_block; it_block != it_block.end(); it++){ // Bloc
-                    it_block->setPosition(it_block->getPosX(), it_block->getPosY() - BLOCK_SIZE, it_block->getPosZ());
-                }
-            }
-            
-        }
-    }
+    //        // Creem un iterador auxiliar que anirá desde el pis on hem esborrat fins al pis mes alt
+    //        list<Block>::iterator it_aux = it;
+    //        // Per cada bloc dins cada pis decrementem la seva Y
+    //        for(it_aux; it_aux != m_blocks.end(); it_aux++){ // Pis
+    //            list<Block>::iterator it_block = m_blocks[it_aux].begin();
+    //            for(it_block; it_block != it_block.end(); it++){ // Bloc
+    //                it_block->setPosition(it_block->getPosX(), it_block->getPosY() - BLOCK_SIZE, it_block->getPosZ());
+    //            }
+    //        }
+    //        
+    //    }
+    //}
 }
 
 // TODO:
