@@ -23,6 +23,8 @@ private:
 	// rotacions
 	void rotateTRigthOverY();
 	void rotateTLeftOverY();
+	void rotateLRightOverY();
+	void rotateLLeftOverY();
 
 public:
 	Piece(char form);
@@ -72,12 +74,21 @@ void Piece::rotateRightOverY() {
 		rotateTRigthOverY();
 		return;
 	}
+	if (m_form == L) {
+		rotateLRightOverY();
+		return;
+	}
 }
 
 void Piece::rotateLeftOverY() {
 	if (m_form == T)
 	{
 		rotateTLeftOverY();
+		return;
+	}
+	if (m_form == L)
+	{
+		rotateLLeftOverY();
 		return;
 	}
 }
@@ -165,6 +176,66 @@ void Piece::rotateTRigthOverY() {
 
 
 }
+
+void Piece::rotateLRightOverY() {
+	if (m_rotacioY == Y0) {
+		m_rotacioY = Y1;
+		m_blocks[3].setX(m_blocks[3].getPosX() - 1);
+		m_blocks[3].setZ(m_blocks[3].getPosZ() - 1);
+		return;
+	}
+
+	if (m_rotacioY == Y1) {
+		m_rotacioY = Y2;
+		m_blocks[3].setX(m_blocks[3].getPosX() - 1);
+		m_blocks[3].setZ(m_blocks[3].getPosZ() + 1);
+		return;
+	}
+
+	if (m_rotacioY == Y2) {
+		m_rotacioY = Y3;
+		m_blocks[3].setX(m_blocks[3].getPosX() + 1);
+		m_blocks[3].setZ(m_blocks[3].getPosZ() + 1);
+		return;
+	}
+
+	if (m_rotacioY == Y3) {
+		m_rotacioY = Y0;
+		m_blocks[3].setX(m_blocks[3].getPosX() + 1);
+		m_blocks[3].setZ(m_blocks[3].getPosZ() - 1);
+	}
+}
+
+
+void Piece::rotateLLeftOverY() {
+	if (m_rotacioY == Y0) {
+		m_rotacioY = Y3;
+		m_blocks[3].setX(m_blocks[3].getPosX() - 1);
+		m_blocks[3].setZ(m_blocks[3].getPosZ() + 1);
+		return;
+	}
+
+	if (m_rotacioY == Y1) {
+		m_rotacioY = Y0;
+		m_blocks[3].setX(m_blocks[3].getPosX() + 1);
+		m_blocks[3].setZ(m_blocks[3].getPosZ() + 1);
+		return;
+	}
+
+	if (m_rotacioY == Y2) {
+		m_rotacioY = Y1;
+		m_blocks[3].setX(m_blocks[3].getPosX() + 1);
+		m_blocks[3].setZ(m_blocks[3].getPosZ() - 1);
+		return;
+	}
+
+	if (m_rotacioY == Y3) {
+		m_rotacioY = Y2;
+		m_blocks[3].setX(m_blocks[3].getPosX() - 1);
+		m_blocks[3].setZ(m_blocks[3].getPosZ() - 1);
+	}
+}
+
 
 void Piece::TForm() {
 	//El primer bloc sera sempre el pivot el pivot.
