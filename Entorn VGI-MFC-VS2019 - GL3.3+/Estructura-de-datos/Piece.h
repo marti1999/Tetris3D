@@ -6,10 +6,10 @@
 #define CUBE 'C'
 #define I 'I'
 #define Z 'Z'
-#define Y3 'y3' //rotat sobre Y 270 graus
-#define Y2 'y2' //rotat sobre Y 180 graus
-#define Y1 'y1' //rotat sobre Y 90 graus
-#define Y0 'y0' //rotat sobre Y 0 graus
+#define Y3 3 //rotat sobre Y 270 graus
+#define Y2 2 //rotat sobre Y 180 graus
+#define Y1 1 //rotat sobre Y 90 graus
+#define Y0 0 //rotat sobre Y 0 graus
 
 
 class Piece
@@ -18,7 +18,9 @@ private:
 	/* data */
 	char m_form;
 	vector<Block> m_blocks;
-	char rotacioY;
+	int m_rotacioY;
+
+	// rotacions
 	void rotateTRigthOverY();
 	void rotateTLeftOverY();
 
@@ -33,17 +35,18 @@ public:
 	void IForm();
 	void ZForm();
 
-	void rotateRightOverY();
 
-	void rotateLeftOverY();
 
 
 	// rotacions
+	void rotateRightOverY();
+	void rotateLeftOverY();
+	
 
-	void rotateRight();
-	void rotateLeft();
-	void rotateUp();
-	void rotateDown();
+	//void rotateRight();
+	//void rotateLeft();
+	//void rotateUp();
+	//void rotateDown();
 
 
 	// moviments
@@ -51,7 +54,17 @@ public:
 	void moveLeft();
 	void moveUp();
 	void moveDown();
+	void printPunts();
 };
+
+
+void Piece::printPunts() {
+	for (int i = 0; i < m_blocks.size(); i++)
+	{
+		cout << "block: " << i << "--> "<< m_blocks[i].getPosX() << m_blocks[i].getPosY() << m_blocks[i].getPosZ() << "\n";
+
+	}
+}
 
 void Piece::rotateRightOverY() {
 	if (m_form == T)
@@ -70,8 +83,8 @@ void Piece::rotateLeftOverY() {
 }
 
 void Piece::rotateTLeftOverY() {
-	if (rotacioY == Y0) {
-		rotacioY = Y3;
+	if (m_rotacioY == Y0) {
+		m_rotacioY = Y3;
 		m_blocks[1].setX(m_blocks[1].getPosX() - 1);
 		m_blocks[1].setZ(m_blocks[1].getPosZ() + 1);
 
@@ -80,8 +93,8 @@ void Piece::rotateTLeftOverY() {
 		return;
 	}
 
-	if (rotacioY == Y1) {
-		rotacioY = Y0;
+	if (m_rotacioY == Y1) {
+		m_rotacioY = Y0;
 		m_blocks[1].setX(m_blocks[1].getPosX() + 1);
 		m_blocks[1].setZ(m_blocks[1].getPosZ() + 1);
 
@@ -90,18 +103,18 @@ void Piece::rotateTLeftOverY() {
 		return;
 	}
 
-	if (rotacioY == Y2) {
-		rotacioY = Y1;
+	if (m_rotacioY == Y2) {
+		m_rotacioY = Y1;
 		m_blocks[1].setX(m_blocks[1].getPosX() + 1);
 		m_blocks[1].setZ(m_blocks[1].getPosZ() - 1);
 
-		m_blocks[2].setX(m_blocks[2].getPosX() + 1);
-		m_blocks[2].setZ(m_blocks[2].getPosZ() - 1);
+		m_blocks[2].setX(m_blocks[2].getPosX() - 1);
+		m_blocks[2].setZ(m_blocks[2].getPosZ() + 1);
 		return;
 	}
 
-	if (rotacioY == Y3) {
-		rotacioY = Y2;
+	if (m_rotacioY == Y3) {
+		m_rotacioY = Y2;
 		m_blocks[1].setX(m_blocks[1].getPosX() - 1);
 		m_blocks[1].setZ(m_blocks[1].getPosZ() - 1);
 
@@ -111,8 +124,8 @@ void Piece::rotateTLeftOverY() {
 }
 void Piece::rotateTRigthOverY() {
 
-	if (rotacioY == Y0) {
-		rotacioY = Y1;
+	if (m_rotacioY == Y0) {
+		m_rotacioY = Y1;
 		m_blocks[1].setX(m_blocks[1].getPosX() - 1);
 		m_blocks[1].setZ(m_blocks[1].getPosZ() - 1);
 
@@ -121,8 +134,8 @@ void Piece::rotateTRigthOverY() {
 		return;
 	}
 
-	if (rotacioY == Y1) {
-		rotacioY = Y2;
+	if (m_rotacioY == Y1) {
+		m_rotacioY = Y2;
 		m_blocks[1].setX(m_blocks[1].getPosX() - 1);
 		m_blocks[1].setZ(m_blocks[1].getPosZ() + 1);
 
@@ -131,8 +144,8 @@ void Piece::rotateTRigthOverY() {
 		return;
 	}
 
-	if (rotacioY == Y2) {
-		rotacioY = Y3;
+	if (m_rotacioY == Y2) {
+		m_rotacioY = Y3;
 		m_blocks[1].setX(m_blocks[1].getPosX() + 1);
 		m_blocks[1].setZ(m_blocks[1].getPosZ() + 1);
 
@@ -141,8 +154,8 @@ void Piece::rotateTRigthOverY() {
 		return;
 	}
 
-	if (rotacioY == Y3) {
-		rotacioY = Y0;
+	if (m_rotacioY == Y3) {
+		m_rotacioY = Y0;
 		m_blocks[1].setX(m_blocks[1].getPosX() + 1);
 		m_blocks[1].setZ(m_blocks[1].getPosZ() - 1);
 
@@ -290,6 +303,7 @@ void Piece::ZForm() {
 Piece::Piece(char form)
 {
 	m_form = form;
+	m_rotacioY = Y0;
 	// creem 4 blocs per cada llista de blocs
 	switch (form)
 	{
@@ -312,6 +326,7 @@ Piece::Piece(char form)
 	}
 }
 
+/*
 void Piece::rotateRight() {
 	// TODO: establir la columna centra de la peça com a eix de traslació
 	// TODO: traslladar els blocs cap a la dreta en funció de l'eix Y
@@ -405,7 +420,7 @@ void Piece::rotateDown() {
 		}
 	}
 }
-
+*/
 void Piece::moveRight() {
 	// TODO: per cada bloc de la peça, moure a la dreta (incrementar X)
 }
