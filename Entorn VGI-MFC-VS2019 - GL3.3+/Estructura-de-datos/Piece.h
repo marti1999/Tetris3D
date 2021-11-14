@@ -25,6 +25,8 @@ private:
 	void rotateTLeftOverY();
 	void rotateLRightOverY();
 	void rotateLLeftOverY();
+	void rotateCubeRightOverY();
+	void rotateCubeLeftOverY();
 
 public:
 	Piece(char form);
@@ -78,6 +80,11 @@ void Piece::rotateRightOverY() {
 		rotateLRightOverY();
 		return;
 	}
+	if (m_form == CUBE)
+	{
+		rotateCubeRightOverY();
+		return;
+	}
 }
 
 void Piece::rotateLeftOverY() {
@@ -89,6 +96,11 @@ void Piece::rotateLeftOverY() {
 	if (m_form == L)
 	{
 		rotateLLeftOverY();
+		return;
+	}
+	if (m_form == CUBE)
+	{
+		rotateCubeLeftOverY();
 		return;
 	}
 }
@@ -206,7 +218,6 @@ void Piece::rotateLRightOverY() {
 	}
 }
 
-
 void Piece::rotateLLeftOverY() {
 	if (m_rotacioY == Y0) {
 		m_rotacioY = Y3;
@@ -236,6 +247,87 @@ void Piece::rotateLLeftOverY() {
 	}
 }
 
+void Piece::rotateCubeRightOverY() {
+	if (m_rotacioY == Y0) {
+		m_rotacioY = Y1;
+		m_blocks[1].setX(m_blocks[1].getPosX() + 1);
+		m_blocks[1].setZ(m_blocks[1].getPosZ() + 1);
+
+		m_blocks[2].setX(m_blocks[2].getPosX() + 1);
+		m_blocks[2].setZ(m_blocks[2].getPosZ() + 1);
+		return;
+	}
+
+	if (m_rotacioY == Y1) {
+		m_rotacioY = Y2;
+		m_blocks[1].setX(m_blocks[1].getPosX() + 1);
+		m_blocks[1].setZ(m_blocks[1].getPosZ() - 1);
+
+		m_blocks[2].setX(m_blocks[2].getPosX() + 1);
+		m_blocks[2].setZ(m_blocks[2].getPosZ() - 1);
+		return;
+	}
+
+	if (m_rotacioY == Y2) {
+		m_rotacioY = Y3;
+		m_blocks[1].setX(m_blocks[1].getPosX() - 1);
+		m_blocks[1].setZ(m_blocks[1].getPosZ() - 1);
+
+		m_blocks[2].setX(m_blocks[2].getPosX() - 1);
+		m_blocks[2].setZ(m_blocks[2].getPosZ() - 1);
+		return;
+	}
+
+	if (m_rotacioY == Y3) {
+		m_rotacioY = Y0;
+		m_blocks[1].setX(m_blocks[1].getPosX() - 1);
+		m_blocks[1].setZ(m_blocks[1].getPosZ() + 1);
+
+		m_blocks[2].setX(m_blocks[2].getPosX() - 1);
+		m_blocks[2].setZ(m_blocks[2].getPosZ() + 1);
+	}
+}
+
+void Piece::rotateCubeLeftOverY() {
+	if (m_rotacioY == Y0) {
+		m_rotacioY = Y3;
+		m_blocks[1].setX(m_blocks[1].getPosX() + 1);
+		m_blocks[1].setZ(m_blocks[1].getPosZ() - 1);
+
+		m_blocks[2].setX(m_blocks[2].getPosX() + 1);
+		m_blocks[2].setZ(m_blocks[2].getPosZ() - 1);
+		return;
+	}
+
+	if (m_rotacioY == Y1) {
+		m_rotacioY = Y0;
+		m_blocks[1].setX(m_blocks[1].getPosX() - 1);
+		m_blocks[1].setZ(m_blocks[1].getPosZ() - 1);
+
+		m_blocks[2].setX(m_blocks[2].getPosX() - 1);
+		m_blocks[2].setZ(m_blocks[2].getPosZ() - 1);
+		return;
+	}
+
+	if (m_rotacioY == Y2) {
+		m_rotacioY = Y1;
+		m_blocks[1].setX(m_blocks[1].getPosX() - 1);
+		m_blocks[1].setZ(m_blocks[1].getPosZ() + 1);
+
+		m_blocks[2].setX(m_blocks[2].getPosX() - 1);
+		m_blocks[2].setZ(m_blocks[2].getPosZ() + 1);
+		return;
+	}
+
+	if (m_rotacioY == Y3) {
+		m_rotacioY = Y2;
+		m_blocks[1].setX(m_blocks[1].getPosX() + 1);
+		m_blocks[1].setZ(m_blocks[1].getPosZ() + 1);
+
+		m_blocks[2].setX(m_blocks[2].getPosX() + 1);
+		m_blocks[2].setZ(m_blocks[2].getPosZ() + 1);
+	}
+}
 
 void Piece::TForm() {
 	//El primer bloc sera sempre el pivot el pivot.
@@ -303,7 +395,7 @@ void Piece::CUBEForm() {
 	BlockFromPiece.setPosition(-1, -1, 0);
 	m_blocks.push_back(BlockFromPiece);
 
-	BlockFromPiece.setPosition(-1, 0, 0);
+	BlockFromPiece.setPosition(0, -1, 0);
 	m_blocks.push_back(BlockFromPiece);
 
 	/*
