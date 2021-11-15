@@ -18,6 +18,7 @@ public:
     Block();
     void setX(int x);
     void setZ(int z);
+    void setY(int y);
     ~Block();
     bool detectCollision(list<Block> setBlocks);
 
@@ -39,6 +40,9 @@ Block::Block()
 
 void Block::setX(int x) {
     m_posicio[0] = x;
+}
+void Block::setY(int y) {
+    m_posicio[1] = y;
 }
 void Block::setZ(int z) {
     m_posicio[2] = z;

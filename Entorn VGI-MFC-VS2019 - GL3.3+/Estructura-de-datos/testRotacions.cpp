@@ -13,7 +13,10 @@ int main()
     for (int i = 0; i < 4; i++)
     {   
         cout << "\n";
-        t.rotateRightOverY();
+        //t.rotateRightOverY();
+        //t.moveRight();      //X++
+        //t.moveUp();         //Z++
+        t.cauPeca();          //Y--
         t.printPunts();
     }
 }

@@ -31,6 +31,7 @@ private:
 	void rotateILeftOverY();
 	void rotateZRightOverY();
 	void rotateZLeftOverY();
+	
 
 public:
 	Piece(char form);
@@ -62,6 +63,7 @@ public:
 	void moveLeft();
 	void moveUp();
 	void moveDown();
+	void cauPeca();
 	void printPunts();
 };
 
@@ -69,7 +71,7 @@ public:
 void Piece::printPunts() {
 	for (int i = 0; i < m_blocks.size(); i++)
 	{
-		cout << "block: " << i << "--> "<< m_blocks[i].getPosX() << m_blocks[i].getPosY() << m_blocks[i].getPosZ() << "\n";
+		cout << "block: " << i << "--> ("<< m_blocks[i].getPosX() << "; " << m_blocks[i].getPosY() << "; " << m_blocks[i].getPosZ() << ") \n";
 
 	}
 }
@@ -740,15 +742,38 @@ void Piece::rotateDown() {
 */
 void Piece::moveRight() {
 	// TODO: per cada bloc de la peça, moure a la dreta (incrementar X)
+	for (int i = 0; i < m_blocks.size(); i++)
+	{
+		m_blocks[i].setX(m_blocks[i].getPosX() + 1);
+	}
 }
 void Piece::moveLeft() {
 	// TODO: per cada bloc de la peça, moure a la esquerra (decrementar X)
+	for (int i = 0; i < m_blocks.size(); i++)
+	{
+		m_blocks[i].setX(m_blocks[i].getPosX() - 1);
+	}
 }
 void Piece::moveUp() {
 	// TODO: per cada bloc de la peça, moure amunt (incrementar Z)
+	for (int i = 0; i < m_blocks.size(); i++)
+	{
+		m_blocks[i].setZ(m_blocks[i].getPosZ() + 1);
+	}
 }
 void Piece::moveDown() {
 	// TODO: per cada bloc de la peça, moure avall (decrementar Z)
+	for (int i = 0; i < m_blocks.size(); i++)
+	{
+		m_blocks[i].setZ(m_blocks[i].getPosZ() - 1);
+	}
+}
+
+void Piece::cauPeca() {
+	for (int i = 0; i < m_blocks.size(); i++)
+	{
+		m_blocks[i].setY(m_blocks[i].getPosY() - 1);
+	}
 }
 
 Piece::~Piece()
