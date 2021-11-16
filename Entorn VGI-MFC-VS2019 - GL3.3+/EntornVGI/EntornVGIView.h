@@ -27,7 +27,7 @@
 #include "Obj3DS.h"	
 
 // Entorn VGI: OBJECTE OBJ. Include per la definició de l'objecte Obj_OBJ
-#include "objLoader.h"	
+#include "objLoader.h"
 
 class CEntornVGIView : public CView
 {
@@ -203,7 +203,8 @@ public:
 //-------------- Entorn VGI: Fi De Variables globals de CEntornVGIView
 
 // Variables creades per nosaltres
-	GLuint idVao[7];
+	GLuint idVao[14];
+	//vector<Piece> pieces;
 //-------------- Entorn VGI: Fi De Variables globals de CEntornVGIView
 
 // Operaciones
@@ -235,6 +236,7 @@ public:
 
 	void CEntornVGIView::configura_Escena();
 	void CEntornVGIView::dibuixa_Escena();
+	void CEntornVGIView::dibuixa_Escena2();
 	void CEntornVGIView::Barra_Estat();
 	void CEntornVGIView::double2CString(double varf);
 	int CEntornVGIView::Log2(int num);							// Log2: Càlcul del log base 2 de num

@@ -40,7 +40,9 @@
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
+#include "Estructura-de-datos/Piece.h"
 
+Piece pieces[7];
 /////////////////////////////////////////////////////////////////////////////
 // CEntornVGIView
 
@@ -886,7 +888,7 @@ void CEntornVGIView::OnPaint()
 // Aquí farem les cridesper a definir Viewport, Projecció i Càmara:: FI -------------------------
 		// Dibuixar Model (escena)
 		configura_Escena();     // Aplicar Transformacions Geometriques segons persiana Transformacio i configurar objectes
-		dibuixa_Escena();		// Dibuix geometria de l'escena amb comandes GL.
+		dibuixa_Escena2();		// Dibuix geometria de l'escena amb comandes GL.
 
 // Intercanvia l'escena al front de la pantalla
 		SwapBuffers(m_pDC->GetSafeHdc());
@@ -986,7 +988,7 @@ void CEntornVGIView::OnPaint()
 
 		// Dibuix de l'Objecte o l'Escena
 		configura_Escena();     // Aplicar Transformacions Geometriques segons persiana Transformacio i configurar objectes.
-		dibuixa_Escena();		// Dibuix geometria de l'escena amb comandes GL.
+		dibuixa_Escena2();		// Dibuix geometria de l'escena amb comandes GL.
 
 // Intercanvia l'escena al front de la pantalla
 		SwapBuffers(m_pDC->GetSafeHdc());
@@ -1063,6 +1065,32 @@ void CEntornVGIView::dibuixa_Escena()
 
 //	Dibuix Coordenades Món i Reixes.
 		//if (SkyBoxCube) dibuixa_Skybox(skC_programID, cubemapTexture, ProjectionMatrix, ViewMatrix);
+}
+
+void CEntornVGIView::dibuixa_Escena2()
+{
+	//	Dibuix SkyBox Cúbic.
+	if (SkyBoxCube) dibuixa_Skybox(skC_programID, cubemapTexture, Vis_Polar, ProjectionMatrix, ViewMatrix);
+
+	//	Dibuix Coordenades Món i Reixes.
+	dibuixa_Eixos(eixos_programID, eixos, eixos_Id, grid, hgrid, ProjectionMatrix, ViewMatrix);
+
+	//	GTMatrix = glm::scalef(GTMatrix,vec3());			// Escalat d'objectes, per adequar-los a les vistes ortogràfiques (Pràctica 2)
+
+	//	Dibuix geometria de l'escena amb comandes GL.
+	dibuixa_EscenaGL(shader_programID, eixos, eixos_Id, grid, hgrid, objecte, col_obj, sw_material,
+		textura, texturesID, textura_map, tFlag_invert_Y,
+		npts_T, PC_t, pas_CS, sw_Punts_Control, dibuixa_TriedreFrenet,
+		FIT_3DS, pieces[2].getIdVao(), // VAO's i nombre de vèrtexs dels objectes 3DS i OBJ
+			ViewMatrix, GTMatrix);
+
+
+
+	//	Dibuix Coordenades Món i Reixes.
+			//dibuixa_Eixos(eixos_programID, eixos, eixos_Id, grid, hgrid, ProjectionMatrix, ViewMatrix);
+
+	//	Dibuix Coordenades Món i Reixes.
+			//if (SkyBoxCube) dibuixa_Skybox(skC_programID, cubemapTexture, ProjectionMatrix, ViewMatrix);
 }
 
 // Barra_Estat: Actualitza la barra d'estat (Status Bar) de l'aplicació amb els
@@ -5042,42 +5070,37 @@ void CEntornVGIView::OnObjecteTetris()
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
 
 	
-	CString nom[7] = {
+	CString nom[14] = {
 		CString(_T("..\\..\\objects\\fig1_color.obj")),
 		CString(_T("..\\..\\objects\\fig2_color.obj")),
 		CString(_T("..\\..\\objects\\fig3_color.obj")),
 		CString(_T("..\\..\\objects\\fig4_color.obj")),
 		CString(_T("..\\..\\objects\\fig5_color.obj")),
 		CString(_T("..\\..\\objects\\fig6_color.obj")),
-		CString(_T("..\\..\\objects\\fig7_color.obj"))
+		CString(_T("..\\..\\objects\\fig7_color.obj")),
+		CString(_T("..\\..\\objects\\fig1_cub_lightblue.obj")),
+		CString(_T("..\\..\\objects\\fig2_cub_yellow.obj")),
+		CString(_T("..\\..\\objects\\fig3_cub_red.obj")),
+		CString(_T("..\\..\\objects\\fig4_cub_purple.obj")),
+		CString(_T("..\\..\\objects\\fig5_cub_green.obj")),
+		CString(_T("..\\..\\objects\\fig6_cub_blue.obj")),
+		CString(_T("..\\..\\objects\\fig7_cub_cyan.obj"))
 	};
-	for (int i = 0; i < 7; i++) {
+	for (int i = 0; i < 14; i++) {
 
 		char* nomfitx = CString2Char(nom[i]);
 		if (ObOBJ == NULL) ObOBJ = new COBJModel;
-		if (idVao[i] != 0) deleteVAOList(FIT_OBJ+i);
-		idVao[i] = ObOBJ->LoadModel(nomfitx, FIT_OBJ+i);
-
+		if (idVao[i] != 0) deleteVAOList(T+i);
+		idVao[i] = ObOBJ->LoadModel(nomfitx, T+i);
+		if (i < 7) {
+			Piece piece(T + i);
+			pieces[i] = piece;
+		}
 	}
 	wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);	// Desactivem contexte OpenGL
 
 // Crida a OnPaint() per redibuixar l'escena
 	InvalidateRect(NULL, false); 
 
-	/*nom = "..\\..\\objects\\fig1_color.obj";
-
-	char* nomfitx = CString2Char(nom);
-	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);	// Activem contexte OpenGL
-
-	if (ObOBJ == NULL) ObOBJ = new COBJModel;
-	if (vaoId_OBJ != 0) deleteVAOList(FIT_OBJ); // Eliminar VAO anterior.
-	vaoId_OBJ = ObOBJ->LoadModel(nomfitx, FIT_OBJ);	// Carregar objecte OBJ AMB textura
-
-	if (shader_menu != CAP_SHADER) glUniform1i(glGetUniformLocation(shader_programID, "textur"), textura);
-	if (shader_menu != CAP_SHADER) glUniform1i(glGetUniformLocation(shader_programID, "flag_invert_y"), tFlag_invert_Y);
-
-	wglMakeCurrent(m_pDC->GetSafeHdc(), null);	// Desactivem contexte OpenGL
-
-// Crida a OnPaint() per redibuixar l'escena
-	InvalidateRect(NULL, false);*/
+	
 }

@@ -134,6 +134,9 @@
     <ClInclude Include="EntornVGIDoc.h" />
     <ClInclude Include="EntornVGIView.h" />
     <ClInclude Include="escena.h" />
+    <ClInclude Include="Estructura-de-datos\Block.h" />
+    <ClInclude Include="Estructura-de-datos\Board.h" />
+    <ClInclude Include="Estructura-de-datos\Piece.h" />
     <ClInclude Include="FileView.h" />
     <ClInclude Include="glut_geometry.h" />
     <ClInclude Include="Load3DS.h" />
