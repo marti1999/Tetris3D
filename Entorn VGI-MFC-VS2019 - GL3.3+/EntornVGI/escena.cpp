@@ -75,7 +75,6 @@ void dibuixa_Skybox(GLuint sk_programID, GLuint cmTexture, char eix_Polar, glm::
 	glDepthFunc(GL_LESS); // set depth function back to default
 }
 
-
 // dibuixa_EscenaGL: Dibuix de l'escena amb comandes GL
 void dibuixa_EscenaGL(GLuint sh_programID, bool eix, GLuint axis_Id, CMask3D reixa, CPunt3D hreixa, char objecte, 
 			CColor col_object, bool sw_mat[5],
@@ -93,6 +92,7 @@ void dibuixa_EscenaGL(GLuint sh_programID, bool eix, GLuint axis_Id, CMask3D rei
 	
 // Matrius de Transformació
 	glm::mat4 NormalMatrix(1.0), ModelMatrix(1.0), TransMatrix(1.0), ScaleMatrix(1.0), RotMatrix(1.0);
+	
 
 // VAO
 	CVAO objectVAO;
@@ -126,7 +126,14 @@ void dibuixa_EscenaGL(GLuint sh_programID, bool eix, GLuint axis_Id, CMask3D rei
 
 	switch (objecte)
 	{
-
+	case PROPI:
+		ModelMatrix = MatriuTG;
+		glUniformMatrix4fv(glGetUniformLocation(sh_programID, "modelMatrix"), 1, GL_FALSE, &ModelMatrix[0][0]);
+		NormalMatrix = transpose(inverse(MatriuVista * ModelMatrix));
+		// Pas NormalMatrix a shader
+		glUniformMatrix4fv(glGetUniformLocation(sh_programID, "normalMatrix"), 1, GL_FALSE, &NormalMatrix[0][0]);
+		draw_TriVAO_Object(vaoList_OBJ);
+		break;
 // Arc
 	case ARC:
 		SeleccionaColorMaterial(sh_programID, col_object, sw_mat);
@@ -161,7 +168,7 @@ void dibuixa_EscenaGL(GLuint sh_programID, bool eix, GLuint axis_Id, CMask3D rei
 
 // Dibuix de l'objecte OBJ
 	case OBJOBJ:
-		// Pas ModelView Matrix a shader
+		// Pas ModelView Matrix a shader		
 		glUniformMatrix4fv(glGetUniformLocation(sh_programID, "modelMatrix"), 1, GL_FALSE, &ModelMatrix[0][0]);
 		NormalMatrix = transpose(inverse(MatriuVista * ModelMatrix));
 		// Pas NormalMatrix a shader

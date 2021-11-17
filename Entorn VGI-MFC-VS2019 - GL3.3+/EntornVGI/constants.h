@@ -52,6 +52,7 @@
 #define VAIXELL 'v'
 #define OBJ3DS '3'		// Objecte format 3DS
 #define OBJOBJ '4'		// Objecte format OBJ
+#define PROPI '9'
 
 //-------------- VGI: Tipus d'Iluminacio
 #define PUNTS 'P'

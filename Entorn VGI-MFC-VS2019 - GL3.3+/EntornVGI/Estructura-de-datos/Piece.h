@@ -21,6 +21,7 @@ private:
 	vector<Block> m_blocks;
 	int m_rotacioY;
 	GLuint m_idVao;
+	mat4 m_Matriu;
 
 	// rotacions
 	void rotateTRigthOverY();
@@ -33,6 +34,8 @@ private:
 	void rotateILeftOverY();
 	void rotateZRightOverY();
 	void rotateZLeftOverY();
+	void ViewRotateRightOverY();
+	void ViewRotateLeftOverY();
 	
 
 public:
@@ -47,7 +50,7 @@ public:
 	void IForm();
 	void ZForm();
 	int getIdVao() { return m_idVao; }
-
+	mat4 getMatrix() { return m_Matriu; }
 
 
 	// rotacions
@@ -80,6 +83,7 @@ void Piece::printPunts() {
 }
 
 void Piece::rotateRightOverY() {
+	ViewRotateRightOverY();
 	if (m_form == T)
 	{
 		rotateTRigthOverY();
@@ -105,6 +109,7 @@ void Piece::rotateRightOverY() {
 }
 
 void Piece::rotateLeftOverY() {
+	ViewRotateLeftOverY();
 	if (m_form == T)
 	{
 		rotateTLeftOverY();
@@ -485,6 +490,16 @@ void Piece::rotateZLeftOverY() {
 	}
 }
 
+inline void Piece::ViewRotateRightOverY()
+{
+	m_Matriu = glm::rotate(m_Matriu, radians(90.f), vec3(0.0f, 1.0f, 0.0f));
+}
+
+inline void Piece::ViewRotateLeftOverY()
+{
+	m_Matriu = glm::rotate(m_Matriu, radians(90.f), vec3(0.0f, 1.0f, 0.0f));
+}
+
 
 
 
@@ -622,11 +637,17 @@ void Piece::ZForm() {
 
 }
 
+
+
+
+
 Piece::Piece(int form)
 {
 	m_form = form;
 	m_rotacioY = Y0;
 	m_idVao = form;
+	m_Matriu = glm::mat4(1.0);
+	
 	// creem 4 blocs per cada llista de blocs
 	switch (form)
 	{
