@@ -138,7 +138,7 @@ void Piece::rotateRightOverY(vector<vector<vector<Block>>>& blocksTaulell) {
 		ViewRotateRightOverY();
 	}
 	else {
-		rotateLeftOverY(blocksTaulell);
+		rotateLeftOverY(blocksTaulell);	
 	}
 
 

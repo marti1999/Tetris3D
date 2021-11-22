@@ -15,12 +15,15 @@ private:
     bool m_fixed; // indicador de si el bloc ha sigut col·locat o no
     
 public:
-    Block();
+    Block(int posX, int posY, int posZ);
     void setX(int x);
     void setZ(int z);
     void setY(int y);
     ~Block();
     bool detectCollision(list<Block> setBlocks);
+
+    void fixBlock();
+    void freeBlock();
 
     // getters de la posició
     int getPosX(){return m_posicio[0];}
@@ -33,12 +36,26 @@ public:
 
 };
 
-Block::Block()
+Block::Block(int posX, int posY, int posZ)
 {
-    for(int i = 0; i < 3; i++)
-        m_posicio.push_back(0);
+    m_posicio.push_back(posX);
+    m_posicio.push_back(posY);
+    m_posicio.push_back(posZ);
     m_collisionable = true;
     m_fixed = false;
+    m_lliure = false;
+}
+
+void Block::fixBlock() {
+    m_lliure = false;
+    m_fixed = true;
+    m_collisionable = true;
+}
+
+void Block::freeBlock() {
+    m_lliure = true;
+    m_fixed = false;
+    m_collisionable = false;
 }
 
 void Block::setX(int x) {
