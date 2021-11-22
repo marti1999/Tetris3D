@@ -25,6 +25,7 @@ private:
 	/* data */
 	char m_form;
 	vector<Block> m_blocks;
+	vector<Block> m_auxiliar;
 	int m_rotacioY;
 	GLuint m_idVao;
 	mat4 m_Matriu;
@@ -50,6 +51,7 @@ private:
 	// colisions
 	bool colisionsLimitsTaulellCorrecte();
 	bool colisionsBlocsTaulellCorrecte(vector<vector<vector<Block>>>& blocksTaulell);
+	bool check_move_colision(bool);
 
 public:
 	Piece() {};
@@ -78,15 +80,15 @@ public:
 
 
 	// moviments
-	void moveRight();
+	bool moveRight();
 	void ViewMoveRight();
-	void moveLeft();
+	bool moveLeft();
 	void ViewMoveLeft();
-	void moveUp();
+	bool moveUp();
 	void ViewMoveUp();
-	void moveDown();
+	bool moveDown();
 	void ViewMoveDown();
-	void cauPeca();
+	bool cauPeca();
 	void printPunts();
 };
 
@@ -833,45 +835,153 @@ void Piece::rotateDown() {
 	}
 }
 */
-void Piece::moveRight() {
-	// TODO: per cada bloc de la peça, moure a la dreta (incrementar X)
-	m_x += 1;
-	for (int i = 0; i < m_blocks.size(); i++)
-	{
-		m_blocks[i].setX(m_blocks[i].getPosX() + 1);
+bool Piece::moveRight() {
+	// per cada bloc de la peça, moure a la dreta (incrementar X)
+	bool moveRight = 1;
+
+	if (check_colision(cauPeca)) {
+		for (int i = 0; i < m_blocks.size(); i++)
+		{
+			m_blocks[i].setX(m_blocks[i].getPosX() + 1);
+		}
+		return true;
 	}
+	else
+		return false;
 }
-void Piece::moveLeft() {
-	// TODO: per cada bloc de la peça, moure a la esquerra (decrementar X)
-	m_x -= 1;
-	for (int i = 0; i < m_blocks.size(); i++)
-	{
-		m_blocks[i].setX(m_blocks[i].getPosX() - 1);
+bool Piece::moveLeft() {
+	// per cada bloc de la peça, moure a la esquerra (decrementar X)
+	bool moveLeft = 2;
+
+	if (check_colision(cauPeca)) {
+		for (int i = 0; i < m_blocks.size(); i++)
+		{
+			m_blocks[i].setX(m_blocks[i].getPosX() - 1);
+		}
+		return true;
 	}
+	else
+		return false;
 }
-void Piece::moveUp() {
-	m_z += 1;
-	// TODO: per cada bloc de la peça, moure amunt (incrementar Z)
-	for (int i = 0; i < m_blocks.size(); i++)
-	{
-		m_blocks[i].setZ(m_blocks[i].getPosZ() + 1);
+bool Piece::moveUp() {
+	// per cada bloc de la peça, moure amunt (incrementar Z)
+	bool moveUp = 3;
+
+	if (check_colision(moveUp)) {
+		for (int i = 0; i < m_blocks.size(); i++)
+		{
+			m_blocks[i].setZ(m_blocks[i].getPosZ() + 1);
+		}
+		return true;
 	}
+	else
+		return false;
 }
-void Piece::moveDown() {
-	m_z -= 1;
-	// TODO: per cada bloc de la peça, moure avall (decrementar Z)
-	for (int i = 0; i < m_blocks.size(); i++)
-	{
-		m_blocks[i].setZ(m_blocks[i].getPosZ() - 1);
+bool Piece::moveDown() {
+	// per cada bloc de la peça, moure avall (decrementar Z)
+	bool moveDown = 4;
+	
+	if (check_colision(moveDown)) {
+		for (int i = 0; i < m_blocks.size(); i++)
+		{
+			m_blocks[i].setZ(m_blocks[i].getPosZ() - 1);
+		}
+		return true;
 	}
+	else
+		return false;
 }
 
-void Piece::cauPeca() {
-	m_y -= 1;
-	for (int i = 0; i < m_blocks.size(); i++)
-	{
-		m_blocks[i].setY(m_blocks[i].getPosY() - 1);
+bool Piece::cauPeca() {
+	// per cada bloc de la peça, cau (decrementar Y)
+	bool cauPeca = 5;
+
+	if (check_colision(cauPeca)) {
+		for (int i = 0; i < m_blocks.size(); i++)
+		{
+			m_blocks[i].setY(m_blocks[i].getPosY() - 1);
+		}
+		return true;
 	}
+	else
+		return false;
+}
+
+bool Piece::check_move_colision(bool moviment)
+{
+	//Donem al auxiliar els valors exactes de la peça que volem comprovar
+
+	switch (moviment)
+	{
+	case 1: {
+		//moveRight
+		for (int i = 0; i < m_blocks.size(); i++)
+		{
+			m_auxiliar[i].setX(m_blocks[i].getPosX() + 1;
+			m_auxiliar[i].setY(m_blocks[i].getPosY();
+			m_auxiliar[i].setZ(m_blocks[i].getPosZ();
+		}
+		for (Block b : m_auxiliar) {
+			if (blocksTaulell[b.getPosX()][b.getPosY()][b.getPosZ()].m_lliure == false) return false;
+		}
+		return true;
+	}
+	case 2: {
+		//moveLeft
+		for (int i = 0; i < m_blocks.size(); i++)
+		{
+			m_auxiliar[i].setX(m_blocks[i].getPosX() - 1;
+			m_auxiliar[i].setY(m_blocks[i].getPosY();
+			m_auxiliar[i].setZ(m_blocks[i].getPosZ();
+		}
+		for (Block b : m_auxiliar) {
+			if (blocksTaulell[b.getPosX()][b.getPosY()][b.getPosZ()].m_lliure == false) return false;
+		}
+		return true;
+	}
+	case 3: {
+		//MoveUp
+		for (int i = 0; i < m_blocks.size(); i++)
+		{
+			m_auxiliar[i].setX(m_blocks[i].getPosX();
+			m_auxiliar[i].setY(m_blocks[i].getPosY();
+			m_auxiliar[i].setZ(m_blocks[i].getPosZ() + 1;
+		}
+		for (Block b : m_auxiliar) {
+			if (blocksTaulell[b.getPosX()][b.getPosY()][b.getPosZ()].m_lliure == false) return false;
+		}
+		return true;
+	}
+	case 4: {
+		//MoveDown
+		for (int i = 0; i < m_blocks.size(); i++)
+		{
+			m_auxiliar[i].setX(m_blocks[i].getPosX();
+			m_auxiliar[i].setY(m_blocks[i].getPosY();
+			m_auxiliar[i].setZ(m_blocks[i].getPosZ() - 1;
+		}
+		for (Block b : m_auxiliar) {
+			if (blocksTaulell[b.getPosX()][b.getPosY()][b.getPosZ()].m_lliure == false) return false;
+		}
+		return true;
+	}
+	case 5: {
+		//cauPeca
+		for (int i = 0; i < m_blocks.size(); i++)
+		{
+			m_auxiliar[i].setX(m_blocks[i].getPosX();
+			m_auxiliar[i].setY(m_blocks[i].getPosY() - 1;
+			m_auxiliar[i].setZ(m_blocks[i].getPosZ();
+		}
+		for (Block b : m_auxiliar) {
+			if (blocksTaulell[b.getPosX()][b.getPosY()][b.getPosZ()].m_lliure == false) return false;
+		}
+		return true;
+	}
+	case default:
+		return false;
+	}
+
 }
 
 Piece::~Piece()
