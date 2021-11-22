@@ -1,24 +1,18 @@
 ﻿  EntornVGIView.cpp
 C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(97,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(837,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(851,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(865,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(879,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(894,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(912,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(925,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(938,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(951,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(964,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(923,2): warning C4808: case '2' is not a valid value for switch condition of type 'bool'
-C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(936,2): warning C4808: case '3' is not a valid value for switch condition of type 'bool'
-C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(949,2): warning C4808: case '4' is not a valid value for switch condition of type 'bool'
-C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(962,2): warning C4808: case '5' is not a valid value for switch condition of type 'bool'
-C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\EntornVGIView.cpp(1668,20): error C2660: 'Piece::moveUp': function does not take 0 arguments
-C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(860,13): message : see declaration of 'Piece::moveUp'
-C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\EntornVGIView.cpp(1672,22): error C2660: 'Piece::moveDown': function does not take 0 arguments
-C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(874,13): message : see declaration of 'Piece::moveDown'
-C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\EntornVGIView.cpp(1676,23): error C2660: 'Piece::moveRight': function does not take 0 arguments
-C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(832,13): message : see declaration of 'Piece::moveRight'
-C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\EntornVGIView.cpp(1680,22): error C2660: 'Piece::moveLeft': function does not take 0 arguments
-C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(846,13): message : see declaration of 'Piece::moveLeft'
+C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(843,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(857,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(871,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(885,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(900,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(918,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(931,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(944,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(957,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(970,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(929,2): warning C4808: case '2' is not a valid value for switch condition of type 'bool'
+C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(942,2): warning C4808: case '3' is not a valid value for switch condition of type 'bool'
+C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(955,2): warning C4808: case '4' is not a valid value for switch condition of type 'bool'
+C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(968,2): warning C4808: case '5' is not a valid value for switch condition of type 'bool'
+C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(984): warning C4715: 'Piece::check_move_colision': not all control paths return a value
+  EntornVGI.vcxproj -> C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\Debug\EntornVGI.exe

@@ -41,8 +41,10 @@
 #define new DEBUG_NEW
 #endif
 #include "Estructura-de-datos/Piece.h"
+#include "Estructura-de-datos/Board.h"
 
 Piece pieces[7];
+Board m_board;
 /////////////////////////////////////////////////////////////////////////////
 // CEntornVGIView
 
@@ -1665,19 +1667,19 @@ void CEntornVGIView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 										else Teclat_ColorObjecte(nChar, nRepCnt);
 						}
 	if ((nChar == 'W') || (nChar == 'w')) {
-		pieces[2].moveUp();
+		pieces[2].moveUp(m_board.m_blocks);
 		pieces[2].ViewMoveUp();
 	}
 	if ((nChar == 'S') || (nChar == 's')) {
-		pieces[2].moveDown();
+		//pieces[2].moveDown();
 		pieces[2].ViewMoveDown();
 	}
 	if ((nChar == 'A') || (nChar == 'a')) {
-		pieces[2].moveRight();
+		//pieces[2].moveRight();
 		pieces[2].ViewMoveLeft();
 	}
 	if ((nChar == 'D') || (nChar == 'd')) {
-		pieces[2].moveLeft();
+		//pieces[2].moveLeft();
 		pieces[2].ViewMoveRight();
 	}
 	

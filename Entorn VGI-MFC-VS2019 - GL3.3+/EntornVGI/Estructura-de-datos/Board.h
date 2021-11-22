@@ -1,5 +1,5 @@
 #include <list>
-#include "Block.h"
+//#include "Block.h"
 
 // TODO: límits de la base del taulell 
 #define MIN_Z 0
@@ -16,11 +16,12 @@ class Board
 {
 private:
     /* data */
-    vector<vector<vector<Block>>> m_blocks;
-    int m_height;
+    
 public:
     Board();
     ~Board();
+    vector<vector<vector<Block>>> m_blocks;
+    int m_height;
 
     // comprobar si s'ha completat algun pis del taulell
     void checkFloors();
