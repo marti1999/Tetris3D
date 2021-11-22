@@ -51,7 +51,7 @@ private:
 	// colisions
 	bool colisionsLimitsTaulellCorrecte();
 	bool colisionsBlocsTaulellCorrecte(vector<vector<vector<Block>>>& blocksTaulell);
-	bool check_move_colision(bool);
+	bool check_move_colision(bool a, vector<vector<vector<Block>>>& blocksTaulell);
 
 public:
 	Piece() {};
@@ -69,8 +69,8 @@ public:
 
 
 	// rotacions
-	void rotateRightOverY(vector<vector<vector<Block>>>& blocksTaulell);
-	void rotateLeftOverY(vector<vector<vector<Block>>>& blocksTaulell);
+	bool rotateRightOverY(vector<vector<vector<Block>>>& blocksTaulell);
+	bool rotateLeftOverY(vector<vector<vector<Block>>>& blocksTaulell);
 	
 
 	//void rotateRight();
@@ -80,15 +80,15 @@ public:
 
 
 	// moviments
-	bool moveRight();
+	bool moveRight(vector<vector<vector<Block>>>& blocksTaulell);
 	void ViewMoveRight();
-	bool moveLeft();
+	bool moveLeft(vector<vector<vector<Block>>>& blocksTaulell);
 	void ViewMoveLeft();
-	bool moveUp();
+	bool moveUp(vector<vector<vector<Block>>>& blocksTaulell);
 	void ViewMoveUp();
-	bool moveDown();
+	bool moveDown(vector<vector<vector<Block>>>& blocksTaulell);
 	void ViewMoveDown();
-	bool cauPeca();
+	bool cauPeca(vector<vector<vector<Block>>>& blocksTaulell);
 	void printPunts();
 };
 
@@ -120,7 +120,7 @@ bool Piece::colisionsBlocsTaulellCorrecte(vector<vector<vector<Block>>>& blocksT
 }
 
 
-void Piece::rotateRightOverY(vector<vector<vector<Block>>>& blocksTaulell) {
+bool Piece::rotateRightOverY(vector<vector<vector<Block>>>& blocksTaulell) {
 	if (m_form == T)
 	{
 		rotateTRigthOverY();
@@ -145,16 +145,17 @@ void Piece::rotateRightOverY(vector<vector<vector<Block>>>& blocksTaulell) {
 	}
 
 	if (colisionsLimitsTaulellCorrecte() && colisionsBlocsTaulellCorrecte(blocksTaulell)) {
-		ViewRotateRightOverY();
+		return true;
 	}
 	else {
 		rotateLeftOverY(blocksTaulell);	
+		return false;
 	}
 
 
 }
 
-void Piece::rotateLeftOverY(vector<vector<vector<Block>>>& blocksTaulell) {
+bool Piece::rotateLeftOverY(vector<vector<vector<Block>>>& blocksTaulell) {
 	if (m_form == T)
 	{
 		rotateTLeftOverY();
@@ -181,10 +182,11 @@ void Piece::rotateLeftOverY(vector<vector<vector<Block>>>& blocksTaulell) {
 	}
 
 	if (colisionsLimitsTaulellCorrecte() && colisionsBlocsTaulellCorrecte(blocksTaulell)) {
-		ViewRotateLeftOverY();
+		return true;
 	}
 	else {
 		rotateRightOverY(blocksTaulell);
+		return false;
 	}
 }
 
@@ -835,11 +837,11 @@ void Piece::rotateDown() {
 	}
 }
 */
-bool Piece::moveRight() {
+bool Piece::moveRight(vector<vector<vector<Block>>>& blocksTaulell) {
 	// per cada bloc de la peça, moure a la dreta (incrementar X)
 	bool moveRight = 1;
 
-	if (check_colision(cauPeca)) {
+	if (check_move_colision(moveRight, blocksTaulell)) {
 		for (int i = 0; i < m_blocks.size(); i++)
 		{
 			m_blocks[i].setX(m_blocks[i].getPosX() + 1);
@@ -849,11 +851,11 @@ bool Piece::moveRight() {
 	else
 		return false;
 }
-bool Piece::moveLeft() {
+bool Piece::moveLeft(vector<vector<vector<Block>>>& blocksTaulell) {
 	// per cada bloc de la peça, moure a la esquerra (decrementar X)
 	bool moveLeft = 2;
 
-	if (check_colision(cauPeca)) {
+	if (check_move_colision(moveLeft, blocksTaulell)) {
 		for (int i = 0; i < m_blocks.size(); i++)
 		{
 			m_blocks[i].setX(m_blocks[i].getPosX() - 1);
@@ -863,11 +865,11 @@ bool Piece::moveLeft() {
 	else
 		return false;
 }
-bool Piece::moveUp() {
+bool Piece::moveUp(vector<vector<vector<Block>>>& blocksTaulell) {
 	// per cada bloc de la peça, moure amunt (incrementar Z)
 	bool moveUp = 3;
 
-	if (check_colision(moveUp)) {
+	if (check_move_colision(moveUp, blocksTaulell)) {
 		for (int i = 0; i < m_blocks.size(); i++)
 		{
 			m_blocks[i].setZ(m_blocks[i].getPosZ() + 1);
@@ -877,11 +879,11 @@ bool Piece::moveUp() {
 	else
 		return false;
 }
-bool Piece::moveDown() {
+bool Piece::moveDown(vector<vector<vector<Block>>>& blocksTaulell) {
 	// per cada bloc de la peça, moure avall (decrementar Z)
 	bool moveDown = 4;
 	
-	if (check_colision(moveDown)) {
+	if (check_move_colision(moveDown, blocksTaulell)) {
 		for (int i = 0; i < m_blocks.size(); i++)
 		{
 			m_blocks[i].setZ(m_blocks[i].getPosZ() - 1);
@@ -892,11 +894,11 @@ bool Piece::moveDown() {
 		return false;
 }
 
-bool Piece::cauPeca() {
+bool Piece::cauPeca(vector<vector<vector<Block>>>& blocksTaulell) {
 	// per cada bloc de la peça, cau (decrementar Y)
 	bool cauPeca = 5;
 
-	if (check_colision(cauPeca)) {
+	if (check_move_colision(cauPeca, blocksTaulell)) {
 		for (int i = 0; i < m_blocks.size(); i++)
 		{
 			m_blocks[i].setY(m_blocks[i].getPosY() - 1);
@@ -907,7 +909,7 @@ bool Piece::cauPeca() {
 		return false;
 }
 
-bool Piece::check_move_colision(bool moviment)
+bool Piece::check_move_colision(bool moviment, vector<vector<vector<Block>>>& blocksTaulell)
 {
 	//Donem al auxiliar els valors exactes de la peça que volem comprovar
 
