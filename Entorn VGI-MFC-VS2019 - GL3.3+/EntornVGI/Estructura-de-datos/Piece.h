@@ -575,7 +575,7 @@ void Piece::ViewMoveLeft()
 
 void Piece::TForm() {
 	//El primer bloc sera sempre el pivot el pivot.
-	Block BlockFromPiece;
+	Block BlockFromPiece(0, 0, 0);
 	// BlockFromPiece.setPosition(0, 0, 0);         //Per defecte ja ve a 0,0,0
 	m_blocks.push_back(BlockFromPiece);
 
@@ -600,7 +600,7 @@ void Piece::TForm() {
 // TODO: peça en forma de L
 void Piece::LForm() {
 	//El primer bloc sera sempre el pivot.
-	Block BlockFromPiece;
+	Block BlockFromPiece(0,0,0);
 	BlockFromPiece.setPosition(0, 0, 0);
 	m_blocks.push_back(BlockFromPiece);
 
@@ -629,7 +629,7 @@ void Piece::LForm() {
 // TODO: peça en forma de CUB
 void Piece::CUBEForm() {
 	//El primer bloc sera sempre el pivot.
-	Block BlockFromPiece;
+	Block BlockFromPiece(0, 0, 0);
 	//BlockFromPiece.setPosition(0, 0, 0);  //Per defecte ja ve a 0,0,0
 	m_blocks.push_back(BlockFromPiece);
 
@@ -657,7 +657,7 @@ void Piece::CUBEForm() {
 // TODO: peça en forma de I
 void Piece::IForm() {
 	//El primer bloc sera sempre el pivot.
-	Block BlockFromPiece;
+	Block BlockFromPiece(0, 0, 0);
 	BlockFromPiece.setPosition(0, 0, 0);
 	m_blocks.push_back(BlockFromPiece);
 
@@ -683,7 +683,7 @@ void Piece::IForm() {
 }
 
 void Piece::ZForm() {
-	Block BlockFromPiece;
+	Block BlockFromPiece(0, 0, 0);
 	//BlockFromPiece.setPosition(0, 0, 0);  //Per defecte ja ve a 0,0,0
 	m_blocks.push_back(BlockFromPiece);
 
