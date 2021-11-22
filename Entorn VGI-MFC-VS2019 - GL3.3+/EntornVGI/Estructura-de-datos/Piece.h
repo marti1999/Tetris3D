@@ -43,8 +43,9 @@ private:
 	void ViewRotateRightOverY();
 	void ViewRotateLeftOverY();
 
-	bool limitsTaulellCorrecte();
-	
+	// colisions
+	bool colisionsLimitsTaulellCorrecte();
+	bool colisionsBlocsTaulellCorrecte(vector<vector<vector<Block>>> blocksTaulell);
 
 public:
 	Piece() {};
@@ -90,6 +91,25 @@ void Piece::printPunts() {
 	}
 }
 
+bool Piece::colisionsLimitsTaulellCorrecte() {
+
+	for (Block b : m_blocks) {
+		if (b.getPosX() < MINX || b.getPosX() > MAXX) return false;
+		if (b.getPosY() < MINY || b.getPosY() > MAXY) return false;
+		if (b.getPosZ() < MINZ || b.getPosZ() > MAXZ) return false;
+	}
+	return true;
+}
+
+bool Piece::colisionsBlocsTaulellCorrecte(vector<vector<vector<Block>>> blocksTaulell) {
+
+	for (Block b : m_blocks) {
+		if (blocksTaulell[b.getPosX()][b.getPosY()][b.getPosZ()].m_lliure == false) return false;
+	}
+	return true;
+}
+
+
 void Piece::rotateRightOverY() {
 	if (m_form == T)
 	{
@@ -114,25 +134,13 @@ void Piece::rotateRightOverY() {
 		rotateZRightOverY();
 	}
 
-	if (limitsTaulellCorrecte()) {
+	if (colisionsLimitsTaulellCorrecte()) {
 		ViewRotateRightOverY();
 	}
 	else {
 		rotateLeftOverY();
 	}
 
-
-}
-
-bool Piece::limitsTaulellCorrecte() {
-
-	for (Block b : m_blocks) {
-		if (b.getPosX() < MINX || b.getPosX() > MAXX) return false;
-		if (b.getPosY() < MINY || b.getPosY() > MAXY) return false;
-		if (b.getPosZ() < MINZ || b.getPosZ() > MAXZ) return false;
-	}
-
-	return true;
 
 }
 
@@ -162,7 +170,7 @@ void Piece::rotateLeftOverY() {
 		rotateZLeftOverY();
 	}
 
-	if (limitsTaulellCorrecte()) {
+	if (colisionsLimitsTaulellCorrecte()) {
 		ViewRotateLeftOverY();
 	}
 	else {
