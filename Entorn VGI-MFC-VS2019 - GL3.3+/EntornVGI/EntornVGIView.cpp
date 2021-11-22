@@ -1664,7 +1664,23 @@ void CEntornVGIView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 									else if (!sw_color) Teclat_ColorFons(nChar, nRepCnt);
 										else Teclat_ColorObjecte(nChar, nRepCnt);
 						}
-
+	if ((nChar == 'W') || (nChar == 'w')) {
+		pieces[2].moveUp();
+		pieces[2].ViewMoveUp();
+	}
+	if ((nChar == 'S') || (nChar == 's')) {
+		pieces[2].moveDown();
+		pieces[2].ViewMoveDown();
+	}
+	if ((nChar == 'A') || (nChar == 'a')) {
+		pieces[2].moveRight();
+		pieces[2].ViewMoveLeft();
+	}
+	if ((nChar == 'D') || (nChar == 'd')) {
+		pieces[2].moveLeft();
+		pieces[2].ViewMoveRight();
+	}
+	
 // Crida a OnPaint() per redibuixar l'escena
 	InvalidateRect(NULL, false);
 
