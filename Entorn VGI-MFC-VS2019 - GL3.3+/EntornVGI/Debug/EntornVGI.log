@@ -1,8 +1,8 @@
 ﻿  EntornVGIView.cpp
-C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(78,20): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(770,20): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(777,20): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(784,20): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(791,20): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(798,20): warning C4018: '<': no coinciden signed/unsigned
-  EntornVGI.vcxproj -> C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\Debug\EntornVGI.exe
+C:\Users\ricar.LAPTOP-D6I7L1KP\source\repos\Visualitzacio grafica\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(86,20): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\ricar.LAPTOP-D6I7L1KP\source\repos\Visualitzacio grafica\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(797,20): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\ricar.LAPTOP-D6I7L1KP\source\repos\Visualitzacio grafica\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(805,20): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\ricar.LAPTOP-D6I7L1KP\source\repos\Visualitzacio grafica\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(813,20): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\ricar.LAPTOP-D6I7L1KP\source\repos\Visualitzacio grafica\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(821,20): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\ricar.LAPTOP-D6I7L1KP\source\repos\Visualitzacio grafica\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(829,20): warning C4018: '<': no coinciden signed/unsigned
+  EntornVGI.vcxproj -> C:\Users\ricar.LAPTOP-D6I7L1KP\source\repos\Visualitzacio grafica\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\Debug\EntornVGI.exe

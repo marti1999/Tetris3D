@@ -28,6 +28,9 @@ private:
 	int m_rotacioY;
 	GLuint m_idVao;
 	mat4 m_Matriu;
+	int m_x;
+	int m_y;
+	int m_z;
 
 	// rotacions
 	void rotateTRigthOverY();
@@ -41,6 +44,7 @@ private:
 	void rotateZRightOverY();
 	void rotateZLeftOverY();
 	void ViewRotateRightOverY();
+	
 	void ViewRotateLeftOverY();
 
 	// colisions
@@ -75,9 +79,13 @@ public:
 
 	// moviments
 	void moveRight();
+	void ViewMoveRight();
 	void moveLeft();
+	void ViewMoveLeft();
 	void moveUp();
+	void ViewMoveUp();
 	void moveDown();
+	void ViewMoveDown();
 	void cauPeca();
 	void printPunts();
 };
@@ -542,6 +550,24 @@ inline void Piece::ViewRotateLeftOverY()
 	m_Matriu = glm::rotate(m_Matriu, radians(90.f), vec3(0.0f, 1.0f, 0.0f));
 }
 
+void Piece::ViewMoveUp()
+{
+	m_Matriu = glm::translate(m_Matriu, glm::vec3(0.0f, 0.0f, -1));
+}
+
+void Piece::ViewMoveDown()
+{
+	m_Matriu = glm::translate(m_Matriu, glm::vec3(0.0f, 0.0f, 1));
+}
+void Piece::ViewMoveRight()
+{
+	m_Matriu = glm::translate(m_Matriu, glm::vec3(1, 0, 0.0f));
+}
+
+void Piece::ViewMoveLeft()
+{
+	m_Matriu = glm::translate(m_Matriu, glm::vec3(-1, 0.0f, 0.0f));
+}
 
 
 
@@ -809,6 +835,7 @@ void Piece::rotateDown() {
 */
 void Piece::moveRight() {
 	// TODO: per cada bloc de la peça, moure a la dreta (incrementar X)
+	m_x += 1;
 	for (int i = 0; i < m_blocks.size(); i++)
 	{
 		m_blocks[i].setX(m_blocks[i].getPosX() + 1);
@@ -816,12 +843,14 @@ void Piece::moveRight() {
 }
 void Piece::moveLeft() {
 	// TODO: per cada bloc de la peça, moure a la esquerra (decrementar X)
+	m_x -= 1;
 	for (int i = 0; i < m_blocks.size(); i++)
 	{
 		m_blocks[i].setX(m_blocks[i].getPosX() - 1);
 	}
 }
 void Piece::moveUp() {
+	m_z += 1;
 	// TODO: per cada bloc de la peça, moure amunt (incrementar Z)
 	for (int i = 0; i < m_blocks.size(); i++)
 	{
@@ -829,6 +858,7 @@ void Piece::moveUp() {
 	}
 }
 void Piece::moveDown() {
+	m_z -= 1;
 	// TODO: per cada bloc de la peça, moure avall (decrementar Z)
 	for (int i = 0; i < m_blocks.size(); i++)
 	{
@@ -837,6 +867,7 @@ void Piece::moveDown() {
 }
 
 void Piece::cauPeca() {
+	m_y -= 1;
 	for (int i = 0; i < m_blocks.size(); i++)
 	{
 		m_blocks[i].setY(m_blocks[i].getPosY() - 1);
