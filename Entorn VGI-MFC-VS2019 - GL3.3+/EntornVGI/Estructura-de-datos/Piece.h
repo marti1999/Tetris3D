@@ -140,13 +140,16 @@ bool Piece::rotateRightOverY(vector<vector<vector<Block>>>& blocksTaulell) {
 		rotateZRightOverY();
 	}
 
-	if (colisionsLimitsTaulellCorrecte() && colisionsBlocsTaulellCorrecte(blocksTaulell)) {
-		return true;
+	if (colisionsLimitsTaulellCorrecte()) {
+		if (colisionsBlocsTaulellCorrecte(blocksTaulell)) {
+			return true;
+		}
 	}
 	else {
 		rotateLeftOverY(blocksTaulell);	
 		return false;
 	}
+	return false;
 
 
 }
@@ -173,13 +176,16 @@ bool Piece::rotateLeftOverY(vector<vector<vector<Block>>>& blocksTaulell) {
 		rotateZLeftOverY();
 	}
 
-	if (colisionsLimitsTaulellCorrecte() && colisionsBlocsTaulellCorrecte(blocksTaulell)) {
-		return true;
+	if (colisionsLimitsTaulellCorrecte()) {
+		if (colisionsBlocsTaulellCorrecte(blocksTaulell)) {
+			return true;
+		}
 	}
 	else {
-		rotateRightOverY(blocksTaulell);
+		rotateLeftOverY(blocksTaulell);
 		return false;
 	}
+	return false;
 }
 
 void Piece::rotateTLeftOverY() {
