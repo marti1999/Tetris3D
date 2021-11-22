@@ -16,7 +16,7 @@ class Board
 {
 private:
     /* data */
-    list<list<Block>> m_blocks;
+    vector<vector<vector<Block>>> m_blocks;
     int m_height;
 public:
     Board();
@@ -28,6 +28,8 @@ public:
 
 Board::Board()
 {
+    //TODO: inicialitzar m_blocks amb tots a null, a mesura que hi hagi blocs al taulell s'afegiran.
+    //      també es tornaran a posar les posicions a null quan s'esborri algun bloc
     m_height = 0;
 }
 
