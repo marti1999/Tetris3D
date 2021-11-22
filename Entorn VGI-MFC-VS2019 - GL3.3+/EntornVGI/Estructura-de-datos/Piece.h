@@ -124,20 +124,16 @@ bool Piece::rotateRightOverY(vector<vector<vector<Block>>>& blocksTaulell) {
 	if (m_form == T)
 	{
 		rotateTRigthOverY();
-		return;
 	}
 	if (m_form == L) {
 		rotateLRightOverY();
-		return;
 	}
 	if (m_form == CUBE)
 	{
 		rotateCubeRightOverY();
-		return;
 	}
 	if (m_form == I) {
 		rotateIRightOverY();
-		return;
 	}
 	if (m_form == Z)
 	{
@@ -159,22 +155,18 @@ bool Piece::rotateLeftOverY(vector<vector<vector<Block>>>& blocksTaulell) {
 	if (m_form == T)
 	{
 		rotateTLeftOverY();
-		return;
 	}
 	if (m_form == L)
 	{
 		rotateLLeftOverY();
-		return;
 	}
 	if (m_form == CUBE)
 	{
 		rotateCubeLeftOverY();
-		return;
 	}
 	if (m_form == I)
 	{
 		rotateILeftOverY();
-		return;
 	}
 	if (m_form == Z)
 	{
@@ -919,9 +911,9 @@ bool Piece::check_move_colision(bool moviment, vector<vector<vector<Block>>>& bl
 		//moveRight
 		for (int i = 0; i < m_blocks.size(); i++)
 		{
-			m_auxiliar[i].setX(m_blocks[i].getPosX() + 1;
-			m_auxiliar[i].setY(m_blocks[i].getPosY();
-			m_auxiliar[i].setZ(m_blocks[i].getPosZ();
+			m_auxiliar[i].setX(m_blocks[i].getPosX() + 1);
+			m_auxiliar[i].setY(m_blocks[i].getPosY());
+			m_auxiliar[i].setZ(m_blocks[i].getPosZ());
 		}
 		for (Block b : m_auxiliar) {
 			if (blocksTaulell[b.getPosX()][b.getPosY()][b.getPosZ()].m_lliure == false) return false;
@@ -932,9 +924,9 @@ bool Piece::check_move_colision(bool moviment, vector<vector<vector<Block>>>& bl
 		//moveLeft
 		for (int i = 0; i < m_blocks.size(); i++)
 		{
-			m_auxiliar[i].setX(m_blocks[i].getPosX() - 1;
-			m_auxiliar[i].setY(m_blocks[i].getPosY();
-			m_auxiliar[i].setZ(m_blocks[i].getPosZ();
+			m_auxiliar[i].setX(m_blocks[i].getPosX() - 1);
+			m_auxiliar[i].setY(m_blocks[i].getPosY());
+			m_auxiliar[i].setZ(m_blocks[i].getPosZ());
 		}
 		for (Block b : m_auxiliar) {
 			if (blocksTaulell[b.getPosX()][b.getPosY()][b.getPosZ()].m_lliure == false) return false;
@@ -945,9 +937,9 @@ bool Piece::check_move_colision(bool moviment, vector<vector<vector<Block>>>& bl
 		//MoveUp
 		for (int i = 0; i < m_blocks.size(); i++)
 		{
-			m_auxiliar[i].setX(m_blocks[i].getPosX();
-			m_auxiliar[i].setY(m_blocks[i].getPosY();
-			m_auxiliar[i].setZ(m_blocks[i].getPosZ() + 1;
+			m_auxiliar[i].setX(m_blocks[i].getPosX());
+			m_auxiliar[i].setY(m_blocks[i].getPosY());
+			m_auxiliar[i].setZ(m_blocks[i].getPosZ() + 1);
 		}
 		for (Block b : m_auxiliar) {
 			if (blocksTaulell[b.getPosX()][b.getPosY()][b.getPosZ()].m_lliure == false) return false;
@@ -958,9 +950,9 @@ bool Piece::check_move_colision(bool moviment, vector<vector<vector<Block>>>& bl
 		//MoveDown
 		for (int i = 0; i < m_blocks.size(); i++)
 		{
-			m_auxiliar[i].setX(m_blocks[i].getPosX();
-			m_auxiliar[i].setY(m_blocks[i].getPosY();
-			m_auxiliar[i].setZ(m_blocks[i].getPosZ() - 1;
+			m_auxiliar[i].setX(m_blocks[i].getPosX());
+			m_auxiliar[i].setY(m_blocks[i].getPosY());
+			m_auxiliar[i].setZ(m_blocks[i].getPosZ() - 1);
 		}
 		for (Block b : m_auxiliar) {
 			if (blocksTaulell[b.getPosX()][b.getPosY()][b.getPosZ()].m_lliure == false) return false;
@@ -971,22 +963,22 @@ bool Piece::check_move_colision(bool moviment, vector<vector<vector<Block>>>& bl
 		//cauPeca
 		for (int i = 0; i < m_blocks.size(); i++)
 		{
-			m_auxiliar[i].setX(m_blocks[i].getPosX();
-			m_auxiliar[i].setY(m_blocks[i].getPosY() - 1;
-			m_auxiliar[i].setZ(m_blocks[i].getPosZ();
+			m_auxiliar[i].setX(m_blocks[i].getPosX());
+			m_auxiliar[i].setY(m_blocks[i].getPosY() - 1);
+			m_auxiliar[i].setZ(m_blocks[i].getPosZ());
 		}
 		for (Block b : m_auxiliar) {
 			if (blocksTaulell[b.getPosX()][b.getPosY()][b.getPosZ()].m_lliure == false) return false;
 		}
 		return true;
 	}
-	case default:
-		return false;
-	}
+		  return false;
 
+	}
 }
 
 Piece::~Piece()
 {
+
 }
 
