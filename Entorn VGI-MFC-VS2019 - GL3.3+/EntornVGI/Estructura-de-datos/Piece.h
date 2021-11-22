@@ -45,7 +45,7 @@ private:
 
 	// colisions
 	bool colisionsLimitsTaulellCorrecte();
-	bool colisionsBlocsTaulellCorrecte(vector<vector<vector<Block>>> blocksTaulell);
+	bool colisionsBlocsTaulellCorrecte(vector<vector<vector<Block>>>& blocksTaulell);
 
 public:
 	Piece() {};
@@ -63,8 +63,8 @@ public:
 
 
 	// rotacions
-	void rotateRightOverY();
-	void rotateLeftOverY();
+	void rotateRightOverY(vector<vector<vector<Block>>>& blocksTaulell);
+	void rotateLeftOverY(vector<vector<vector<Block>>>& blocksTaulell);
 	
 
 	//void rotateRight();
@@ -101,7 +101,7 @@ bool Piece::colisionsLimitsTaulellCorrecte() {
 	return true;
 }
 
-bool Piece::colisionsBlocsTaulellCorrecte(vector<vector<vector<Block>>> blocksTaulell) {
+bool Piece::colisionsBlocsTaulellCorrecte(vector<vector<vector<Block>>>& blocksTaulell) {
 
 	for (Block b : m_blocks) {
 		if (blocksTaulell[b.getPosX()][b.getPosY()][b.getPosZ()].m_lliure == false) return false;
@@ -110,7 +110,7 @@ bool Piece::colisionsBlocsTaulellCorrecte(vector<vector<vector<Block>>> blocksTa
 }
 
 
-void Piece::rotateRightOverY() {
+void Piece::rotateRightOverY(vector<vector<vector<Block>>>& blocksTaulell) {
 	if (m_form == T)
 	{
 		rotateTRigthOverY();
@@ -134,17 +134,17 @@ void Piece::rotateRightOverY() {
 		rotateZRightOverY();
 	}
 
-	if (colisionsLimitsTaulellCorrecte()) {
+	if (colisionsLimitsTaulellCorrecte() && colisionsBlocsTaulellCorrecte(blocksTaulell)) {
 		ViewRotateRightOverY();
 	}
 	else {
-		rotateLeftOverY();
+		rotateLeftOverY(blocksTaulell);
 	}
 
 
 }
 
-void Piece::rotateLeftOverY() {
+void Piece::rotateLeftOverY(vector<vector<vector<Block>>>& blocksTaulell) {
 	if (m_form == T)
 	{
 		rotateTLeftOverY();
@@ -170,11 +170,11 @@ void Piece::rotateLeftOverY() {
 		rotateZLeftOverY();
 	}
 
-	if (colisionsLimitsTaulellCorrecte()) {
+	if (colisionsLimitsTaulellCorrecte() && colisionsBlocsTaulellCorrecte(blocksTaulell)) {
 		ViewRotateLeftOverY();
 	}
 	else {
-		rotateRightOverY();
+		rotateRightOverY(blocksTaulell);
 	}
 }
 
