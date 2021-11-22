@@ -143,12 +143,12 @@ bool Piece::rotateRightOverY(vector<vector<vector<Block>>>& blocksTaulell) {
 		if (colisionsBlocsTaulellCorrecte(blocksTaulell)) {
 			return true;
 		}
+		return false;
 	}
 	else {
 		rotateLeftOverY(blocksTaulell);	
 		return false;
 	}
-	return false;
 
 
 }
@@ -179,12 +179,12 @@ bool Piece::rotateLeftOverY(vector<vector<vector<Block>>>& blocksTaulell) {
 		if (colisionsBlocsTaulellCorrecte(blocksTaulell)) {
 			return true;
 		}
+		return false;
 	}
 	else {
 		rotateLeftOverY(blocksTaulell);
 		return false;
 	}
-	return false;
 }
 
 void Piece::rotateTLeftOverY() {
