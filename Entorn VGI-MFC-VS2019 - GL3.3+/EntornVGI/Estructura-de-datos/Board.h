@@ -28,8 +28,8 @@ public:
 
 Board::Board()
 {
-    //TODO: inicialitzar m_blocks amb tots a null, a mesura que hi hagi blocs al taulell s'afegiran.
-    //      també es tornaran a posar les posicions a null quan s'esborri algun bloc
+    //TODO: inicialitzar m_blocks amb tots m_lliure = true, a mesura que hi hagi blocs al taulell es posaran les dades que faci falta i m_lliure = false.
+    //      també es tornaran a posar m_lliure = true quan s'esborri algun bloc
     m_height = 0;
 }
 

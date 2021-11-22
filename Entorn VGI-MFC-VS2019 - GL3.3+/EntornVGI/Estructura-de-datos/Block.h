@@ -28,6 +28,9 @@ public:
     int getPosZ(){return m_posicio[2];}
     void setPosition(int x, int y, int z);
     void setFixed(bool fixed);
+
+    bool m_lliure; // no es pot tenir en un vector<vector<vector<Block>>> posicions en null, així que quan no hi hagi un bloc realment hi haurà un block tenint lliure = true
+
 };
 
 Block::Block()
