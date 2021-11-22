@@ -1667,22 +1667,42 @@ void CEntornVGIView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 										else Teclat_ColorObjecte(nChar, nRepCnt);
 						}
 	if ((nChar == 'W') || (nChar == 'w')) {
-		pieces[2].moveUp(m_board.m_blocks);
-		pieces[2].ViewMoveUp();
+		//pieces[2].moveUp(m_board.m_blocks);
+		if (pieces[2].moveLeft(m_board.m_blocks)) {
+			pieces[2].ViewMoveUp();
+		}
+		
 	}
 	if ((nChar == 'S') || (nChar == 's')) {
 		//pieces[2].moveDown();
-		pieces[2].ViewMoveDown();
+		if (pieces[2].moveLeft(m_board.m_blocks)) {
+			pieces[2].ViewMoveDown();
+		}
+		
 	}
 	if ((nChar == 'A') || (nChar == 'a')) {
 		//pieces[2].moveRight();
-		pieces[2].ViewMoveLeft();
+		if (pieces[2].moveLeft(m_board.m_blocks)) {
+			pieces[2].ViewMoveLeft();
+		}
+		
 	}
 	if ((nChar == 'D') || (nChar == 'd')) {
 		//pieces[2].moveLeft();
-		pieces[2].ViewMoveRight();
+		if (pieces[2].moveLeft(m_board.m_blocks)) {
+			pieces[2].ViewMoveLeft();
+		}
 	}
-	
+	if ((nChar == 'Q') || (nChar == 'q')) {
+		if (pieces[2].rotateLeftOverY(m_board.m_blocks)) {
+			pieces[2].ViewRotateLeftOverY();
+		}
+	}
+	if ((nChar == 'E') || (nChar == 'e')) {
+		if (pieces[2].rotateRightOverY(m_board.m_blocks)) {
+			pieces[2].ViewRotateRightOverY();
+		}
+	}
 // Crida a OnPaint() per redibuixar l'escena
 	InvalidateRect(NULL, false);
 

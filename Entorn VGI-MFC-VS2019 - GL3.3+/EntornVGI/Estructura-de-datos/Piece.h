@@ -44,9 +44,7 @@ private:
 	void rotateILeftOverY();
 	void rotateZRightOverY();
 	void rotateZLeftOverY();
-	void ViewRotateRightOverY();
 	
-	void ViewRotateLeftOverY();
 
 	// colisions
 	bool colisionsLimitsTaulellCorrecte();
@@ -71,7 +69,8 @@ public:
 	// rotacions
 	bool rotateRightOverY(vector<vector<vector<Block>>>& blocksTaulell);
 	bool rotateLeftOverY(vector<vector<vector<Block>>>& blocksTaulell);
-	
+	void ViewRotateRightOverY();
+	void ViewRotateLeftOverY();
 
 	//void rotateRight();
 	//void rotateLeft();
@@ -542,12 +541,12 @@ void Piece::rotateZLeftOverY() {
 	}
 }
 
-inline void Piece::ViewRotateRightOverY()
+void Piece::ViewRotateRightOverY()
 {
 	m_Matriu = glm::rotate(m_Matriu, radians(90.f), vec3(0.0f, 1.0f, 0.0f));
 }
 
-inline void Piece::ViewRotateLeftOverY()
+void Piece::ViewRotateLeftOverY()
 {
 	m_Matriu = glm::rotate(m_Matriu, radians(90.f), vec3(0.0f, 1.0f, 0.0f));
 }
