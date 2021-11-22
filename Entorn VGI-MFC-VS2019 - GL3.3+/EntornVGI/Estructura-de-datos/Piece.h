@@ -11,6 +11,12 @@
 #define Y2 2 //rotat sobre Y 180 graus
 #define Y1 1 //rotat sobre Y 90 graus
 #define Y0 0 //rotat sobre Y 0 graus
+#define MAXZ 5
+#define MAXX 5
+#define MAXY 9
+#define MINZ 0
+#define MINX 0
+#define MINY 0
 
 
 class Piece
@@ -36,6 +42,8 @@ private:
 	void rotateZLeftOverY();
 	void ViewRotateRightOverY();
 	void ViewRotateLeftOverY();
+
+	bool limitsTaulellCorrecte();
 	
 
 public:
@@ -83,7 +91,6 @@ void Piece::printPunts() {
 }
 
 void Piece::rotateRightOverY() {
-	ViewRotateRightOverY();
 	if (m_form == T)
 	{
 		rotateTRigthOverY();
@@ -106,10 +113,30 @@ void Piece::rotateRightOverY() {
 	{
 		rotateZRightOverY();
 	}
+
+	if (limitsTaulellCorrecte()) {
+		ViewRotateRightOverY();
+	}
+	else {
+		rotateLeftOverY();
+	}
+
+
+}
+
+bool Piece::limitsTaulellCorrecte() {
+
+	for (Block b : m_blocks) {
+		if (b.getPosX() < MINX || b.getPosX() > MAXX) return false;
+		if (b.getPosY() < MINY || b.getPosY() > MAXY) return false;
+		if (b.getPosZ() < MINZ || b.getPosZ() > MAXZ) return false;
+	}
+
+	return true;
+
 }
 
 void Piece::rotateLeftOverY() {
-	ViewRotateLeftOverY();
 	if (m_form == T)
 	{
 		rotateTLeftOverY();
@@ -133,6 +160,13 @@ void Piece::rotateLeftOverY() {
 	if (m_form == Z)
 	{
 		rotateZLeftOverY();
+	}
+
+	if (limitsTaulellCorrecte()) {
+		ViewRotateLeftOverY();
+	}
+	else {
+		rotateRightOverY();
 	}
 }
 
