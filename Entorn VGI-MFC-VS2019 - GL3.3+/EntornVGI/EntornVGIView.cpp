@@ -44,6 +44,7 @@
 #include "Estructura-de-datos/Board.h"
 
 Piece pieces[7];
+Block vaoBlocks[7];
 Board m_board;
 /////////////////////////////////////////////////////////////////////////////
 // CEntornVGIView
@@ -891,7 +892,6 @@ void CEntornVGIView::OnPaint()
 		// Dibuixar Model (escena)
 		configura_Escena();     // Aplicar Transformacions Geometriques segons persiana Transformacio i configurar objectes
 		dibuixa_Escena2();		// Dibuix geometria de l'escena amb comandes GL.
-
 // Intercanvia l'escena al front de la pantalla
 		SwapBuffers(m_pDC->GetSafeHdc());
 		break;
@@ -1089,13 +1089,14 @@ void CEntornVGIView::dibuixa_Escena2()
 		pieces[2].getMatrix());// Matriu de transformacions de la peça en questio
 
 
-
+	
 	//	Dibuix Coordenades Món i Reixes.
 			//dibuixa_Eixos(eixos_programID, eixos, eixos_Id, grid, hgrid, ProjectionMatrix, ViewMatrix);
 
 	//	Dibuix Coordenades Món i Reixes.
 			//if (SkyBoxCube) dibuixa_Skybox(skC_programID, cubemapTexture, ProjectionMatrix, ViewMatrix);
 }
+
 
 // Barra_Estat: Actualitza la barra d'estat (Status Bar) de l'aplicació amb els
 //      valors R,A,B,PVx,PVy,PVz en Visualització Interactiva.
@@ -5135,6 +5136,12 @@ void CEntornVGIView::OnObjecteTetris()
 		if (i < 7) {
 			Piece piece(T + i);
 			pieces[i] = piece;
+		}
+		if (i >= 7)
+		{
+			Block block(-1, -1, -1);
+			block.setIdVao(T + i);
+			vaoBlocks[i - 7] = block;
 		}
 	}
 	wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);	// Desactivem contexte OpenGL

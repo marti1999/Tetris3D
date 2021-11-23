@@ -76,6 +76,8 @@ void dibuixa_Skybox(GLuint sk_programID, GLuint cmTexture, char eix_Polar, glm::
 }
 
 // dibuixa_EscenaGL: Dibuix de l'escena amb comandes GL
+
+
 void dibuixa_EscenaGL(GLuint sh_programID, bool eix, GLuint axis_Id, CMask3D reixa, CPunt3D hreixa, char objecte, 
 			CColor col_object, bool sw_mat[5],
 			bool textur, GLint texturID[NUM_MAX_TEXTURES], bool textur_map, bool flagInvertY,
@@ -127,6 +129,7 @@ void dibuixa_EscenaGL(GLuint sh_programID, bool eix, GLuint axis_Id, CMask3D rei
 	switch (objecte)
 	{
 	case PROPI:
+
 		ModelMatrix = MatriuTG;
 		glUniformMatrix4fv(glGetUniformLocation(sh_programID, "modelMatrix"), 1, GL_FALSE, &ModelMatrix[0][0]);
 		NormalMatrix = transpose(inverse(MatriuVista * ModelMatrix));
