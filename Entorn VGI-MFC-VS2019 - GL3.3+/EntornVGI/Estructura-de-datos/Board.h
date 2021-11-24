@@ -15,13 +15,19 @@
 class Board
 {
 private:
-    /* data */
+    GLuint m_idVao;
+    mat4 m_Matriu;
     
 public:
     Board();
     ~Board();
     vector<vector<vector<Block>>> m_blocks;
     int m_height;
+
+    int getIdVao() { return m_idVao; }
+    mat4 getMatrix() { return m_Matriu; }
+    void setIdVao(GLuint idVao) { m_idVao = idVao; }
+    void setMatrix(mat4 matriu) { m_Matriu = matriu; }
 
     // comprobar si s'ha completat algun pis del taulell
     void checkFloors();
@@ -31,6 +37,8 @@ Board::Board()
 {
     //TODO: inicialitzar m_blocks amb tots m_lliure = true, a mesura que hi hagi blocs al taulell es posaran les dades que faci falta i m_lliure = false.
     //      també es tornaran a posar m_lliure = true quan s'esborri algun bloc
+    m_Matriu = glm::mat4(1.0);
+
     for (int i = 0; i < MAX_X; i++)
     {
         vector<vector<Block>> x;

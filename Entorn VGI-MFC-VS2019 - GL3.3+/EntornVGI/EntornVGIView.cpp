@@ -1107,14 +1107,26 @@ void CEntornVGIView::dibuixa_Escena2()
 			}
 		}
 	}
-	*/
-
+	
+	
 	dibuixa_EscenaGL(shader_programID, eixos, eixos_Id, grid, hgrid, objecte, col_obj, sw_material,
 		textura, texturesID, textura_map, tFlag_invert_Y,
 		npts_T, PC_t, pas_CS, sw_Punts_Control, dibuixa_TriedreFrenet,
 		FIT_3DS, pieces[2].getIdVao(), // VAO's i nombre de vèrtexs dels objectes 3DS i OBJ
 		ViewMatrix,
 		pieces[2].getMatrix());
+
+	*/
+
+	// Dibuix del tauler en escena
+
+	dibuixa_EscenaGL(shader_programID, eixos, eixos_Id, grid, hgrid, objecte, col_obj, sw_material,
+		textura, texturesID, textura_map, tFlag_invert_Y,
+		npts_T, PC_t, pas_CS, sw_Punts_Control, dibuixa_TriedreFrenet,
+		FIT_3DS, m_board.getIdVao(), // VAO's i nombre de vèrtexs dels objectes 3DS i OBJ
+		ViewMatrix,
+		m_board.getMatrix());
+
 	// Matriu de transformacions de la peça en questio
 
 
@@ -5140,7 +5152,7 @@ void CEntornVGIView::OnObjecteTetris()
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
 
 	
-	CString nom[14] = {
+	CString nom[15] = {
 		CString(_T("..\\..\\objects\\fig1_color.obj")),
 		CString(_T("..\\..\\objects\\fig2_color.obj")),
 		CString(_T("..\\..\\objects\\fig3_color.obj")),
@@ -5154,9 +5166,10 @@ void CEntornVGIView::OnObjecteTetris()
 		CString(_T("..\\..\\objects\\fig4_cub_purple.obj")),
 		CString(_T("..\\..\\objects\\fig5_cub_green.obj")),
 		CString(_T("..\\..\\objects\\fig6_cub_blue.obj")),
-		CString(_T("..\\..\\objects\\fig7_cub_cyan.obj"))
+		CString(_T("..\\..\\objects\\fig7_cub_cyan.obj")),
+		CString(_T("..\\..\\objects\\fig_tauler.obj"))
 	};
-	for (int i = 0; i < 14; i++) {
+	for (int i = 0; i < 15; i++) {
 
 		char* nomfitx = CString2Char(nom[i]);
 		if (ObOBJ == NULL) ObOBJ = new COBJModel;
@@ -5166,11 +5179,15 @@ void CEntornVGIView::OnObjecteTetris()
 			Piece piece(T + i);
 			pieces[i] = piece;
 		}
-		if (i >= 7)
+		if ((i >= 7)&&(i != 14))
 		{
 			Block block(-1, -1, -1);
 			block.setIdVao(T + i);
 			vaoBlocks[i - 7] = block;
+		}
+		if (i == 14)
+		{
+			m_board.setIdVao(T + i);
 		}
 	}
 	wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);	// Desactivem contexte OpenGL
