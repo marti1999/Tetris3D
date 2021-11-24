@@ -67,6 +67,10 @@ public:
 	int getIdVao() { return m_idVao; }
 	mat4 getMatrix() { return m_Matriu; }
 	void onTocarTerra(Board &taula);
+	void setX(int x) { m_x = x; }
+	void sety(int y) { m_x = y; }
+	void setz(int z) { m_x = z; }
+	void posIni() { m_Matriu = glm::translate(m_Matriu, glm::vec3(5, 21, 5)); }
 
 	// rotacions
 	bool rotateRightOverY(vector<vector<vector<Block>>>& blocksTaulell);
@@ -90,6 +94,7 @@ public:
 	bool moveDown(vector<vector<vector<Block>>>& blocksTaulell);
 	void ViewMoveDown();
 	bool cauPeca(vector<vector<vector<Block>>>& blocksTaulell);
+	void ViewcauPeca();
 	void printPunts();
 };
 
@@ -555,21 +560,21 @@ void Piece::ViewRotateLeftOverY()
 
 void Piece::ViewMoveUp()
 {
-	m_Matriu = glm::translate(m_Matriu, glm::vec3(0.0f, 0.0f, -1));
+	m_Matriu = glm::translate(m_Matriu, glm::vec3(0.0f, 0.0f, -2));
 }
 
 void Piece::ViewMoveDown()
 {
-	m_Matriu = glm::translate(m_Matriu, glm::vec3(0.0f, 0.0f, 1));
+	m_Matriu = glm::translate(m_Matriu, glm::vec3(0.0f, 0.0f, 2));
 }
 void Piece::ViewMoveRight()
 {
-	m_Matriu = glm::translate(m_Matriu, glm::vec3(1, 0, 0.0f));
+	m_Matriu = glm::translate(m_Matriu, glm::vec3(2, 0, 0.0f));
 }
 
 void Piece::ViewMoveLeft()
 {
-	m_Matriu = glm::translate(m_Matriu, glm::vec3(-1, 0.0f, 0.0f));
+	m_Matriu = glm::translate(m_Matriu, glm::vec3(-2, 0.0f, 0.0f));
 }
 
 
@@ -921,6 +926,11 @@ bool Piece::cauPeca(vector<vector<vector<Block>>>& blocksTaulell) {
 	}
 	else
 		return false;
+}
+
+void Piece::ViewcauPeca()
+{
+	m_Matriu = glm::translate(m_Matriu, glm::vec3(0.0f, -2, 0.0f));
 }
 
 bool Piece::check_move_colision(bool moviment, vector<vector<vector<Block>>>& blocksTaulell)

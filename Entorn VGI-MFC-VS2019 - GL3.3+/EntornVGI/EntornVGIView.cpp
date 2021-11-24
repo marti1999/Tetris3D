@@ -891,6 +891,7 @@ void CEntornVGIView::OnPaint()
 		// Dibuixar Model (escena)
 		configura_Escena();     // Aplicar Transformacions Geometriques segons persiana Transformacio i configurar objectes
 		dibuixa_Escena2();		// Dibuix geometria de l'escena amb comandes GL.
+		
 // Intercanvia l'escena al front de la pantalla
 		SwapBuffers(m_pDC->GetSafeHdc());
 		break;
@@ -1126,7 +1127,15 @@ void CEntornVGIView::dibuixa_Escena2()
 		FIT_3DS, m_board.getIdVao(), // VAO's i nombre de vèrtexs dels objectes 3DS i OBJ
 		ViewMatrix,
 		m_board.getMatrix());
-
+	
+	dibuixa_EscenaGL(shader_programID, eixos, eixos_Id, grid, hgrid, objecte, col_obj, sw_material,
+		textura, texturesID, textura_map, tFlag_invert_Y,
+		npts_T, PC_t, pas_CS, sw_Punts_Control, dibuixa_TriedreFrenet,
+		FIT_3DS, pieces[2].getIdVao(), // VAO's i nombre de vèrtexs dels objectes 3DS i OBJ
+		ViewMatrix, pieces[2].getMatrix());
+	
+	
+	
 	// Matriu de transformacions de la peça en questio
 
 
@@ -2850,6 +2859,9 @@ void CEntornVGIView::OnTimer(UINT_PTR nIDEvent)
 		// Crida a OnPaint() per redibuixar l'escena
 		InvalidateRect(NULL, false);
 		}
+	if (tetris) {
+		pieces[2].ViewcauPeca();
+	}
 
 	CView::OnTimer(nIDEvent);
 }
@@ -5147,7 +5159,7 @@ std::string CEntornVGIView::CString2String(const CString& cString)
 void CEntornVGIView::OnObjecteTetris()
 {
 	// TODO: Agregue aquí su código de controlador de comandos
-	objecte = OBJOBJ;	textura = false;		tFlag_invert_Y = true;
+	objecte = OBJOBJ;	textura = false;		tFlag_invert_Y = true; tetris = true;
 
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
 
@@ -5177,6 +5189,7 @@ void CEntornVGIView::OnObjecteTetris()
 		idVao[i] = ObOBJ->LoadModel(nomfitx, T+i);
 		if (i < 7) {
 			Piece piece(T + i);
+			piece.posIni();
 			pieces[i] = piece;
 		}
 		if ((i >= 7)&&(i != 14))
@@ -5193,7 +5206,6 @@ void CEntornVGIView::OnObjecteTetris()
 	wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);	// Desactivem contexte OpenGL
 
 // Crida a OnPaint() per redibuixar l'escena
-	InvalidateRect(NULL, false); 
-
+	InvalidateRect(NULL, false);
 	
 }
