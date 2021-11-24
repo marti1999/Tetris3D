@@ -1079,9 +1079,12 @@ void CEntornVGIView::dibuixa_Escena2()
 	//	GTMatrix = glm::scalef(GTMatrix,vec3());			// Escalat d'objectes, per adequar-los a les vistes ortogràfiques (Pràctica 2)
 
 	//	Dibuix geometria de l'escena amb comandes GL.
+	
+	objecte = PROPI;
+
+	/*
 	glm::mat4 posite(1.0);
 	glm::mat4 sendposite(1.0);
-	objecte = PROPI;
 	int boardI = 0, boardJ = 0, boardK = 0;
 	for (int boardI = 0; boardI < m_board.m_blocks.size(); boardI++)
 	{
@@ -1092,7 +1095,7 @@ void CEntornVGIView::dibuixa_Escena2()
 				int randColor = rand() % 7;
 				int randC = rand() % 10;
 				sendposite = translate(posite, vec3(boardI * 2, boardJ * 2, boardK * 2));
-				if (randC < 2)
+				if (randC < 1)
 				{
 				dibuixa_EscenaGL(shader_programID, eixos, eixos_Id, grid, hgrid, objecte, col_obj, sw_material,
 					textura, texturesID, textura_map, tFlag_invert_Y,
@@ -1104,7 +1107,14 @@ void CEntornVGIView::dibuixa_Escena2()
 			}
 		}
 	}
+	*/
 
+	dibuixa_EscenaGL(shader_programID, eixos, eixos_Id, grid, hgrid, objecte, col_obj, sw_material,
+		textura, texturesID, textura_map, tFlag_invert_Y,
+		npts_T, PC_t, pas_CS, sw_Punts_Control, dibuixa_TriedreFrenet,
+		FIT_3DS, pieces[2].getIdVao(), // VAO's i nombre de vèrtexs dels objectes 3DS i OBJ
+		ViewMatrix,
+		pieces[2].getMatrix());
 	// Matriu de transformacions de la peça en questio
 
 
