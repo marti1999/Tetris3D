@@ -61,7 +61,7 @@ Block::Block(int posX, int posY, int posZ)
     m_posicio.push_back(posZ);
     m_collisionable = true;
     m_fixed = false;
-    m_lliure = false;
+    m_lliure = true;
     m_idVao = 40;
 }
 

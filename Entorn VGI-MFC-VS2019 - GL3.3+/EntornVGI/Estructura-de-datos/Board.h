@@ -23,7 +23,6 @@ public:
     vector<vector<vector<Block>>> m_blocks;
     int m_height;
 
-
     // comprobar si s'ha completat algun pis del taulell
     void checkFloors();
 };
@@ -32,20 +31,21 @@ Board::Board()
 {
     //TODO: inicialitzar m_blocks amb tots m_lliure = true, a mesura que hi hagi blocs al taulell es posaran les dades que faci falta i m_lliure = false.
     //      també es tornaran a posar m_lliure = true quan s'esborri algun bloc
-    vector<Block> vBlock;
-    for (int i = 0; i < MAX_HEIGHT; i++)
-    {
-        Block bl;
-        vBlock.push_back(bl);
-    }
-    vector<vector<Block>> vVBlock;
-    for (int i = 0; i < MAX_Z; i++)
-    {
-        vVBlock.push_back(vBlock);
-    }
     for (int i = 0; i < MAX_X; i++)
     {
-        m_blocks.push_back(vVBlock);
+        vector<vector<Block>> x;
+        m_blocks.push_back(x);
+        for (int j = 0; j < MAX_Z; j++)
+        {
+            vector<Block> z;
+            m_blocks[i].push_back(z);
+            for (int k = 0; k < MAX_HEIGHT; k++)
+            {
+                Block y(i,k,j);
+                m_blocks[i][j].push_back(y);
+            }
+
+        }
     }
     m_height = 0;
 }
