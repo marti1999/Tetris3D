@@ -3,9 +3,9 @@
 
 // TODO: límits de la base del taulell 
 #define MIN_Z 0
-#define MAX_Z 1
+#define MAX_Z 6
 #define MIN_X 0
-#define MAX_X 1
+#define MAX_X 6
 
 #define MAX_BLOCK 36
 
@@ -23,6 +23,7 @@ public:
     vector<vector<vector<Block>>> m_blocks;
     int m_height;
 
+
     // comprobar si s'ha completat algun pis del taulell
     void checkFloors();
 };
@@ -31,12 +32,28 @@ Board::Board()
 {
     //TODO: inicialitzar m_blocks amb tots m_lliure = true, a mesura que hi hagi blocs al taulell es posaran les dades que faci falta i m_lliure = false.
     //      també es tornaran a posar m_lliure = true quan s'esborri algun bloc
+    vector<Block> vBlock;
+    for (int i = 0; i < MAX_HEIGHT; i++)
+    {
+        Block bl;
+        vBlock.push_back(bl);
+    }
+    vector<vector<Block>> vVBlock;
+    for (int i = 0; i < MAX_Z; i++)
+    {
+        vVBlock.push_back(vBlock);
+    }
+    for (int i = 0; i < MAX_X; i++)
+    {
+        m_blocks.push_back(vVBlock);
+    }
     m_height = 0;
 }
 
 Board::~Board()
 {
 }
+
 
 void Board::checkFloors(){
     //list<list<Block>>::iterator it = m_blocks.begin();

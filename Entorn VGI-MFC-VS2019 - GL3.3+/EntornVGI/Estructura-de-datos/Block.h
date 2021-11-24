@@ -49,7 +49,7 @@ inline Block::Block()
     m_posicio.push_back(-1);
     m_collisionable = true;
     m_fixed = true;
-    m_lliure = false;
+    m_lliure = true;
     m_idVao = 40;
 }
 
