@@ -1,6 +1,7 @@
 #include <vector>
 #include <list>
 
+
 #define BLOCK_SIZE 1 //TEMPORAL, falta decidir
 #define POSICIO 3
 
@@ -23,7 +24,6 @@ public:
     void setY(int y);
     ~Block();
     bool detectCollision(list<Block> setBlocks);
-
     void fixBlock();
     void freeBlock();
 
@@ -31,6 +31,7 @@ public:
     int getPosX(){return m_posicio[0];}
     int getPosY(){return m_posicio[1];}
     int getPosZ(){return m_posicio[2];}
+    void getPosicions(int& x, int& y, int& z);
     void setPosition(int x, int y, int z);
     void setFixed(bool fixed);
 
@@ -85,6 +86,13 @@ void Block::setY(int y) {
 }
 void Block::setZ(int z) {
     m_posicio[2] = z;
+}
+
+inline void Block::getPosicions(int& x, int& y, int& z)
+{
+    x = m_posicio[0];
+    y = m_posicio[1];
+    z = m_posicio[2];
 }
 
 void Block::setPosition(int x, int y, int z){

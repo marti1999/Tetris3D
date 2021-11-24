@@ -1,5 +1,7 @@
 #include <list>
 #include "Block.h"
+#include "Board.h"
+
 #include <iostream>
 // mapejat que defineix una lletra per cada forma
 #define T 33
@@ -64,7 +66,7 @@ public:
 	void ZForm();
 	int getIdVao() { return m_idVao; }
 	mat4 getMatrix() { return m_Matriu; }
-
+	void onTocarTerra(Board &taula);
 
 	// rotacions
 	bool rotateRightOverY(vector<vector<vector<Block>>>& blocksTaulell);
@@ -705,6 +707,21 @@ void Piece::ZForm() {
 
 
 }
+
+void Piece::onTocarTerra(Board & taula)
+{
+	int x = 0, y = 0, z = 0;
+	for (Block b : m_blocks)
+	{
+		b.getPosicions(x, y, z);
+		taula.m_blocks[x][y][z].fixBlock();
+		taula.m_blocks[x][y][z].setIdVao(m_idVao + 7);
+	}
+}
+
+
+
+
 
 
 

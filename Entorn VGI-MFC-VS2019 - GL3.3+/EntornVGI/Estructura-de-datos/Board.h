@@ -35,14 +35,14 @@ Board::Board()
     {
         vector<vector<Block>> x;
         m_blocks.push_back(x);
-        for (int j = 0; j < MAX_Z; j++)
+        for (int j = 0; j < MAX_HEIGHT; j++)
         {
-            vector<Block> z;
-            m_blocks[i].push_back(z);
-            for (int k = 0; k < MAX_HEIGHT; k++)
+            vector<Block> y;
+            m_blocks[i].push_back(y);
+            for (int k = 0; k < MAX_Z; k++)
             {
-                Block y(i,k,j);
-                m_blocks[i][j].push_back(y);
+                Block z(i,j,k);
+                m_blocks[i][j].push_back(z);
             }
 
         }
