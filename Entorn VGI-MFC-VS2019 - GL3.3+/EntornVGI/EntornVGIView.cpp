@@ -1091,17 +1091,15 @@ void CEntornVGIView::dibuixa_Escena2()
 			for (int boardK = 0; boardK < m_board.m_blocks[boardI][boardJ].size(); boardK++)
 			{
 				int randColor = rand() % 7;
+				sendposite = translate(posite, vec3(boardI * 2, boardK * 2, boardJ * 2));
 				dibuixa_EscenaGL(shader_programID, eixos, eixos_Id, grid, hgrid, objecte, col_obj, sw_material,
 					textura, texturesID, textura_map, tFlag_invert_Y,
 					npts_T, PC_t, pas_CS, sw_Punts_Control, dibuixa_TriedreFrenet,
 					FIT_3DS, vaoBlocks[randColor].getIdVao(), // VAO's i nombre de vèrtexs dels objectes 3DS i OBJ
 					ViewMatrix,
 					sendposite);
-				sendposite = translate(posite, vec3(boardI *2, boardK *2, boardJ *2));
 			}
-			sendposite = translate(posite, vec3(boardI * 2, boardK * 2, boardJ * 2));
 		}
-		sendposite = translate(posite, vec3(boardI * 2, boardK * 2, boardJ * 2));
 	}
 
 	// Matriu de transformacions de la peça en questio
