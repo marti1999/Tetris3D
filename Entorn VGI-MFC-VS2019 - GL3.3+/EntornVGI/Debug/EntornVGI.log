@@ -14,5 +14,8 @@ C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\Entor
 C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(941,2): warning C4808: case '3' no es un valor correcto para la condición switch de tipo 'bool'
 C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(954,2): warning C4808: case '4' no es un valor correcto para la condición switch de tipo 'bool'
 C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(967,2): warning C4808: case '5' no es un valor correcto para la condición switch de tipo 'bool'
+C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\EntornVGIView.cpp(1087,30): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\EntornVGIView.cpp(1089,31): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\EntornVGIView.cpp(1091,32): warning C4018: '<': no coinciden signed/unsigned
 C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(983): warning C4715: 'Piece::check_move_colision': no todas las rutas de acceso de control devuelven un valor
   EntornVGI.vcxproj -> C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\Debug\EntornVGI.exe
