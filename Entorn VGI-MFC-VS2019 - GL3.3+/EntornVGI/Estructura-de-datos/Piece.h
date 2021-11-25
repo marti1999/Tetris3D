@@ -59,11 +59,11 @@ public:
 	~Piece();
 
 	// funcions per generar les peces de la forma dessitjada
-	void TForm();
-	void LForm();
-	void CUBEForm();
-	void IForm();
-	void ZForm();
+	void TForm(int x, int y, int z);
+	void LForm(int x, int y, int z);
+	void CUBEForm(int x, int y, int z);
+	void IForm(int x, int y, int z);
+	void ZForm(int x, int y, int z);
 	int getIdVao() { return m_idVao; }
 	mat4 getMatrix() { return m_Matriu; }
 	void onTocarTerra(Board &taula);
@@ -579,19 +579,19 @@ void Piece::ViewMoveLeft()
 
 
 
-void Piece::TForm() {
+void Piece::TForm(int x, int y, int z) {
 	//El primer bloc sera sempre el pivot el pivot.
 	Block BlockFromPiece(0, 0, 0);
-	// BlockFromPiece.setPosition(0, 0, 0);         //Per defecte ja ve a 0,0,0
+	BlockFromPiece.setPosition(x, y, z);         //Per defecte ja ve a 0,0,0
 	m_blocks.push_back(BlockFromPiece);
 
-	BlockFromPiece.setPosition(1, 0, 0);
+	BlockFromPiece.setPosition(x+1, y, z);
 	m_blocks.push_back(BlockFromPiece);
 
-	BlockFromPiece.setPosition(-1, 0, 0);
+	BlockFromPiece.setPosition(x-1, y, z);
 	m_blocks.push_back(BlockFromPiece);
 
-	BlockFromPiece.setPosition(0, -1, 0);
+	BlockFromPiece.setPosition(x, y-1, z);
 	m_blocks.push_back(BlockFromPiece);
 
 	/*
@@ -604,19 +604,19 @@ void Piece::TForm() {
 
 }
 // TODO: peça en forma de L
-void Piece::LForm() {
+void Piece::LForm(int x, int y, int z) {
 	//El primer bloc sera sempre el pivot.
 	Block BlockFromPiece(0,0,0);
-	BlockFromPiece.setPosition(0, 0, 0);
+	BlockFromPiece.setPosition(x, y, z);
 	m_blocks.push_back(BlockFromPiece);
 
-	BlockFromPiece.setPosition(0, -1, 0);
+	BlockFromPiece.setPosition(x, y-1, z);
 	m_blocks.push_back(BlockFromPiece);
 
-	BlockFromPiece.setPosition(0, -2, 0);
+	BlockFromPiece.setPosition(x, y-2, z);
 	m_blocks.push_back(BlockFromPiece);
 
-	BlockFromPiece.setPosition(1, -2, 0);
+	BlockFromPiece.setPosition(x+1, y-2, z);
 	m_blocks.push_back(BlockFromPiece);
 
 	/*
@@ -633,19 +633,19 @@ void Piece::LForm() {
 
 }
 // TODO: peça en forma de CUB
-void Piece::CUBEForm() {
+void Piece::CUBEForm(int x, int y, int z) {
 	//El primer bloc sera sempre el pivot.
 	Block BlockFromPiece(0, 0, 0);
-	//BlockFromPiece.setPosition(0, 0, 0);  //Per defecte ja ve a 0,0,0
+	BlockFromPiece.setPosition(x, y, z);  //Per defecte ja ve a 0,0,0
 	m_blocks.push_back(BlockFromPiece);
 
-	BlockFromPiece.setPosition(-1, 0, 0);
+	BlockFromPiece.setPosition(x-1, y, z);
 	m_blocks.push_back(BlockFromPiece);
 
-	BlockFromPiece.setPosition(-1, -1, 0);
+	BlockFromPiece.setPosition(x-1, y-1, z);
 	m_blocks.push_back(BlockFromPiece);
 
-	BlockFromPiece.setPosition(0, -1, 0);
+	BlockFromPiece.setPosition(x, y-1, z);
 	m_blocks.push_back(BlockFromPiece);
 
 	/*
@@ -661,19 +661,19 @@ void Piece::CUBEForm() {
 
 }
 // TODO: peça en forma de I
-void Piece::IForm() {
+void Piece::IForm(int x, int y, int z) {
 	//El primer bloc sera sempre el pivot.
 	Block BlockFromPiece(0, 0, 0);
-	BlockFromPiece.setPosition(0, 0, 0);
+	BlockFromPiece.setPosition(x, y, z);
 	m_blocks.push_back(BlockFromPiece);
 
-	BlockFromPiece.setPosition(0, -1, 0);
+	BlockFromPiece.setPosition(x, y-1, z);
 	m_blocks.push_back(BlockFromPiece);
 
-	BlockFromPiece.setPosition(0, -2, 0);
+	BlockFromPiece.setPosition(x, y-2, z);
 	m_blocks.push_back(BlockFromPiece);
 
-	BlockFromPiece.setPosition(0, -3, 0);
+	BlockFromPiece.setPosition(x, y-3, z);
 	m_blocks.push_back(BlockFromPiece);
 
 
@@ -688,18 +688,18 @@ void Piece::IForm() {
 	*/
 }
 
-void Piece::ZForm() {
+void Piece::ZForm(int x, int y, int z) {
 	Block BlockFromPiece(0, 0, 0);
-	//BlockFromPiece.setPosition(0, 0, 0);  //Per defecte ja ve a 0,0,0
+	BlockFromPiece.setPosition(x, y, z);  //Per defecte ja ve a 0,0,0
 	m_blocks.push_back(BlockFromPiece);
 
-	BlockFromPiece.setPosition(1, -1, 0);
+	BlockFromPiece.setPosition(x+1, y-1, z);
 	m_blocks.push_back(BlockFromPiece);
 
-	BlockFromPiece.setPosition(0, -1, 0);
+	BlockFromPiece.setPosition(x, y-1, z);
 	m_blocks.push_back(BlockFromPiece);
 
-	BlockFromPiece.setPosition(-1, 0, 0);
+	BlockFromPiece.setPosition(x-1, y, z);
 	m_blocks.push_back(BlockFromPiece);
 
 	/*
@@ -743,19 +743,19 @@ Piece::Piece(int form)
 	switch (form)
 	{
 	case T:
-		TForm();
+		TForm(6,22,6);
 		break;
 	case L:
-		LForm();
+		LForm(6, 22, 6);
 		break;
 	case CUBE:
-		CUBEForm();
+		CUBEForm(6, 22, 6);
 		break;
 	case I:
-		IForm();
+		IForm(6, 22, 6);
 		break;
 	case Z:
-		ZForm();
+		ZForm(6, 22, 6);
 	default:
 		break;
 	}
