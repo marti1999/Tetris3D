@@ -856,76 +856,82 @@ void Piece::rotateDown() {
 	}
 }
 */
+
 bool Piece::moveRight(vector<vector<vector<Block>>>& blocksTaulell) {
 	// per cada bloc de la peça, moure a la dreta (incrementar X)
-	bool moveRight = 1;
+	int moveRight = 1;
 
-	if (check_move_colision(moveRight, blocksTaulell)) {
-		for (int i = 0; i < m_blocks.size(); i++)
-		{
-			m_blocks[i].setX(m_blocks[i].getPosX() + 1);
+	if (colisionsLimitsTaulellCorrecte()) {
+		if (check_move_colision(moveRight, blocksTaulell)) {
+			for (int i = 0; i < m_blocks.size(); i++)
+			{
+				m_blocks[i].setX(m_blocks[i].getPosX() + 1);
+			}
+			return true;
 		}
-		return true;
 	}
-	else
-		return false;
+	return false;
 }
 bool Piece::moveLeft(vector<vector<vector<Block>>>& blocksTaulell) {
 	// per cada bloc de la peça, moure a la esquerra (decrementar X)
-	bool moveLeft = 2;
+	int moveLeft = 2;
 
-	if (check_move_colision(moveLeft, blocksTaulell)) {
-		for (int i = 0; i < m_blocks.size(); i++)
-		{
-			m_blocks[i].setX(m_blocks[i].getPosX() - 1);
+	if (colisionsLimitsTaulellCorrecte()) {
+		if (check_move_colision(moveLeft, blocksTaulell)) {
+			for (int i = 0; i < m_blocks.size(); i++)
+			{
+				m_blocks[i].setX(m_blocks[i].getPosX() - 1);
+			}
+			return true;
 		}
-		return true;
 	}
-	else
-		return false;
+	return false;
 }
 bool Piece::moveUp(vector<vector<vector<Block>>>& blocksTaulell) {
 	// per cada bloc de la peça, moure amunt (incrementar Z)
-	bool moveUp = 3;
+	int moveUp = 3;
 
-	if (check_move_colision(moveUp, blocksTaulell)) {
-		for (int i = 0; i < m_blocks.size(); i++)
-		{
-			m_blocks[i].setZ(m_blocks[i].getPosZ() + 1);
+	if (colisionsLimitsTaulellCorrecte()) {
+		if (check_move_colision(moveUp, blocksTaulell)) {
+			for (int i = 0; i < m_blocks.size(); i++)
+			{
+				m_blocks[i].setZ(m_blocks[i].getPosZ() + 1);
+			}
+			return true;
 		}
-		return true;
 	}
-	else
-		return false;
+	return false;
 }
 bool Piece::moveDown(vector<vector<vector<Block>>>& blocksTaulell) {
 	// per cada bloc de la peça, moure avall (decrementar Z)
-	bool moveDown = 4;
+	int moveDown = 4;
 	
-	if (check_move_colision(moveDown, blocksTaulell)) {
-		for (int i = 0; i < m_blocks.size(); i++)
-		{
-			m_blocks[i].setZ(m_blocks[i].getPosZ() - 1);
+	if (colisionsLimitsTaulellCorrecte()) {
+		if (check_move_colision(moveDown, blocksTaulell)) {
+			for (int i = 0; i < m_blocks.size(); i++)
+			{
+				m_blocks[i].setZ(m_blocks[i].getPosZ() - 1);
+			}
+			return true;
 		}
-		return true;
 	}
-	else
-		return false;
+	return false;
 }
 
 bool Piece::cauPeca(vector<vector<vector<Block>>>& blocksTaulell) {
 	// per cada bloc de la peça, cau (decrementar Y)
-	bool cauPeca = 5;
+	int cauPeca = 5;
 
-	if (check_move_colision(cauPeca, blocksTaulell)) {
-		for (int i = 0; i < m_blocks.size(); i++)
-		{
-			m_blocks[i].setY(m_blocks[i].getPosY() - 1);
+	if (colisionsLimitsTaulellCorrecte()) {
+		if (check_move_colision(cauPeca, blocksTaulell)) {
+			for (int i = 0; i < m_blocks.size(); i++)
+			{
+				m_blocks[i].setY(m_blocks[i].getPosY() - 1);
+			}
+			return true;
 		}
-		return true;
 	}
-	else
-		return false;
+	return false;
 }
 
 void Piece::ViewcauPeca()
