@@ -1083,33 +1083,32 @@ void CEntornVGIView::dibuixa_Escena2()
 	
 	objecte = PROPI;
 
-	/*
+	
 	glm::mat4 posite(1.0);
 	glm::mat4 sendposite(1.0);
 	int boardI = 0, boardJ = 0, boardK = 0;
 	for (int boardI = 0; boardI < m_board.m_blocks.size(); boardI++)
 	{
-		for (int boardJ = 0; boardJ < m_board.m_blocks[boardI].size(); boardJ++)
+		for (int boardJ = 0; boardJ < m_board.m_blocks[boardI].size()-8; boardJ++) // TREURE EL -6
 		{
 			for (int boardK = 0; boardK < m_board.m_blocks[boardI][boardJ].size(); boardK++)
 			{
-				int randColor = rand() % 7;
+				//int randColor = rand() % 7;
 				int randC = rand() % 10;
-				sendposite = translate(posite, vec3(boardI * 2, boardJ * 2, boardK * 2));
-				if (randC < 1)
-				{
+				sendposite = translate(posite, vec3(boardI * 2+1, boardJ * 2+1, boardK * 2+1));
+				if (randC <1)
 				dibuixa_EscenaGL(shader_programID, eixos, eixos_Id, grid, hgrid, objecte, col_obj, sw_material,
 					textura, texturesID, textura_map, tFlag_invert_Y,
 					npts_T, PC_t, pas_CS, sw_Punts_Control, dibuixa_TriedreFrenet,
-					FIT_3DS, vaoBlocks[randColor].getIdVao(), // VAO's i nombre de vèrtexs dels objectes 3DS i OBJ
+					FIT_3DS, vaoBlocks[boardI%7].getIdVao(), // VAO's i nombre de vèrtexs dels objectes 3DS i OBJ
 					ViewMatrix,
 					sendposite);
-				}
+
 			}
 		}
 	}
 	
-	
+	/*
 	dibuixa_EscenaGL(shader_programID, eixos, eixos_Id, grid, hgrid, objecte, col_obj, sw_material,
 		textura, texturesID, textura_map, tFlag_invert_Y,
 		npts_T, PC_t, pas_CS, sw_Punts_Control, dibuixa_TriedreFrenet,
