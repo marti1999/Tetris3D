@@ -939,7 +939,7 @@ void Piece::ViewcauPeca()
 	m_Matriu = glm::translate(m_Matriu, glm::vec3(0.0f, -2, 0.0f));
 }
 
-bool Piece::check_move_colision(bool moviment, vector<vector<vector<Block>>>& blocksTaulell)
+bool Piece::check_move_colision(int moviment, vector<vector<vector<Block>>>& blocksTaulell)
 {
 	//Donem al auxiliar els valors exactes de la peça que volem comprovar
 
