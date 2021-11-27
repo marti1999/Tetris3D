@@ -51,7 +51,7 @@ private:
 	// colisions
 	bool colisionsLimitsTaulellCorrecte();
 	bool colisionsBlocsTaulellCorrecte(vector<vector<vector<Block>>>& blocksTaulell);
-	bool check_move_colision(bool a, vector<vector<vector<Block>>>& blocksTaulell);
+	bool check_move_colision(int a, vector<vector<vector<Block>>>& blocksTaulell);
 
 public:
 	Piece() {};
@@ -70,7 +70,7 @@ public:
 	void setX(int x) { m_x = x; }
 	void sety(int y) { m_x = y; }
 	void setz(int z) { m_x = z; }
-	void posIni() { m_Matriu = glm::translate(m_Matriu, glm::vec3(5, 21, 5)); }
+	void posIni();
 
 	// rotacions
 	bool rotateRightOverY(vector<vector<vector<Block>>>& blocksTaulell);
@@ -125,6 +125,14 @@ bool Piece::colisionsBlocsTaulellCorrecte(vector<vector<vector<Block>>>& blocksT
 	return true;
 }
 
+
+inline void Piece::posIni()
+{
+	glm::mat4 mat(1.0);
+	//m_Matriu = glm::mat4(1.0);
+	mat = glm::translate(mat, glm::vec3(3, 15, 5));
+	m_Matriu = mat;
+}
 
 bool Piece::rotateRightOverY(vector<vector<vector<Block>>>& blocksTaulell) {
 	if (m_form == T)
@@ -725,13 +733,6 @@ void Piece::onTocarTerra(Board & taula)
 }
 
 
-
-
-
-
-
-
-
 Piece::Piece(int form)
 {
 	m_form = form;
@@ -939,7 +940,7 @@ void Piece::ViewcauPeca()
 	m_Matriu = glm::translate(m_Matriu, glm::vec3(0.0f, -2, 0.0f));
 }
 
-bool Piece::check_move_colision(bool moviment, vector<vector<vector<Block>>>& blocksTaulell)
+bool Piece::check_move_colision(int moviment, vector<vector<vector<Block>>>& blocksTaulell)
 {
 	//Donem al auxiliar els valors exactes de la peça que volem comprovar
 

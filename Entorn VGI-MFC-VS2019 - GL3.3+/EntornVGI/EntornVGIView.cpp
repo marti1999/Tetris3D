@@ -45,6 +45,7 @@
 Piece pieces[7];
 Block vaoBlocks[7];
 Board m_board;
+int numPiece;
 /////////////////////////////////////////////////////////////////////////////
 // CEntornVGIView
 
@@ -1013,6 +1014,7 @@ void CEntornVGIView::OnPaint()
 		projeccio = PERSPECT;
 		OnIluminacioGouraud();
 		OnVistaSkyBox();
+		mainTetris();
 
 
 // Crida a la funció Fons Blanc
@@ -1084,7 +1086,7 @@ void CEntornVGIView::dibuixa_Escena2()
 	objecte = PROPI;
 
 	
-	glm::mat4 posite(1.0);
+	/*glm::mat4 posite(1.0);
 	glm::mat4 sendposite(1.0);
 	int boardI = 0, boardJ = 0, boardK = 0;
 	for (int boardI = 0; boardI < m_board.m_blocks.size(); boardI++)
@@ -1107,7 +1109,7 @@ void CEntornVGIView::dibuixa_Escena2()
 
 			}
 		}
-	}
+	}*/
 	
 	/*
 	dibuixa_EscenaGL(shader_programID, eixos, eixos_Id, grid, hgrid, objecte, col_obj, sw_material,
@@ -1131,8 +1133,8 @@ void CEntornVGIView::dibuixa_Escena2()
 	dibuixa_EscenaGL(shader_programID, eixos, eixos_Id, grid, hgrid, objecte, col_obj, sw_material,
 		textura, texturesID, textura_map, tFlag_invert_Y,
 		npts_T, PC_t, pas_CS, sw_Punts_Control, dibuixa_TriedreFrenet,
-		FIT_3DS, pieces[2].getIdVao(), // VAO's i nombre de vèrtexs dels objectes 3DS i OBJ
-		ViewMatrix, pieces[2].getMatrix());
+		FIT_3DS, pieces[numPiece].getIdVao(), // VAO's i nombre de vèrtexs dels objectes 3DS i OBJ
+		ViewMatrix, pieces[numPiece].getMatrix());
 	
 	
 	
@@ -1719,39 +1721,39 @@ void CEntornVGIView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 						}
 	if ((nChar == 'W') || (nChar == 'w')) {
 		//pieces[2].moveUp(m_board.m_blocks);
-		if (pieces[2].moveLeft(m_board.m_blocks)) {
-			pieces[2].ViewMoveUp();
+		if (pieces[numPiece].moveUp(m_board.m_blocks)) {
+			pieces[numPiece].ViewMoveUp();
 		}
 		
 	}
 	if ((nChar == 'S') || (nChar == 's')) {
 		//pieces[2].moveDown();
-		if (pieces[2].moveLeft(m_board.m_blocks)) {
-			pieces[2].ViewMoveDown();
+		if (pieces[numPiece].moveLeft(m_board.m_blocks)) {
+			pieces[numPiece].ViewMoveDown();
 		}
 		
 	}
 	if ((nChar == 'A') || (nChar == 'a')) {
 		//pieces[2].moveRight();
-		if (pieces[2].moveLeft(m_board.m_blocks)) {
-			pieces[2].ViewMoveLeft();
+		if (pieces[numPiece].moveLeft(m_board.m_blocks)) {
+			pieces[numPiece].ViewMoveLeft();
 		}
 		
 	}
 	if ((nChar == 'D') || (nChar == 'd')) {
 		//pieces[2].moveLeft();
-		if (pieces[2].moveLeft(m_board.m_blocks)) {
-			pieces[2].ViewMoveLeft();
+		if (pieces[numPiece].moveRight(m_board.m_blocks)) {
+			pieces[numPiece].ViewMoveRight();
 		}
 	}
 	if ((nChar == 'Q') || (nChar == 'q')) {
-		if (pieces[2].rotateLeftOverY(m_board.m_blocks)) {
-			pieces[2].ViewRotateLeftOverY();
+		if (pieces[numPiece].rotateLeftOverY(m_board.m_blocks)) {
+			pieces[numPiece].ViewRotateLeftOverY();
 		}
 	}
 	if ((nChar == 'E') || (nChar == 'e')) {
-		if (pieces[2].rotateRightOverY(m_board.m_blocks)) {
-			pieces[2].ViewRotateRightOverY();
+		if (pieces[numPiece].rotateRightOverY(m_board.m_blocks)) {
+			pieces[numPiece].ViewRotateRightOverY();
 		}
 	}
 // Crida a OnPaint() per redibuixar l'escena
@@ -2860,7 +2862,15 @@ void CEntornVGIView::OnTimer(UINT_PTR nIDEvent)
 		InvalidateRect(NULL, false);
 		}
 	if (tetris) {
-		pieces[2].ViewcauPeca();
+		if (pieces[numPiece].cauPeca(m_board.m_blocks)) {
+			pieces[numPiece].ViewcauPeca();
+		}
+		else {
+			numPiece = rand() % (sizeof(pieces) / sizeof(pieces[0]));
+			pieces[numPiece].posIni();
+		}
+		
+		InvalidateRect(NULL, false);
 	}
 
 	CView::OnTimer(nIDEvent);
@@ -5208,4 +5218,15 @@ void CEntornVGIView::OnObjecteTetris()
 // Crida a OnPaint() per redibuixar l'escena
 	InvalidateRect(NULL, false);
 	
+}
+void CEntornVGIView::mainTetris() {
+	OnObjecteTetris();
+	tetris = true;
+	srand(time(nullptr));
+
+	int tamanyPe = sizeof(pieces)/sizeof(pieces[0]);
+	pieces[numPiece].posIni();
+	if (tetris) {
+		SetTimer(WM_TIMER, 1000, NULL);
+	}
 }
