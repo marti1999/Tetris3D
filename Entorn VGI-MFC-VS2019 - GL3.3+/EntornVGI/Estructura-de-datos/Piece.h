@@ -713,8 +713,8 @@ void Piece::ZForm(int x, int y, int z) {
 	/*
 
 	0   0   0
-	3   1   0
-	0   3   2
+	2   1   0
+	0   3   4
 
 	*/
 
