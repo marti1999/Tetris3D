@@ -574,7 +574,7 @@ void Piece::rotateZLeftOverY() {
 
 void Piece::ViewRotateRightOverY()
 {
-	m_Matriu = glm::rotate(m_Matriu, radians(90.f), vec3(0.0f, 1.0f, 0.0f));
+	m_Matriu = glm::rotate(m_Matriu, radians(90.f), vec3(0.0f, -1.0f, 0.0f));
 }
 
 void Piece::ViewRotateLeftOverY()
