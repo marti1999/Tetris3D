@@ -838,30 +838,39 @@ bool Piece::moveDown(vector<vector<vector<Block>>>& blocksTaulell) {
 }
 
 bool Piece::cauPeca(vector<vector<vector<Block>>>& blocksTaulell) {
-	// per cada bloc de la peça, cau (decrementar Y)
-	int cauPeca = 5;
 
 
 
 
 	if (colisionsLimitsTaulellCorrecte()) {
 
+		
+
 		for (int i = 0; i < m_blocks.size(); i++)
 		{
+			// comprovació amb blocs ja colocats
 			if (blocksTaulell[m_blocks[i].getPosX()][m_blocks[i].getPosY()][m_blocks[i].getPosZ()].m_lliure == false)
+			{
+				return false;
+			}
+
+			// comprovació amb fi del taulell
+			if (m_blocks[i].getPosY() <=MINY)
 			{
 				return false;
 			}
 		}
 
+		// si arribem fins aquí significa que és un moviment vàlid, guardem les noves posicions
 		for (int i = 0; i < m_blocks.size(); i++)
 		{
 			m_blocks[i].setY(m_blocks[i].getPosY() - 1);
 			
 		}
+		return true;
 		
 	}
-	return true;
+	return false;
 }
 
 void Piece::ViewcauPeca()
