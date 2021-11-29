@@ -1,17 +1,1 @@
-﻿  EntornVGIView.cpp
-C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(103,20): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(867,22): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(882,22): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(897,22): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(912,22): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(928,22): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(951,21): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(964,21): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(977,21): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(990,21): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(1003,21): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\EntornVGIView.cpp(1092,30): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\EntornVGIView.cpp(1094,31): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\EntornVGIView.cpp(1096,32): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(1017): warning C4715: 'Piece::check_move_colision': no todas las rutas de acceso de control devuelven un valor
-  EntornVGI.vcxproj -> C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\Debug\EntornVGI.exe
+﻿  EntornVGI.vcxproj -> C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\Debug\EntornVGI.exe

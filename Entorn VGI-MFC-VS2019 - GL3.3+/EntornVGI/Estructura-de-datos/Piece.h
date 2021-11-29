@@ -46,7 +46,7 @@ private:
 	void rotateILeftOverY();
 	void rotateZRightOverY();
 	void rotateZLeftOverY();
-	
+
 
 	// colisions
 	bool colisionsLimitsTaulellCorrecte();
@@ -66,7 +66,7 @@ public:
 	void ZForm(int x, int y, int z);
 	int getIdVao() { return m_idVao; }
 	mat4 getMatrix() { return m_Matriu; }
-	void onTocarTerra(Board &taula);
+	void onTocarTerra(Board& taula);
 	void setX(int x) { m_x = x; }
 	void sety(int y) { m_x = y; }
 	void setz(int z) { m_x = z; }
@@ -102,7 +102,7 @@ public:
 void Piece::printPunts() {
 	for (int i = 0; i < m_blocks.size(); i++)
 	{
-		cout << "block: " << i << "--> ("<< m_blocks[i].getPosX() << "; " << m_blocks[i].getPosY() << "; " << m_blocks[i].getPosZ() << ") \n";
+		cout << "block: " << i << "--> (" << m_blocks[i].getPosX() << "; " << m_blocks[i].getPosY() << "; " << m_blocks[i].getPosZ() << ") \n";
 
 	}
 }
@@ -130,7 +130,7 @@ inline void Piece::posIni()
 {
 	glm::mat4 mat(1.0);
 	//m_Matriu = glm::mat4(1.0);
-	mat = glm::translate(mat, glm::vec3(3, 15, 5));
+	mat = glm::translate(mat, glm::vec3(5, 19, 5));
 	m_Matriu = mat;
 }
 
@@ -158,12 +158,10 @@ bool Piece::rotateRightOverY(vector<vector<vector<Block>>>& blocksTaulell) {
 		if (colisionsBlocsTaulellCorrecte(blocksTaulell)) {
 			return true;
 		}
-		return false;
 	}
-	else {
-		rotateLeftOverY(blocksTaulell);	
-		return false;
-	}
+
+	rotateLeftOverY(blocksTaulell);
+	return false;
 
 
 }
@@ -194,12 +192,9 @@ bool Piece::rotateLeftOverY(vector<vector<vector<Block>>>& blocksTaulell) {
 		if (colisionsBlocsTaulellCorrecte(blocksTaulell)) {
 			return true;
 		}
-		return false;
 	}
-	else {
-		rotateLeftOverY(blocksTaulell);
-		return false;
-	}
+	rotateLeftOverY(blocksTaulell);
+	return false;
 }
 
 void Piece::rotateTLeftOverY() {
@@ -593,13 +588,13 @@ void Piece::TForm(int x, int y, int z) {
 	BlockFromPiece.setPosition(x, y, z);         //Per defecte ja ve a 0,0,0
 	m_blocks.push_back(BlockFromPiece);
 
-	BlockFromPiece.setPosition(x+1, y, z);
+	BlockFromPiece.setPosition(x + 1, y, z);
 	m_blocks.push_back(BlockFromPiece);
 
-	BlockFromPiece.setPosition(x-1, y, z);
+	BlockFromPiece.setPosition(x - 1, y, z);
 	m_blocks.push_back(BlockFromPiece);
 
-	BlockFromPiece.setPosition(x, y-1, z);
+	BlockFromPiece.setPosition(x, y - 1, z);
 	m_blocks.push_back(BlockFromPiece);
 
 	/*
@@ -611,20 +606,19 @@ void Piece::TForm(int x, int y, int z) {
 	*/
 
 }
-// TODO: peça en forma de L
 void Piece::LForm(int x, int y, int z) {
 	//El primer bloc sera sempre el pivot.
-	Block BlockFromPiece(0,0,0);
+	Block BlockFromPiece(0, 0, 0);
 	BlockFromPiece.setPosition(x, y, z);
 	m_blocks.push_back(BlockFromPiece);
 
-	BlockFromPiece.setPosition(x, y-1, z);
+	BlockFromPiece.setPosition(x, y - 1, z);
 	m_blocks.push_back(BlockFromPiece);
 
-	BlockFromPiece.setPosition(x, y-2, z);
+	BlockFromPiece.setPosition(x, y - 2, z);
 	m_blocks.push_back(BlockFromPiece);
 
-	BlockFromPiece.setPosition(x+1, y-2, z);
+	BlockFromPiece.setPosition(x + 1, y - 2, z);
 	m_blocks.push_back(BlockFromPiece);
 
 	/*
@@ -640,20 +634,19 @@ void Piece::LForm(int x, int y, int z) {
 
 
 }
-// TODO: peça en forma de CUB
 void Piece::CUBEForm(int x, int y, int z) {
 	//El primer bloc sera sempre el pivot.
 	Block BlockFromPiece(0, 0, 0);
 	BlockFromPiece.setPosition(x, y, z);  //Per defecte ja ve a 0,0,0
 	m_blocks.push_back(BlockFromPiece);
 
-	BlockFromPiece.setPosition(x-1, y, z);
+	BlockFromPiece.setPosition(x - 1, y, z);
 	m_blocks.push_back(BlockFromPiece);
 
-	BlockFromPiece.setPosition(x-1, y-1, z);
+	BlockFromPiece.setPosition(x - 1, y - 1, z);
 	m_blocks.push_back(BlockFromPiece);
 
-	BlockFromPiece.setPosition(x, y-1, z);
+	BlockFromPiece.setPosition(x, y - 1, z);
 	m_blocks.push_back(BlockFromPiece);
 
 	/*
@@ -668,20 +661,19 @@ void Piece::CUBEForm(int x, int y, int z) {
 
 
 }
-// TODO: peça en forma de I
 void Piece::IForm(int x, int y, int z) {
 	//El primer bloc sera sempre el pivot.
 	Block BlockFromPiece(0, 0, 0);
 	BlockFromPiece.setPosition(x, y, z);
 	m_blocks.push_back(BlockFromPiece);
 
-	BlockFromPiece.setPosition(x, y-1, z);
+	BlockFromPiece.setPosition(x, y - 1, z);
 	m_blocks.push_back(BlockFromPiece);
 
-	BlockFromPiece.setPosition(x, y-2, z);
+	BlockFromPiece.setPosition(x, y - 2, z);
 	m_blocks.push_back(BlockFromPiece);
 
-	BlockFromPiece.setPosition(x, y-3, z);
+	BlockFromPiece.setPosition(x, y - 3, z);
 	m_blocks.push_back(BlockFromPiece);
 
 
@@ -701,13 +693,13 @@ void Piece::ZForm(int x, int y, int z) {
 	BlockFromPiece.setPosition(x, y, z);  //Per defecte ja ve a 0,0,0
 	m_blocks.push_back(BlockFromPiece);
 
-	BlockFromPiece.setPosition(x+1, y-1, z);
+	BlockFromPiece.setPosition(x + 1, y - 1, z);
 	m_blocks.push_back(BlockFromPiece);
 
-	BlockFromPiece.setPosition(x, y-1, z);
+	BlockFromPiece.setPosition(x, y - 1, z);
 	m_blocks.push_back(BlockFromPiece);
 
-	BlockFromPiece.setPosition(x-1, y, z);
+	BlockFromPiece.setPosition(x - 1, y, z);
 	m_blocks.push_back(BlockFromPiece);
 
 	/*
@@ -721,7 +713,7 @@ void Piece::ZForm(int x, int y, int z) {
 
 }
 
-void Piece::onTocarTerra(Board & taula)
+void Piece::onTocarTerra(Board& taula)
 {
 	int x = 0, y = 0, z = 0;
 	for (Block b : m_blocks)
@@ -739,124 +731,29 @@ Piece::Piece(int form)
 	m_rotacioY = Y0;
 	m_idVao = form;
 	m_Matriu = glm::mat4(1.0);
-	
+
 	// creem 4 blocs per cada llista de blocs
 	switch (form)
 	{
 	case I:
-		TForm(6,22,6);
+		TForm(2, 9, 2);
 		break;
 	case CUBE:
-		LForm(6, 22, 6);
+		LForm(2, 9, 2);
 		break;
 	case L:
-		CUBEForm(6, 22, 6);
+		CUBEForm(2, 9, 2);
 		break;
 	case T:
-		IForm(6, 22, 6);
+		IForm(2, 9, 2);
 		break;
 	case Z:
-		ZForm(6, 22, 6);
+		ZForm(2, 9, 2);
 	default:
 		break;
 	}
 }
 
-/*
-void Piece::rotateRight() {
-	// TODO: establir la columna centra de la peça com a eix de traslació
-	// TODO: traslladar els blocs cap a la dreta en funció de l'eix Y
-
-	list<Block> blocs_a_rotar; //identificar els blocs a rotar
-	list<Block>::iterator it = blocs_a_rotar.begin();
-
-	for (it; it != blocs_a_rotar.end(); it++) {
-
-		if (it->getPosX() == 0) {
-			if (it->getPosZ() == 1)
-				it->setPosition(-1, it->getPosY(), 0);
-			else
-				it->setPosition(1, it->getPosY(), 0);
-		}
-		else {
-			if (it->getPosX() == 1)
-				it->setPosition(0, it->getPosY(), 1);
-			else
-				it->setPosition(0, it->getPosY(), -1);
-		}
-	}
-
-}
-void Piece::rotateLeft() {
-	// TODO: establir la columna centra de la peça com a eix de traslació
-	// TODO: traslladar els blocs cap a l'esquerra en funció de l'eix Y
-
-	list<Block> blocs_a_rotar; //identificar els blocs a rotar
-	list<Block>::iterator it = blocs_a_rotar.begin();
-
-	for (it; it != blocs_a_rotar.end(); it++) {
-
-		if (it->getPosX() == 0) {
-			if (it->getPosZ() == 1)
-				it->setPosition(1, it->getPosY(), 0);
-			else
-				it->setPosition(-1, it->getPosY(), 0);
-		}
-		else {
-			if (it->getPosX() == 1)
-				it->setPosition(0, it->getPosY(), -1);
-			else
-				it->setPosition(0, it->getPosY(), 1);
-		}
-	}
-}
-void Piece::rotateUp() {
-	// TODO: establir la columna centra de la peça com a eix de traslació
-	// TODO: traslladar els blocs cap a la dreta en funció de l'eix Y
-
-	list<Block> blocs_a_rotar; //identificar els blocs a rotar
-	list<Block>::iterator it = blocs_a_rotar.begin();
-
-	for (it; it != blocs_a_rotar.end(); it++) {
-
-		if (it->getPosY() == 0) {
-			if (it->getPosZ() == 1)
-				it->setPosition(it->getPosX(), -1, 0);
-			else
-				it->setPosition(it->getPosX(), 1, 0);
-		}
-		else {
-			if (it->getPosX() == 1)
-				it->setPosition(it->getPosX(), 0, 1);
-			else
-				it->setPosition(it->getPosX(), 0, -1);
-		}
-	}
-}
-void Piece::rotateDown() {
-	// TODO: establir la columna centra de la peça com a eix de traslació
-	// TODO: traslladar els blocs cap amunt en funció de l'eix X
-
-	list<Block> blocs_a_rotar; //identificar els blocs a rotar
-	list<Block>::iterator it = blocs_a_rotar.begin();
-
-	for (it; it != blocs_a_rotar.end(); it++) {
-
-		if (it->getPosY() == 0) {
-			if (it->getPosZ() == 1)
-				it->setPosition(it->getPosX(), 1, 0);
-			else
-				it->setPosition(it->getPosX(), -1, 0);
-		}
-		else {
-			if (it->getPosX() == 1)
-				it->setPosition(it->getPosX(), 0, -1);
-			else
-				it->setPosition(it->getPosX(), 0, 1);
-		}
-	}
-}
-*/
 
 bool Piece::moveRight(vector<vector<vector<Block>>>& blocksTaulell) {
 	// per cada bloc de la peça, moure a la dreta (incrementar X)
@@ -906,7 +803,7 @@ bool Piece::moveUp(vector<vector<vector<Block>>>& blocksTaulell) {
 bool Piece::moveDown(vector<vector<vector<Block>>>& blocksTaulell) {
 	// per cada bloc de la peça, moure avall (decrementar Z)
 	int moveDown = 4;
-	
+
 	if (colisionsLimitsTaulellCorrecte()) {
 		if (check_move_colision(moveDown, blocksTaulell)) {
 			for (int i = 0; i < m_blocks.size(); i++)
@@ -923,16 +820,27 @@ bool Piece::cauPeca(vector<vector<vector<Block>>>& blocksTaulell) {
 	// per cada bloc de la peça, cau (decrementar Y)
 	int cauPeca = 5;
 
+
+
+
 	if (colisionsLimitsTaulellCorrecte()) {
-		if (check_move_colision(cauPeca, blocksTaulell)) {
-			for (int i = 0; i < m_blocks.size(); i++)
+
+		for (int i = 0; i < m_blocks.size(); i++)
+		{
+			if (blocksTaulell[m_blocks[i].getPosX()][m_blocks[i].getPosY()][m_blocks[i].getPosZ()].m_lliure == false)
 			{
-				m_blocks[i].setY(m_blocks[i].getPosY() - 1);
+				return false;
 			}
-			return true;
 		}
+
+		for (int i = 0; i < m_blocks.size(); i++)
+		{
+			m_blocks[i].setY(m_blocks[i].getPosY() - 1);
+			
+		}
+		
 	}
-	return false;
+	return true;
 }
 
 void Piece::ViewcauPeca()
