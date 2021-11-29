@@ -132,6 +132,27 @@ inline void Piece::posIni()
 	//m_Matriu = glm::mat4(1.0);
 	mat = glm::translate(mat, glm::vec3(5, 19, 5));
 	m_Matriu = mat;
+
+	m_blocks.clear();
+	switch (m_form)
+	{
+	case I:
+		IForm(2, 9, 2);
+		break;
+	case CUBE:
+		CUBEForm(2, 9, 2);
+		break;
+	case L:
+		LForm(2, 9, 2);
+		break;
+	case T:
+		TForm(2, 9, 2);
+		break;
+	case Z:
+		ZForm(2, 9, 2);
+	default:
+		break;
+	}
 }
 
 bool Piece::rotateRightOverY(vector<vector<vector<Block>>>& blocksTaulell) {
