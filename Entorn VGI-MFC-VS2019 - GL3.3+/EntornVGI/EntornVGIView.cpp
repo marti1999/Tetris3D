@@ -42,8 +42,8 @@
 #endif
 #include "Estructura-de-datos/Piece.h"
 
-Piece pieces[7];
-Block vaoBlocks[7];
+Piece pieces[5];
+Block vaoBlocks[5];
 Board m_board;
 int numPiece;
 /////////////////////////////////////////////////////////////////////////////
@@ -1086,7 +1086,7 @@ void CEntornVGIView::dibuixa_Escena2()
 	objecte = PROPI;
 
 	
-	/*glm::mat4 posite(1.0);
+	glm::mat4 posite(1.0);
 	glm::mat4 sendposite(1.0);
 	int boardI = 0, boardJ = 0, boardK = 0;
 	for (int boardI = 0; boardI < m_board.m_blocks.size(); boardI++)
@@ -1109,7 +1109,7 @@ void CEntornVGIView::dibuixa_Escena2()
 
 			}
 		}
-	}*/
+	}
 	
 	/*
 	dibuixa_EscenaGL(shader_programID, eixos, eixos_Id, grid, hgrid, objecte, col_obj, sw_material,
@@ -5180,37 +5180,33 @@ void CEntornVGIView::OnObjecteTetris()
 		CString(_T("..\\..\\objects\\fig3_color.obj")),
 		CString(_T("..\\..\\objects\\fig4_color.obj")),
 		CString(_T("..\\..\\objects\\fig5_color.obj")),
-		CString(_T("..\\..\\objects\\fig6_color.obj")),
-		CString(_T("..\\..\\objects\\fig7_color.obj")),
 		CString(_T("..\\..\\objects\\fig1_cub_lightblue.obj")),
 		CString(_T("..\\..\\objects\\fig2_cub_yellow.obj")),
 		CString(_T("..\\..\\objects\\fig3_cub_red.obj")),
 		CString(_T("..\\..\\objects\\fig4_cub_purple.obj")),
 		CString(_T("..\\..\\objects\\fig5_cub_green.obj")),
-		CString(_T("..\\..\\objects\\fig6_cub_blue.obj")),
-		CString(_T("..\\..\\objects\\fig7_cub_cyan.obj")),
 		CString(_T("..\\..\\objects\\fig_tauler.obj"))
 	};
-	for (int i = 0; i < 15; i++) {
+	for (int i = 0; i < 11; i++) {
 
 		char* nomfitx = CString2Char(nom[i]);
 		if (ObOBJ == NULL) ObOBJ = new COBJModel;
-		if (idVao[i] != 0) deleteVAOList(T+i);
-		idVao[i] = ObOBJ->LoadModel(nomfitx, T+i);
-		if (i < 7) {
-			Piece piece(T + i);
+		if (idVao[i] != 0) deleteVAOList(I+i);
+		idVao[i] = ObOBJ->LoadModel(nomfitx, I+i);
+		if (i < 5) {
+			Piece piece(I + i);
 			piece.posIni();
 			pieces[i] = piece;
 		}
-		if ((i >= 7)&&(i != 14))
+		if ((i >= 5)&&(i != 10))
 		{
 			Block block(-1, -1, -1);
-			block.setIdVao(T + i);
-			vaoBlocks[i - 7] = block;
+			block.setIdVao(I + i);
+			vaoBlocks[i - 5] = block;
 		}
-		if (i == 14)
+		if (i == 10)
 		{
-			m_board.setIdVao(T + i);
+			m_board.setIdVao(I + i);
 		}
 	}
 	wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);	// Desactivem contexte OpenGL

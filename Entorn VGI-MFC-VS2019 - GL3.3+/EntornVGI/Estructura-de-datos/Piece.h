@@ -4,10 +4,10 @@
 
 #include <iostream>
 // mapejat que defineix una lletra per cada forma
-#define T 33
-#define L 34
-#define CUBE 35
-#define I 36
+#define I 33
+#define CUBE 34
+#define L 35
+#define T 36
 #define Z 37
 #define Y3 3 //rotat sobre Y 270 graus
 #define Y2 2 //rotat sobre Y 180 graus
@@ -135,18 +135,18 @@ inline void Piece::posIni()
 }
 
 bool Piece::rotateRightOverY(vector<vector<vector<Block>>>& blocksTaulell) {
-	if (m_form == T)
+	if (m_form == I)
 	{
 		rotateTRigthOverY();
 	}
-	if (m_form == L) {
+	if (m_form == CUBE) {
 		rotateLRightOverY();
 	}
-	if (m_form == CUBE)
+	if (m_form == L)
 	{
 		rotateCubeRightOverY();
 	}
-	if (m_form == I) {
+	if (m_form == T) {
 		rotateIRightOverY();
 	}
 	if (m_form == Z)
@@ -169,19 +169,19 @@ bool Piece::rotateRightOverY(vector<vector<vector<Block>>>& blocksTaulell) {
 }
 
 bool Piece::rotateLeftOverY(vector<vector<vector<Block>>>& blocksTaulell) {
-	if (m_form == T)
+	if (m_form == I)
 	{
 		rotateTLeftOverY();
 	}
-	if (m_form == L)
+	if (m_form == CUBE)
 	{
 		rotateLLeftOverY();
 	}
-	if (m_form == CUBE)
+	if (m_form == L)
 	{
 		rotateCubeLeftOverY();
 	}
-	if (m_form == I)
+	if (m_form == T)
 	{
 		rotateILeftOverY();
 	}
@@ -743,16 +743,16 @@ Piece::Piece(int form)
 	// creem 4 blocs per cada llista de blocs
 	switch (form)
 	{
-	case T:
+	case I:
 		TForm(6,22,6);
 		break;
-	case L:
+	case CUBE:
 		LForm(6, 22, 6);
 		break;
-	case CUBE:
+	case L:
 		CUBEForm(6, 22, 6);
 		break;
-	case I:
+	case T:
 		IForm(6, 22, 6);
 		break;
 	case Z:
