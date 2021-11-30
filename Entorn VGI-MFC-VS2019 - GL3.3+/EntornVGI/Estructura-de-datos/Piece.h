@@ -919,15 +919,20 @@ bool Piece::cauPeca(vector<vector<vector<Block>>>& blocksTaulell) {
 
 		for (int i = 0; i < m_blocks.size(); i++)
 		{
-			// comprovació amb blocs ja colocats
-			if (blocksTaulell[m_blocks[i].getPosX()][m_blocks[i].getPosY()][m_blocks[i].getPosZ()].m_lliure == false)
+			// comprovació amb fi del taulell
+			if (m_blocks[i].getPosY() <= MINY)
 			{
+				for (Block b : m_blocks) {
+					blocksTaulell[b.getPosX()][b.getPosY()][b.getPosZ()].m_lliure = false;
+				}
 				return false;
 			}
-
-			// comprovació amb fi del taulell
-			if (m_blocks[i].getPosY() <=MINY)
+			// comprovació amb blocs ja colocats
+			if (blocksTaulell[m_blocks[i].getPosX()][m_blocks[i].getPosY() - 1][m_blocks[i].getPosZ()].m_lliure == false)
 			{
+				for (Block b : m_blocks) {
+					blocksTaulell[b.getPosX()][b.getPosY()][b.getPosZ()].m_lliure = false;
+				}
 				return false;
 			}
 		}
