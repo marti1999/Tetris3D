@@ -218,7 +218,7 @@ bool Piece::moveLeft(vector<vector<vector<Block>>>& blocksTaulell) {
 
 }
 
-bool Piece::moveUp(vector<vector<vector<Block>>>& blocksTaulell) {
+bool Piece::moveDown(vector<vector<vector<Block>>>& blocksTaulell) {
 	for (int i = 0; i < m_blocks.size(); i++)
 	{
 		m_blocks[i].setZ(m_blocks[i].getPosZ() + 1);
@@ -230,24 +230,24 @@ bool Piece::moveUp(vector<vector<vector<Block>>>& blocksTaulell) {
 		}
 	}
 
-	moveDown(blocksTaulell);
+	moveUp(blocksTaulell);
 	return false;
 
 }
 
-bool Piece::moveDown(vector<vector<vector<Block>>>& blocksTaulell) {
+bool Piece::moveUp(vector<vector<vector<Block>>>& blocksTaulell) {
 	for (int i = 0; i < m_blocks.size(); i++)
 	{
 		m_blocks[i].setZ(m_blocks[i].getPosZ() - 1);
 	}
-
+	
 	if (colisionsLimitsTaulellCorrecte()) {
 		if (colisionsBlocsTaulellCorrecte(blocksTaulell)) {
 			return true;
 		}
 	}
 
-	moveUp(blocksTaulell);
+	moveDown(blocksTaulell);
 	return false;
 
 }
