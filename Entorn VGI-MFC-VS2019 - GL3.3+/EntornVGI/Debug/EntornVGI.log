@@ -1,18 +1,20 @@
 ﻿  EntornVGIView.cpp
-C:\Users\ricar.LAPTOP-D6I7L1KP\source\repos\Visualitzacio grafica\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(99,20): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\ricar.LAPTOP-D6I7L1KP\source\repos\Visualitzacio grafica\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(187,20): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\ricar.LAPTOP-D6I7L1KP\source\repos\Visualitzacio grafica\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(205,20): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\ricar.LAPTOP-D6I7L1KP\source\repos\Visualitzacio grafica\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(222,20): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\ricar.LAPTOP-D6I7L1KP\source\repos\Visualitzacio grafica\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(239,20): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\ricar.LAPTOP-D6I7L1KP\source\repos\Visualitzacio grafica\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(918,21): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\ricar.LAPTOP-D6I7L1KP\source\repos\Visualitzacio grafica\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(934,21): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\ricar.LAPTOP-D6I7L1KP\source\repos\Visualitzacio grafica\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(958,21): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\ricar.LAPTOP-D6I7L1KP\source\repos\Visualitzacio grafica\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(971,21): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\ricar.LAPTOP-D6I7L1KP\source\repos\Visualitzacio grafica\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(984,21): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\ricar.LAPTOP-D6I7L1KP\source\repos\Visualitzacio grafica\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(997,21): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\ricar.LAPTOP-D6I7L1KP\source\repos\Visualitzacio grafica\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(1010,21): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\ricar.LAPTOP-D6I7L1KP\source\repos\Visualitzacio grafica\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\EntornVGIView.cpp(1092,30): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\ricar.LAPTOP-D6I7L1KP\source\repos\Visualitzacio grafica\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\EntornVGIView.cpp(1094,31): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\ricar.LAPTOP-D6I7L1KP\source\repos\Visualitzacio grafica\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\EntornVGIView.cpp(1096,32): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\ricar.LAPTOP-D6I7L1KP\source\repos\Visualitzacio grafica\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(1024): warning C4715: 'Piece::check_move_colision': no todas las rutas de acceso de control devuelven un valor
-  EntornVGI.vcxproj -> C:\Users\ricar.LAPTOP-D6I7L1KP\source\repos\Visualitzacio grafica\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\Debug\EntornVGI.exe
+C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(99,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(187,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(205,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(222,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(239,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(918,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(934,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(958,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(971,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(984,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(997,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(1010,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\EntornVGIView.cpp(1092,30): warning C4018: '<': signed/unsigned mismatch
+C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\EntornVGIView.cpp(1094,31): warning C4018: '<': signed/unsigned mismatch
+C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\EntornVGIView.cpp(1096,32): warning C4018: '<': signed/unsigned mismatch
+C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(1024): warning C4715: 'Piece::check_move_colision': not all control paths return a value
+  LINK : C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\Debug\EntornVGI.exe not found or not built by the last incremental link; performing full link
+     Creating library C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\Debug\EntornVGI.lib and object C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\Debug\EntornVGI.exp
+  EntornVGI.vcxproj -> C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\Debug\EntornVGI.exe

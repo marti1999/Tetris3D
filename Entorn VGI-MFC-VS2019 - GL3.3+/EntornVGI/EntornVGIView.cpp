@@ -5180,7 +5180,7 @@ std::string CEntornVGIView::CString2String(const CString& cString)
 void CEntornVGIView::OnObjecteTetris()
 {
 	// TODO: Agregue aquí su código de controlador de comandos
-	objecte = OBJOBJ;	textura = false;		tFlag_invert_Y = true; tetris = true; tetrisTimerEnabled = true;
+	objecte = OBJOBJ;	textura = false;		tFlag_invert_Y = true; tetris = true;
 
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
 
