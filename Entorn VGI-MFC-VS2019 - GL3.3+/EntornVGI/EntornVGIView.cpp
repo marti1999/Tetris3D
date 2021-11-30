@@ -1728,7 +1728,7 @@ void CEntornVGIView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	}
 	if ((nChar == 'S') || (nChar == 's')) {
 		//pieces[2].moveDown();
-		if (pieces[numPiece].moveLeft(m_board.m_blocks)) {
+		if (pieces[numPiece].moveDown(m_board.m_blocks)) {
 			pieces[numPiece].ViewMoveDown();
 		}
 		
