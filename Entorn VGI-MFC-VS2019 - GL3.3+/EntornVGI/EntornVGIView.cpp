@@ -1757,7 +1757,14 @@ void CEntornVGIView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		}
 	}
 	if ((nChar == 'P') || (nChar == 'p')) {
-		tetrisTimerEnabled = !tetrisTimerEnabled;
+		if (tetris) {
+			KillTimer(WM_TIMER);
+		}
+		else {
+			SetTimer(WM_TIMER, 1000, NULL);
+		}
+		
+		tetris = !tetris;
 	}
 
 // Crida a OnPaint() per redibuixar l'escena
@@ -2865,7 +2872,7 @@ void CEntornVGIView::OnTimer(UINT_PTR nIDEvent)
 		// Crida a OnPaint() per redibuixar l'escena
 		InvalidateRect(NULL, false);
 		}
-	if (tetris && tetrisTimerEnabled) {
+	if (tetris) {
 		if (pieces[numPiece].cauPeca(m_board.m_blocks)) {
 			pieces[numPiece].ViewcauPeca();
 		}

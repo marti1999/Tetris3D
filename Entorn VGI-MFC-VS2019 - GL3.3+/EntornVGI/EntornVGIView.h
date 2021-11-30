@@ -54,7 +54,6 @@ public:
 	bool zzoomO;	// Opció Zoom en Projecció Ortogràfica adaptant Volum Visualització [0:NO,1:SI]
 	bool satelit;	// Opció de navegació animada al volt de l'objecte centrat definint increment per mouse (SATÈLIT)
 	bool tetris;
-	bool tetrisTimerEnabled;
 
 // Entorn VGI: Variables de control de l'opció Càmera->Navega?
 	GLdouble n[3];			// Punt cap on mira.
