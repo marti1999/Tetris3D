@@ -1,16 +1,17 @@
-﻿  EntornVGIView.cpp
-C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(99,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(187,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(205,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(222,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(239,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(918,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(934,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(958,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(971,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(984,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(997,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(1010,21): warning C4018: '<': signed/unsigned mismatch
+﻿  EntornVGI.cpp
+  EntornVGIView.cpp
+C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(99,20): warning C4018: '<': signed/unsigned mismatch (compiling source file EntornVGIView.cpp)
+C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(187,20): warning C4018: '<': signed/unsigned mismatch (compiling source file EntornVGIView.cpp)
+C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(205,20): warning C4018: '<': signed/unsigned mismatch (compiling source file EntornVGIView.cpp)
+C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(222,20): warning C4018: '<': signed/unsigned mismatch (compiling source file EntornVGIView.cpp)
+C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(239,20): warning C4018: '<': signed/unsigned mismatch (compiling source file EntornVGIView.cpp)
+C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(918,21): warning C4018: '<': signed/unsigned mismatch (compiling source file EntornVGIView.cpp)
+C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(934,21): warning C4018: '<': signed/unsigned mismatch (compiling source file EntornVGIView.cpp)
+C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(958,21): warning C4018: '<': signed/unsigned mismatch (compiling source file EntornVGIView.cpp)
+C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(971,21): warning C4018: '<': signed/unsigned mismatch (compiling source file EntornVGIView.cpp)
+C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(984,21): warning C4018: '<': signed/unsigned mismatch (compiling source file EntornVGIView.cpp)
+C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(997,21): warning C4018: '<': signed/unsigned mismatch (compiling source file EntornVGIView.cpp)
+C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(1010,21): warning C4018: '<': signed/unsigned mismatch (compiling source file EntornVGIView.cpp)
 C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\EntornVGIView.cpp(1092,30): warning C4018: '<': signed/unsigned mismatch
 C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\EntornVGIView.cpp(1094,31): warning C4018: '<': signed/unsigned mismatch
 C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\EntornVGIView.cpp(1096,32): warning C4018: '<': signed/unsigned mismatch

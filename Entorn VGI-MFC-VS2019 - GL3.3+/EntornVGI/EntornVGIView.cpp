@@ -1756,6 +1756,10 @@ void CEntornVGIView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 			pieces[numPiece].ViewRotateRightOverY();
 		}
 	}
+	if ((nChar == 'P') || (nChar == 'p')) {
+		tetrisTimerEnabled = !tetrisTimerEnabled;
+	}
+
 // Crida a OnPaint() per redibuixar l'escena
 	InvalidateRect(NULL, false);
 
@@ -2861,7 +2865,7 @@ void CEntornVGIView::OnTimer(UINT_PTR nIDEvent)
 		// Crida a OnPaint() per redibuixar l'escena
 		InvalidateRect(NULL, false);
 		}
-	if (tetris) {
+	if (tetris && tetrisTimerEnabled) {
 		if (pieces[numPiece].cauPeca(m_board.m_blocks)) {
 			pieces[numPiece].ViewcauPeca();
 		}
@@ -5169,7 +5173,7 @@ std::string CEntornVGIView::CString2String(const CString& cString)
 void CEntornVGIView::OnObjecteTetris()
 {
 	// TODO: Agregue aquí su código de controlador de comandos
-	objecte = OBJOBJ;	textura = false;		tFlag_invert_Y = true; tetris = true;
+	objecte = OBJOBJ;	textura = false;		tFlag_invert_Y = true; tetris = true; tetrisTimerEnabled = true;
 
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
 
