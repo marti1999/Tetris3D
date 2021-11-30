@@ -517,8 +517,8 @@ glm::mat4 Vista_Esferica(GLuint sh_programID,CEsfe3D opv,char VPol,bool pant,CPu
 
 	   //TODO: caldrà modificar el cam[0] per el camerax quan tinguem implementada la funció de les posicions dels blocs
 
-	   glm::vec3(cam[0], 20, cam[2]), // Camera is here
-	   glm::vec3(0, 10, 0), // and looks here
+	   glm::vec3(cam[0], 30, cam[2]), // Camera is here
+	   glm::vec3(5, 10, 5), // and looks here
 	   glm::vec3(up[0], up[1], up[2])  // Head is up (set to 0,-1,0 to look upside-down)
    );
 
