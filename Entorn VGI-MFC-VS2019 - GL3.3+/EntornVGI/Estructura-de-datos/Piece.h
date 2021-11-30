@@ -31,6 +31,7 @@ private:
 	int m_rotacioY;
 	GLuint m_idVao;
 	mat4 m_Matriu;
+	quat m_Quaternio;
 	int m_x;
 	int m_y;
 	int m_z;
@@ -66,6 +67,7 @@ public:
 	void ZForm(int x, int y, int z);
 	int getIdVao() { return m_idVao; }
 	mat4 getMatrix() { return m_Matriu; }
+	quat getQuaternio() { return m_Quaternio; }
 	void onTocarTerra(Board& taula);
 	void setX(int x) { m_x = x; }
 	void sety(int y) { m_x = y; }
@@ -128,6 +130,7 @@ inline void Piece::posIni()
 	//m_Matriu = glm::mat4(1.0);
 	mat = glm::translate(mat, glm::vec3(5, 19, 5));
 	m_Matriu = mat;
+	m_Quaternio = quat(1, 0, 0, 0);
 
 	m_rotacioY = Y0;
 
@@ -641,12 +644,12 @@ void Piece::rotateZLeftOverY() {
 
 void Piece::ViewRotateRightOverY()
 {
-	m_Matriu = glm::rotate(m_Matriu, radians(90.f), vec3(0.0f, -1.0f, 0.0f));
+	m_Quaternio = m_Quaternio * quat(0.7071, 0, -0.7071, 0);
 }
 
 void Piece::ViewRotateLeftOverY()
 {
-	m_Matriu = glm::rotate(m_Matriu, radians(90.f), vec3(0.0f, 1.0f, 0.0f));
+	m_Quaternio = m_Quaternio * quat(0.7071, 0, 0.7071, 0);
 }
 
 void Piece::ViewMoveUp()
@@ -819,6 +822,7 @@ Piece::Piece(int form)
 	m_rotacioY = Y0;
 	m_idVao = form;
 	m_Matriu = glm::mat4(1.0);
+	m_Quaternio = quat(1, 0, 0, 0);
 
 	// creem 4 blocs per cada llista de blocs
 	switch (form)

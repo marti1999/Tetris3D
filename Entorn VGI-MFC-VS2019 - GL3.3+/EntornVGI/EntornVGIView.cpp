@@ -1129,12 +1129,12 @@ void CEntornVGIView::dibuixa_Escena2()
 		FIT_3DS, m_board.getIdVao(), // VAO's i nombre de vèrtexs dels objectes 3DS i OBJ
 		ViewMatrix,
 		m_board.getMatrix());
-	
+	glm::mat4 rotM = toMat4(pieces[numPiece].getQuaternio());
 	dibuixa_EscenaGL(shader_programID, eixos, eixos_Id, grid, hgrid, objecte, col_obj, sw_material,
 		textura, texturesID, textura_map, tFlag_invert_Y,
 		npts_T, PC_t, pas_CS, sw_Punts_Control, dibuixa_TriedreFrenet,
 		FIT_3DS, pieces[numPiece].getIdVao(), // VAO's i nombre de vèrtexs dels objectes 3DS i OBJ
-		ViewMatrix, pieces[numPiece].getMatrix());
+		ViewMatrix, pieces[numPiece].getMatrix()*rotM);
 	
 	
 	
