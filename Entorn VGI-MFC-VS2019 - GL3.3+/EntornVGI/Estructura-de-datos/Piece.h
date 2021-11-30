@@ -78,10 +78,6 @@ public:
 	void ViewRotateRightOverY();
 	void ViewRotateLeftOverY();
 
-	//void rotateRight();
-	//void rotateLeft();
-	//void rotateUp();
-	//void rotateDown();
 
 
 	// moviments
@@ -184,6 +180,75 @@ bool Piece::rotateRightOverY(vector<vector<vector<Block>>>& blocksTaulell) {
 	rotateLeftOverY(blocksTaulell);
 	return false;
 
+
+}
+
+bool Piece::moveRight(vector<vector<vector<Block>>>& blocksTaulell) {
+	for (int i = 0; i < m_blocks.size(); i++)
+	{
+		m_blocks[i].setX(m_blocks[i].getPosX() + 1);
+	}
+
+	if (colisionsLimitsTaulellCorrecte()) {
+		if (colisionsBlocsTaulellCorrecte(blocksTaulell)) {
+			return true;
+		}
+	}
+
+	moveLeft(blocksTaulell);
+	return false;
+	
+
+}
+
+bool Piece::moveLeft(vector<vector<vector<Block>>>& blocksTaulell) {
+	for (int i = 0; i < m_blocks.size(); i++)
+	{
+		m_blocks[i].setX(m_blocks[i].getPosX() - 1);
+	}
+
+	if (colisionsLimitsTaulellCorrecte()) {
+		if (colisionsBlocsTaulellCorrecte(blocksTaulell)) {
+			return true;
+		}
+	}
+
+	moveRight(blocksTaulell);
+	return false;
+
+}
+
+bool Piece::moveUp(vector<vector<vector<Block>>>& blocksTaulell) {
+	for (int i = 0; i < m_blocks.size(); i++)
+	{
+		m_blocks[i].setZ(m_blocks[i].getPosZ() + 1);
+	}
+
+	if (colisionsLimitsTaulellCorrecte()) {
+		if (colisionsBlocsTaulellCorrecte(blocksTaulell)) {
+			return true;
+		}
+	}
+
+	moveDown(blocksTaulell);
+	return false;
+
+}
+
+bool Piece::moveDown(vector<vector<vector<Block>>>& blocksTaulell) {
+	for (int i = 0; i < m_blocks.size(); i++)
+	{
+		m_blocks[i].setZ(m_blocks[i].getPosZ() - 1);
+	}
+
+	if (colisionsLimitsTaulellCorrecte()) {
+		if (colisionsBlocsTaulellCorrecte(blocksTaulell)) {
+			return true;
+		}
+	}
+
+	moveUp(blocksTaulell);
+	return false;
 
 }
 
@@ -776,6 +841,9 @@ Piece::Piece(int form)
 }
 
 
+
+
+/*
 bool Piece::moveRight(vector<vector<vector<Block>>>& blocksTaulell) {
 	// per cada bloc de la peça, moure a la dreta (incrementar X)
 	int moveRight = 1;
@@ -836,6 +904,7 @@ bool Piece::moveDown(vector<vector<vector<Block>>>& blocksTaulell) {
 	}
 	return false;
 }
+*/
 
 bool Piece::cauPeca(vector<vector<vector<Block>>>& blocksTaulell) {
 
