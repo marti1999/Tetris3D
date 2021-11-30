@@ -154,18 +154,18 @@ inline void Piece::posIni()
 }
 
 bool Piece::rotateRightOverY(vector<vector<vector<Block>>>& blocksTaulell) {
-	if (m_form == I)
+	if (m_form == T)
 	{
 		rotateTRigthOverY();
 	}
-	if (m_form == CUBE) {
+	if (m_form == L) {
 		rotateLRightOverY();
 	}
-	if (m_form == L)
+	if (m_form == CUBE)
 	{
 		rotateCubeRightOverY();
 	}
-	if (m_form == T) {
+	if (m_form == I) {
 		rotateIRightOverY();
 	}
 	if (m_form == Z)
@@ -255,19 +255,19 @@ bool Piece::moveUp(vector<vector<vector<Block>>>& blocksTaulell) {
 }
 
 bool Piece::rotateLeftOverY(vector<vector<vector<Block>>>& blocksTaulell) {
-	if (m_form == I)
+	if (m_form == T)
 	{
 		rotateTLeftOverY();
 	}
-	if (m_form == CUBE)
+	if (m_form == L)
 	{
 		rotateLLeftOverY();
 	}
-	if (m_form == L)
+	if (m_form == CUBE)
 	{
 		rotateCubeLeftOverY();
 	}
-	if (m_form == T)
+	if (m_form == I)
 	{
 		rotateILeftOverY();
 	}
@@ -823,16 +823,16 @@ Piece::Piece(int form)
 	// creem 4 blocs per cada llista de blocs
 	switch (form)
 	{
-	case I:
+	case T:
 		TForm(2, 9, 2);
 		break;
-	case CUBE:
+	case L:
 		LForm(2, 9, 2);
 		break;
-	case L:
+	case CUBE:
 		CUBEForm(2, 9, 2);
 		break;
-	case T:
+	case I:
 		IForm(2, 9, 2);
 		break;
 	case Z:
