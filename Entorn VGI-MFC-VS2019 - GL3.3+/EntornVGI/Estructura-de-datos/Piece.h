@@ -558,40 +558,40 @@ void Piece::rotateZRightOverY() {
 	if (m_rotacioY == Y0) {
 		m_rotacioY = Y1;
 		m_blocks[1].setX(m_blocks[1].getPosX() - 1);
-		m_blocks[1].setZ(m_blocks[1].getPosZ() - 1);
+		m_blocks[1].setZ(m_blocks[1].getPosZ() + 1);
 
 		m_blocks[3].setX(m_blocks[3].getPosX() + 1);
-		m_blocks[3].setZ(m_blocks[3].getPosZ() + 1);
+		m_blocks[3].setZ(m_blocks[3].getPosZ() - 1);
 		return;
 	}
 
 	if (m_rotacioY == Y1) {
 		m_rotacioY = Y2;
 		m_blocks[1].setX(m_blocks[1].getPosX() - 1);
-		m_blocks[1].setZ(m_blocks[1].getPosZ() + 1);
+		m_blocks[1].setZ(m_blocks[1].getPosZ() - 1);
 
 		m_blocks[3].setX(m_blocks[3].getPosX() + 1);
-		m_blocks[3].setZ(m_blocks[3].getPosZ() - 1);
+		m_blocks[3].setZ(m_blocks[3].getPosZ() + 1);
 		return;
 	}
 
 	if (m_rotacioY == Y2) {
 		m_rotacioY = Y3;
 		m_blocks[1].setX(m_blocks[1].getPosX() + 1);
-		m_blocks[1].setZ(m_blocks[1].getPosZ() + 1);
+		m_blocks[1].setZ(m_blocks[1].getPosZ() - 1);
 
 		m_blocks[3].setX(m_blocks[3].getPosX() - 1);
-		m_blocks[3].setZ(m_blocks[3].getPosZ() - 1);
+		m_blocks[3].setZ(m_blocks[3].getPosZ() + 1);
 		return;
 	}
 
 	if (m_rotacioY == Y3) {
 		m_rotacioY = Y0;
 		m_blocks[1].setX(m_blocks[1].getPosX() + 1);
-		m_blocks[1].setZ(m_blocks[1].getPosZ() - 1);
+		m_blocks[1].setZ(m_blocks[1].getPosZ() + 1);
 
 		m_blocks[3].setX(m_blocks[3].getPosX() - 1);
-		m_blocks[3].setZ(m_blocks[3].getPosZ() + 1);
+		m_blocks[3].setZ(m_blocks[3].getPosZ() - 1);
 	}
 
 }
@@ -600,16 +600,26 @@ void Piece::rotateZLeftOverY() {
 	if (m_rotacioY == Y0) {
 		m_rotacioY = Y3;
 		m_blocks[1].setX(m_blocks[1].getPosX() - 1);
-		m_blocks[1].setZ(m_blocks[1].getPosZ() + 1);
+		m_blocks[1].setZ(m_blocks[1].getPosZ() - 1);
 
 		m_blocks[3].setX(m_blocks[3].getPosX() + 1);
-		m_blocks[3].setZ(m_blocks[3].getPosZ() - 1);
+		m_blocks[3].setZ(m_blocks[3].getPosZ() + 1);
 		return;
 	}
 
 	if (m_rotacioY == Y1) {
 		m_rotacioY = Y0;
 		m_blocks[1].setX(m_blocks[1].getPosX() + 1);
+		m_blocks[1].setZ(m_blocks[1].getPosZ() - 1);
+
+		m_blocks[3].setX(m_blocks[3].getPosX() - 1);
+		m_blocks[3].setZ(m_blocks[3].getPosZ() + 1);
+		return;
+	}
+
+	if (m_rotacioY == Y2) {
+		m_rotacioY = Y1;
+		m_blocks[1].setX(m_blocks[1].getPosX() + 1);
 		m_blocks[1].setZ(m_blocks[1].getPosZ() + 1);
 
 		m_blocks[3].setX(m_blocks[3].getPosX() - 1);
@@ -617,23 +627,13 @@ void Piece::rotateZLeftOverY() {
 		return;
 	}
 
-	if (m_rotacioY == Y2) {
-		m_rotacioY = Y1;
-		m_blocks[1].setX(m_blocks[1].getPosX() + 1);
-		m_blocks[1].setZ(m_blocks[1].getPosZ() - 1);
-
-		m_blocks[3].setX(m_blocks[3].getPosX() - 1);
-		m_blocks[3].setZ(m_blocks[3].getPosZ() + 1);
-		return;
-	}
-
 	if (m_rotacioY == Y3) {
 		m_rotacioY = Y2;
 		m_blocks[1].setX(m_blocks[1].getPosX() - 1);
-		m_blocks[1].setZ(m_blocks[1].getPosZ() - 1);
+		m_blocks[1].setZ(m_blocks[1].getPosZ() + 1);
 
 		m_blocks[3].setX(m_blocks[3].getPosX() + 1);
-		m_blocks[3].setZ(m_blocks[3].getPosZ() + 1);
+		m_blocks[3].setZ(m_blocks[3].getPosZ() - 1);
 	}
 }
 
