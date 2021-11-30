@@ -928,6 +928,7 @@ bool Piece::cauPeca(vector<vector<vector<Block>>>& blocksTaulell) {
 			{
 				for (Block b : m_blocks) {
 					blocksTaulell[b.getPosX()][b.getPosY()][b.getPosZ()].m_lliure = false;
+					blocksTaulell[b.getPosX()][b.getPosY()][b.getPosZ()].setIdVao(m_idVao + 5);
 				}
 				return false;
 			}
@@ -936,6 +937,7 @@ bool Piece::cauPeca(vector<vector<vector<Block>>>& blocksTaulell) {
 			{
 				for (Block b : m_blocks) {
 					blocksTaulell[b.getPosX()][b.getPosY()][b.getPosZ()].m_lliure = false;
+					blocksTaulell[b.getPosX()][b.getPosY()][b.getPosZ()].setIdVao(m_idVao + 5);
 				}
 				return false;
 			}
