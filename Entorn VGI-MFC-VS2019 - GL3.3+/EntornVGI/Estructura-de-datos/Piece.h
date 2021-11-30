@@ -284,7 +284,7 @@ bool Piece::rotateLeftOverY(vector<vector<vector<Block>>>& blocksTaulell) {
 			return true;
 		}
 	}
-	rotateLeftOverY(blocksTaulell);
+	rotateRightOverY(blocksTaulell);
 	return false;
 }
 
