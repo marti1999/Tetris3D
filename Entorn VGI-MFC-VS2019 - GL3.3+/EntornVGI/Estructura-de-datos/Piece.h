@@ -129,6 +129,8 @@ inline void Piece::posIni()
 	mat = glm::translate(mat, glm::vec3(5, 19, 5));
 	m_Matriu = mat;
 
+	m_rotacioY = Y0;
+
 	m_blocks.clear();
 	switch (m_form)
 	{
