@@ -1814,9 +1814,16 @@ void CEntornVGIView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
 		if (pieces[numPiece].cauPeca(m_board.m_blocks)) {
 			pieces[numPiece].ViewcauPeca();
+			playSound(_T("./sounds/"), _T("se_game_softdrop.wav"), _T("play"));
 		}
 		else {
-			m_board.checkFloors();
+			if (m_board.checkFloors()) {
+				playSound(_T("./sounds/"), _T("se_game_single.wav"), _T("play"));
+
+			}
+			else {
+				playSound(_T("./sounds/"), _T("se_game_landing.wav"), _T("play"));
+			}
 			numPiece = rand() % (sizeof(pieces) / sizeof(pieces[0]));
 			pieces[numPiece].posIni();
 		}
@@ -2981,9 +2988,18 @@ void CEntornVGIView::OnTimer(UINT_PTR nIDEvent)
 	if (tetris) {
 		if (pieces[numPiece].cauPeca(m_board.m_blocks)) {
 			pieces[numPiece].ViewcauPeca();
+			playSound(_T("./sounds/"), _T("se_game_softdrop.wav"), _T("play"));
+
 		}
 		else {
-			m_board.checkFloors();
+			
+			if (m_board.checkFloors()) {
+				playSound(_T("./sounds/"), _T("se_game_single.wav"), _T("play"));
+
+			}
+			else {
+				playSound(_T("./sounds/"), _T("se_game_landing.wav"), _T("play"));
+			}
 			numPiece = rand() % (sizeof(pieces) / sizeof(pieces[0]));
 			pieces[numPiece].posIni();
 		}
@@ -5351,6 +5367,8 @@ void CEntornVGIView::OnObjecteTetris()
 void CEntornVGIView::mainTetris() {
 	OnObjecteTetris();
 	tetris = true;
+	playSound(_T("./sounds/"), _T("theme.mp3"), _T("play"));
+
 	srand(time(nullptr));
 
 	int tamanyPe = sizeof(pieces) / sizeof(pieces[0]);
