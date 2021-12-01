@@ -12,13 +12,7 @@
 // TODO: altura máxima del taulell en pisos
 #define MAX_HEIGHT 10
 
-struct aEliminar {
-    int xInici;
-    int Y;
-    int zInici;
-    int xFinal;
-    int zFinal;
-};
+
 
 //afegit hernan 01/12/2021
 struct aEsborrar {
@@ -146,7 +140,7 @@ vector<aEsborrar> Board::deleteRow() {
 
 
 
-inline void Board::caureFila(vector<aEsborrar> fila)
+void Board::caureFila(vector<aEsborrar> fila)
 {
     //Recorrer cada elemento del vector. Que será cada fila a bajar
     for (int i = 0; i < fila.size(); i++) { //i itera el vector
@@ -157,7 +151,7 @@ inline void Board::caureFila(vector<aEsborrar> fila)
             for (int j = fila[i].xInici; j <= fila[i].xFinal; j++) { //j sera la nostra x
 
                 //Para cada bloque de la fila, bajamos 1 la altura
-                for (int q = fila[i].yInici + 1; q <= MAX_HEIGHT; q++) { //q sera la nostra y
+                for (int q = fila[i].yInici + 1; q < MAX_HEIGHT; q++) { //q sera la nostra y
 
                     if (!m_blocks[j][q][fila[i].zInici].moguda) { //Només entrarem si NO ha estat moguda
                         //No hago la comprobación de si q-1 está m_lliure porque en principio Álex ya lo ha hecho y me asegura que lo estará
@@ -178,7 +172,7 @@ inline void Board::caureFila(vector<aEsborrar> fila)
             for (int j = fila[i].zInici; j <= fila[i].zFinal; j++) { //j sera la nostra z
 
                 //Para cada bloque de la fila, bajamos 1 la altura
-                for (int q = fila[i].yInici + 1; q <= MAX_HEIGHT; q++) { //q sera la nostra y
+                for (int q = fila[i].yInici + 1; q < MAX_HEIGHT; q++) { //q sera la nostra y
 
                     if (!m_blocks[fila[i].xInici][q][j].moguda) { //Només entrarem si NO ha estat moguda
                         //No hago la comprobación de si q-1 está m_lliure porque en principio Álex ya lo ha hecho y me asegura que lo estará
@@ -197,7 +191,7 @@ inline void Board::caureFila(vector<aEsborrar> fila)
     reiniciaCanvis();
 }
 
-inline void Board::reiniciaCanvis()
+void Board::reiniciaCanvis()
 {
     for (int i = 0; i < MAX_Z; i++) {
         for (int j = 0; j < MAX_X; j++) {
@@ -213,11 +207,12 @@ bool Board::checkFloors(){
     vector<aEsborrar> eliminacions = this->deleteRow();
     if (eliminacions.size() != 0)
     {
-        // ha trobar files a eliminar
+        // ha trobat files a eliminar
+        caureFila(eliminacions);
         return true;
     }
 
-    // no ha trobar files a eliminar
+    // no ha trobat files a eliminar
     return false;
 }
 
