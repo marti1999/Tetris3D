@@ -1,4 +1,5 @@
 ﻿  EntornVGIView.cpp
+C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Board.h(151,23): warning C4018: '<': signed/unsigned mismatch
 C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(101,20): warning C4018: '<': signed/unsigned mismatch
 C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(192,20): warning C4018: '<': signed/unsigned mismatch
 C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(210,20): warning C4018: '<': signed/unsigned mismatch

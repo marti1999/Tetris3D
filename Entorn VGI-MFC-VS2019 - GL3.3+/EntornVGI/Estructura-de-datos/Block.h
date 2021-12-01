@@ -40,7 +40,10 @@ public:
     void setIdVao(int id) { m_idVao = id; }
 
     bool m_lliure; // no es pot tenir en un vector<vector<vector<Block>>> posicions en null, així que quan no hi hagi un bloc realment hi haurà un block tenint lliure = true
-
+        //canvis hernan 01/12/2021
+    bool moguda = false; //creat per al baixar fila
+    void swapMoguda();
+    //fi hernan
 };
 
 inline Block::Block()
@@ -103,6 +106,14 @@ void Block::setPosition(int x, int y, int z){
 
 void Block::setFixed(bool fixed) {
     m_fixed = fixed;
+}
+
+void Block::swapMoguda()
+{
+    if (moguda)
+        moguda = false;
+    else
+        moguda = true;
 }
 
 bool Block::detectCollision(list<Block> setBlocks){

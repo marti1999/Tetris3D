@@ -20,6 +20,17 @@ struct aEliminar {
     int zFinal;
 };
 
+//afegit hernan 01/12/2021
+struct aEsborrar {
+    int xInici = 0;
+    int yInici = 0;
+    int zInici = 0;
+    int xFinal = 0;
+    int yFinal = 0;
+    int zFinal = 0;
+};
+//fi afegit hernan
+
 class Board
 {
 private:
@@ -41,6 +52,12 @@ public:
     bool checkFloors();
     //Esborrar fila del taulell
     vector<aEliminar> deleteRow();
+
+    //hernan 01/12/2021
+    vector<aEsborrar> fila;
+    void caureFila(vector<aEsborrar> fila);
+    void reiniciaCanvis();
+    //fi hernan
 };
 
 Board::Board()
@@ -125,6 +142,71 @@ vector<aEliminar> Board::deleteRow() {
     }
     return eliminacions;
 }
+
+
+
+inline void Board::caureFila(vector<aEsborrar> fila)
+{
+    //Recorrer cada elemento del vector. Que será cada fila a bajar
+    for (int i = 0; i < fila.size(); i++) { //i itera el vector
+
+        //Si Z no cambia significa que se moverá por el eje X y que lo que cambiará será el eje X a cada bloque avanzado
+        //Con lo cual iterar sobre el eje X
+        if (fila[i].zInici == fila[i].zFinal) { //z no es mou, z es z
+            for (int j = fila[i].xInici; j <= fila[i].xFinal; j++) { //j sera la nostra x
+
+                //Para cada bloque de la fila, bajamos 1 la altura
+                for (int q = fila[i].yInici + 1; q <= MAX_HEIGHT; q++) { //q sera la nostra y
+
+                    if (!m_blocks[j][q][fila[i].zInici].moguda) { //Només entrarem si NO ha estat moguda
+                        //No hago la comprobación de si q-1 está m_lliure porque en principio Álex ya lo ha hecho y me asegura que lo estará
+                        m_blocks[j][q - 1][fila[i].zInici].m_lliure = m_blocks[j][q][fila[i].zInici].m_lliure;
+                        m_blocks[j][q][fila[i].zInici].m_lliure = true;
+
+                        //Com no ha estat moguda indiquem que ara ja ho està
+                        m_blocks[j][q][fila[i].zInici].swapMoguda();
+                    }
+                    //Si ja havia sigut moguda, no necessitem baixar-la, doncs ja ho aviem fet. Seguim iterant
+                }
+            }
+        }
+
+        //Si X no cambia significa que se moverá por el eje X y que lo que cambiará será el eje Z a cada bloque avanzado
+        //Con lo cual iterar sobre el eje Z
+        if (fila[i].xInici == fila[i].xFinal) { //x no es mou, x es x
+            for (int j = fila[i].zInici; j <= fila[i].zFinal; j++) { //j sera la nostra z
+
+                //Para cada bloque de la fila, bajamos 1 la altura
+                for (int q = fila[i].yInici + 1; q <= MAX_HEIGHT; q++) { //q sera la nostra y
+
+                    if (!m_blocks[fila[i].xInici][q][j].moguda) { //Només entrarem si NO ha estat moguda
+                        //No hago la comprobación de si q-1 está m_lliure porque en principio Álex ya lo ha hecho y me asegura que lo estará
+                        m_blocks[fila[i].xInici][q - 1][j].m_lliure = m_blocks[fila[i].xInici][q - 1][j].m_lliure;
+                        m_blocks[fila[i].xInici][q][j].m_lliure = true;
+
+                        //Com no ha estat moguda indiquem que ara ja ho està
+                        m_blocks[fila[i].xInici][q][j].swapMoguda();
+                    }
+                    //Si ja havia sigut moguda, no necessitem baixar-la, doncs ja ho aviem fet. Seguim iterant
+                }
+            }
+        }
+    }
+    //Avans de sortir posem tots i cada un dels blocks del taulell a moguda = false
+    reiniciaCanvis();
+}
+
+inline void Board::reiniciaCanvis()
+{
+    for (int i = 0; i < MAX_Z; i++) {
+        for (int j = 0; j < MAX_X; j++) {
+            for (int q = 0; q < MAX_HEIGHT; q++) {
+                m_blocks[j][q][i].moguda = false;
+            }
+        }
+    }
+}
+
 
 bool Board::checkFloors(){
     vector<aEliminar> eliminacions = this->deleteRow();
