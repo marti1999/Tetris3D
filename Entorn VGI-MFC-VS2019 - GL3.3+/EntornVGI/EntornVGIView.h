@@ -29,6 +29,8 @@
 // Entorn VGI: OBJECTE OBJ. Include per la definició de l'objecte Obj_OBJ
 #include "objLoader.h"
 
+#include <mmsystem.h>
+
 
 class CEntornVGIView : public CView
 {
@@ -249,6 +251,7 @@ public:
 	std::string CEntornVGIView::CString2String(const CString& cString); // Conversió CString --> std::string
 
 	void OnObjecteTetris();
+	void playSound(CString dir, CString file, CString command);
 
 // Entorn VGI: Funcions de càrrega i activació de shaders
 	GLuint CEntornVGIView::initializeShaders(CString filename);

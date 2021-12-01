@@ -1744,36 +1744,60 @@ void CEntornVGIView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	if ((nChar == 'W') || (nChar == 'w')) {
 		//pieces[2].moveUp(m_board.m_blocks);
 		if (pieces[numPiece].moveUp(m_board.m_blocks)) {
+			playSound(_T("./sounds/"), _T("se_game_move.wav"), _T("play"));
 			pieces[numPiece].ViewMoveUp();
+		}
+		else {
+			playSound(_T("./sounds/"), _T("se_sys_alert.wav"), _T("play"));
 		}
 
 	}
 	if ((nChar == 'S') || (nChar == 's')) {
 		//pieces[2].moveDown();
 		if (pieces[numPiece].moveDown(m_board.m_blocks)) {
+			playSound(_T("./sounds/"), _T("se_game_move.wav"), _T("play")); 
 			pieces[numPiece].ViewMoveDown();
+		}
+		else {
+			playSound(_T("./sounds/"), _T("se_sys_alert.wav"), _T("play"));
 		}
 
 	}
 	if ((nChar == 'A') || (nChar == 'a')) {
 		if (pieces[numPiece].moveLeft(m_board.m_blocks)) {
+			playSound(_T("./sounds/"), _T("se_game_move.wav"), _T("play"));
 			pieces[numPiece].ViewMoveLeft();
+		}
+		else {
+			playSound(_T("./sounds/"), _T("se_sys_alert.wav"), _T("play"));
 		}
 
 	}
 	if ((nChar == 'D') || (nChar == 'd')) {
 		if (pieces[numPiece].moveRight(m_board.m_blocks)) {
+			playSound(_T("./sounds/"), _T("se_game_move.wav"), _T("play"));
 			pieces[numPiece].ViewMoveRight();
+		}
+		else {
+			playSound(_T("./sounds/"), _T("se_sys_alert.wav"), _T("play"));
 		}
 	}
 	if ((nChar == 'Q') || (nChar == 'q')) {
 		if (pieces[numPiece].rotateLeftOverY(m_board.m_blocks)) {
+			playSound(_T("./sounds/"), _T("se_game_rotate.wav"), _T("play"));
 			pieces[numPiece].ViewRotateLeftOverY();
+		}
+		else {
+			playSound(_T("./sounds/"), _T("se_sys_alert.wav"), _T("play"));
 		}
 	}
 	if ((nChar == 'E') || (nChar == 'e')) {
 		if (pieces[numPiece].rotateRightOverY(m_board.m_blocks)) {
+			playSound(_T("./sounds/"), _T("se_game_rotate.wav"), _T("play"));
 			pieces[numPiece].ViewRotateRightOverY();
+		}
+		else {
+			playSound(_T("./sounds/"), _T("se_sys_alert.wav"), _T("play"));
 		}
 	}
 	if ((nChar == 'P') || (nChar == 'p')) {
@@ -5335,3 +5359,19 @@ void CEntornVGIView::mainTetris() {
 		SetTimer(WM_TIMER, 1000, NULL);
 	}
 }
+
+void CEntornVGIView::playSound(CString dir, CString file, CString command) {
+
+	if (command == "play")
+	{
+		//load
+		CString LOAD_IT = _T("open ") + dir + file + _T(" type mpegvideo alias ") + file;
+		mciSendString(LOAD_IT, NULL, 0, 0);
+
+		//play
+		CString PLAY_IT = _T("play ") + file + _T(" from 0");
+		mciSendString(PLAY_IT, NULL, 0, 0);
+	}
+}
+
+
