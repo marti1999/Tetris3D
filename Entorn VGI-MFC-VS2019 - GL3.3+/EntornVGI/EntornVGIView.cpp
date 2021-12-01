@@ -1,40 +1,40 @@
-//******** PRACTICA VISUALITZACI” GR¿FICA INTERACTIVA (Escola Enginyeria - UAB)
-//******** Entorn b‡sic VS2019 MULTIFINESTRA amb OpenGL 3.3+, interfÌcie MFC, llibreries GLM i primitives GLUT en codi font
-//******** Ferran Poveda, Marc Vivet, Carme Juli‡, DÈbora Gil, Enric MartÌ (Setembre 2021)
-// EntornVGIView.cpp: implementaciÛn de la clase CEntornVGIView
+//******** PRACTICA VISUALITZACI√ì GR√ÄFICA INTERACTIVA (Escola Enginyeria - UAB)
+//******** Entorn b√†sic VS2019 MULTIFINESTRA amb OpenGL 3.3+, interf√≠cie MFC, llibreries GLM i primitives GLUT en codi font
+//******** Ferran Poveda, Marc Vivet, Carme Juli√†, D√©bora Gil, Enric Mart√≠ (Setembre 2021)
+// EntornVGIView.cpp: implementaci√≥n de la clase CEntornVGIView
 // FUNCIONS:		- Control del bucle principal (OnPaint)
 //					- Control teclat (OnKeyDown)
 //					- Control mouse interactiu i botons mouse 
 //							(OnLButtomDown, OnRButtomDown, OnMouseMove)
-//					- Control opcions de men˙ (On*, OnUpdate*)
+//					- Control opcions de men√∫ (On*, OnUpdate*)
 //					- Control de color de fons per teclat (FONS)
-//					- Transformacions GeomËtriques Interactives via mouse
+//					- Transformacions Geom√®triques Interactives via mouse
 //
-//    VersiÛ 2.0:	- Canvi de color de l'objecte per teclat (OBJ)
-//					- Fixar Transformacions GeomËtriques desactivant opcions Transforma (INSERT dins opcions Transforma)
-//					- Esborrar Transformacions GeomËtriques fixades (DELETE dins opcions Transforma)
-//					- Fixar TraslaciÛ pantalla fora de l'opciÛ Vista->Pan? (INSERT dins opciÛ Vista->Pan?)
-//					- Esborrar TraslaciÛ pantalla fixada (DELETE dins opciÛ Vista->Pan?)
+//    Versi√≥ 2.0:	- Canvi de color de l'objecte per teclat (OBJ)
+//					- Fixar Transformacions Geom√®triques desactivant opcions Transforma (INSERT dins opcions Transforma)
+//					- Esborrar Transformacions Geom√®triques fixades (DELETE dins opcions Transforma)
+//					- Fixar Traslaci√≥ pantalla fora de l'opci√≥ Vista->Pan? (INSERT dins opci√≥ Vista->Pan?)
+//					- Esborrar Traslaci√≥ pantalla fixada (DELETE dins opci√≥ Vista->Pan?)
 //
-//	  VersiÛ 2.2:	- OpciÛ VISTA --> SatËl.lit: Punt de Vista en moviment segons moviment mouse
+//	  Versi√≥ 2.2:	- Opci√≥ VISTA --> Sat√®l.lit: Punt de Vista en moviment segons moviment mouse
 //
-//	  VersiÛ 2.5:	- Afegits objectes cubRGB i Tie (nau Star Wars fet per alumnes)
-//					- OpciÛ VISTA --> FullScreen?: OpciÛ FullScreen per men˙ i per PopUp menu enmig pantalla. TÈ un bug al restaurar pantalla 
-//													normal (inclos men˙ IDR_MENU_WINDOW)
-//	  VersiÛ 2.6:	- Afegides funcions per a displaiar texte (PrintText)
+//	  Versi√≥ 2.5:	- Afegits objectes cubRGB i Tie (nau Star Wars fet per alumnes)
+//					- Opci√≥ VISTA --> FullScreen?: Opci√≥ FullScreen per men√∫ i per PopUp menu enmig pantalla. T√© un bug al restaurar pantalla 
+//													normal (inclos men√∫ IDR_MENU_WINDOW)
+//	  Versi√≥ 2.6:	- Afegides funcions per a displaiar texte (PrintText)
 //
 
 #include "stdafx.h"
 
 // Se pueden definir SHARED_HANDLERS en un proyecto ATL implementando controladores de vista previa, miniatura
-// y filtro de b˙squeda, y permiten compartir cÛdigo de documentos con ese proyecto.
+// y filtro de b√∫squeda, y permiten compartir c√≥digo de documentos con ese proyecto.
 #ifndef SHARED_HANDLERS
 #include "EntornVGI.h"
 #endif
 
 #include "EntornVGIDoc.h"
 #include "EntornVGIView.h"
-#include "visualitzacio.h"	// Include funcions de projeciÛ i il.luminaciÛ
+#include "visualitzacio.h"	// Include funcions de projeci√≥ i il.luminaci√≥
 #include "escena.h"			// Include funcions d'objectes OpenGL
 
 #ifdef _DEBUG
@@ -52,7 +52,7 @@ int numPiece;
 IMPLEMENT_DYNCREATE(CEntornVGIView, CView)
 
 BEGIN_MESSAGE_MAP(CEntornVGIView, CView)
-	// Comandos de impresiÛn est·ndar
+	// Comandos de impresi√≥n est√°ndar
 	ON_COMMAND(ID_FILE_PRINT, &CView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_DIRECT, &CView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CEntornVGIView::OnFilePrintPreview)
@@ -217,30 +217,30 @@ BEGIN_MESSAGE_MAP(CEntornVGIView, CView)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// ConstrucciÛn o destrucciÛn de CEntornVGIView
+// Construcci√≥n o destrucci√≥n de CEntornVGIView
 
 CEntornVGIView::CEntornVGIView()
 {
-	// TODO: agregar aquÌ el cÛdigo de construcciÛn
+	// TODO: agregar aqu√≠ el c√≥digo de construcci√≥n
 	//	int i = 0;
 
-	//------ Entorn VGI: InicialitzaciÛ de les variables globals de CEntornVGIView
+	//------ Entorn VGI: Inicialitzaci√≥ de les variables globals de CEntornVGIView
 	int i;
 
-	// Entorn VGI: Variables de control per Men˙ C‡mera: EsfËrica, Navega, MÚbil, Zoom, Satelit, Polars... 
+	// Entorn VGI: Variables de control per Men√∫ C√†mera: Esf√®rica, Navega, M√≤bil, Zoom, Satelit, Polars... 
 	camera = CAM_ESFERICA;
 	mobil = true;	zzoom = true;		zzoomO = false;		satelit = false;
 
-	// Entorn VGI: Variables de control de l'opciÛ C‡mera->Navega?
+	// Entorn VGI: Variables de control de l'opci√≥ C√†mera->Navega?
 	n[0] = 0.0;		n[1] = 0.0;		n[2] = 0.0;
 	opvN.x = 10.0;	opvN.y = 0.0;		opvN.z = 0.0;
 	angleZ = 0.0;
 	ViewMatrix = glm::mat4(1.0);		// Inicialitzar a identitat
 
-// Entorn VGI: Variables de control de l'opciÛ C‡mera->Geode?
-	OPV_G.R = 15.0;		OPV_G.alfa = 0.0;	OPV_G.beta = 0.0;	// Origen PV en esfËriques per a Vista_Geode
+// Entorn VGI: Variables de control de l'opci√≥ C√†mera->Geode?
+	OPV_G.R = 15.0;		OPV_G.alfa = 0.0;	OPV_G.beta = 0.0;	// Origen PV en esf√®riques per a Vista_Geode
 
-// Entorn VGI: Variables de control per Men˙ Vista: Pantalla Completa, Pan, dibuixar eixos i grids
+// Entorn VGI: Variables de control per Men√∫ Vista: Pantalla Completa, Pan, dibuixar eixos i grids
 	fullscreen = false;
 	pan = false;
 	eixos = true;	eixos_programID = 0;  eixos_Id = 0;
@@ -248,11 +248,11 @@ CEntornVGIView::CEntornVGIView()
 	grid.x = false;	grid.y = false;		grid.z = false;		grid.w = false;
 	hgrid.x = 0.0;	hgrid.y = 0.0;		hgrid.z = 0.0;		hgrid.w = 0.0;
 
-	// Entorn VGI: Variables opciÛ Vista->Pan
+	// Entorn VGI: Variables opci√≥ Vista->Pan
 	fact_pan = 1;
 	tr_cpv.x = 0;	tr_cpv.y = 0;	tr_cpv.z = 0;		tr_cpvF.x = 0;	tr_cpvF.y = 0;	tr_cpvF.z = 0;
 
-	// Entorn VGI: Variables de control per les opcions de men˙ ProjecciÛ, Objecte
+	// Entorn VGI: Variables de control per les opcions de men√∫ Projecci√≥, Objecte
 	projeccio = CAP;	// projeccio = PERSPECT;
 	ProjectionMatrix = glm::mat4(1.0);	// Inicialitzar a identitat
 	objecte = CAP;		// objecte = TETERA;
@@ -262,7 +262,7 @@ CEntornVGIView::CEntornVGIView()
 	skC_VAOID.vaoId = -1;	skC_VAOID.vboId = -1;	skC_VAOID.nVertexs = 0;
 	cubemapTexture = 0;
 
-	// Entorn VGI: Variables de control del men˙ Transforma
+	// Entorn VGI: Variables de control del men√∫ Transforma
 	transf = false;		trasl = false;		rota = false;		escal = false;
 	fact_Tras = 1;		fact_Rota = 90;
 	TG.VTras.x = 0.0;	TG.VTras.y = 0.0;	TG.VTras.z = 0;	TGF.VTras.x = 0.0;	TGF.VTras.y = 0.0;	TGF.VTras.z = 0;
@@ -272,10 +272,10 @@ CEntornVGIView::CEntornVGIView()
 	transX = false;	transY = false;	transZ = false;
 	GTMatrix = glm::mat4(1.0);		// Inicialitzar a identitat
 
-// Entorn VGI: Variables de control per les opcions de men˙ Ocultacions
+// Entorn VGI: Variables de control per les opcions de men√∫ Ocultacions
 	front_faces = true;	test_vis = false;	oculta = false;		back_line = false;
 
-	// Entorn VGI: Variables de control del men˙ IluminaciÛ		
+	// Entorn VGI: Variables de control del men√∫ Iluminaci√≥		
 	ilumina = FILFERROS;			ifixe = false;					ilum2sides = false;
 	// Reflexions actives: Ambient [1], Difusa [2] i Especular [3]. No actives: Emission [0]. 
 	sw_material[0] = false;			sw_material[1] = true;			sw_material[2] = true;			sw_material[3] = true;	sw_material[4] = false;
@@ -284,8 +284,8 @@ CEntornVGIView::CEntornVGIView()
 	for (i = 0; i < NUM_MAX_TEXTURES; i++) texturesID[i] = -1;
 	tFlag_invert_Y = false;
 
-	// Entorn VGI: Variables de control del men˙ Llums
-	// Entorn VGI: InicialitzaciÛ variables Llums
+	// Entorn VGI: Variables de control del men√∫ Llums
+	// Entorn VGI: Inicialitzaci√≥ variables Llums
 	llum_ambient = true;
 	for (i = 1; i < NUM_MAX_LLUMS; i++) llumGL[i].encesa = false;
 	for (i = 0; i < NUM_MAX_LLUMS; i++) {
@@ -294,18 +294,18 @@ CEntornVGIView::CEntornVGIView()
 		llumGL[i].especular[0] = 1.0f; llumGL[i].especular[1] = 1.0f; llumGL[i].especular[2] = 1.0f; llumGL[i].especular[3] = 1.0f;
 	}
 
-	// LLum 0: ¡tenuaciÛ constant (c=1), sobre l'eix Z, no restringida.
+	// LLum 0: √Åtenuaci√≥ constant (c=1), sobre l'eix Z, no restringida.
 	llumGL[0].encesa = true;
 	llumGL[0].difusa[0] = 1.0f;			llumGL[0].difusa[1] = 1.0f;			llumGL[0].difusa[2] = 1.0f;		llumGL[0].difusa[3] = 1.0f;
 	llumGL[0].especular[0] = 1.0f;		llumGL[0].especular[1] = 1.0f;		llumGL[0].especular[2] = 1.0f;	llumGL[0].especular[3] = 1.0f;
 
-	llumGL[0].posicio.R = 200.0;		llumGL[0].posicio.alfa = 90.0;		llumGL[0].posicio.beta = 0.0;		// PosiciÛ llum (x,y,z)=(0,0,200)
-	llumGL[0].atenuacio.a = 0.0;		llumGL[0].atenuacio.b = 0.0;		llumGL[0].atenuacio.c = 1.0;		// Llum sense atenuaciÛ per dist‡ncia (a,b,c)=(0,0,1)
+	llumGL[0].posicio.R = 200.0;		llumGL[0].posicio.alfa = 90.0;		llumGL[0].posicio.beta = 0.0;		// Posici√≥ llum (x,y,z)=(0,0,200)
+	llumGL[0].atenuacio.a = 0.0;		llumGL[0].atenuacio.b = 0.0;		llumGL[0].atenuacio.c = 1.0;		// Llum sense atenuaci√≥ per dist√†ncia (a,b,c)=(0,0,1)
 	llumGL[0].restringida = false;
 	llumGL[0].spotdirection[0] = 0.0;	llumGL[0].spotdirection[1] = 0.0;	llumGL[0].spotdirection[2] = 0.0;
 	llumGL[0].cutoff = 0.0;				llumGL[0].exponent = 0.0;
 
-	// LLum 1: AtenuaciÛ constant (c=1), sobre l'eix X, no restringida.
+	// LLum 1: Atenuaci√≥ constant (c=1), sobre l'eix X, no restringida.
 	llumGL[1].encesa = false;
 	llumGL[1].difusa[0] = 1.0f;			llumGL[1].difusa[1] = 1.0f;			llumGL[1].difusa[2] = 1.0f;		llumGL[1].difusa[3] = 1.0f;
 	llumGL[1].especular[0] = 1.0f;		llumGL[1].especular[1] = 1.0f;		llumGL[1].especular[2] = 1.0f;	llumGL[1].especular[3] = 1;
@@ -316,7 +316,7 @@ CEntornVGIView::CEntornVGIView()
 	llumGL[1].spotdirection[0] = 0.0;	llumGL[1].spotdirection[1] = 0.0;	llumGL[1].spotdirection[2] = 0.0;
 	llumGL[1].cutoff = 0.0;				llumGL[1].exponent = 0.0;
 
-	// LLum 2: AtenuaciÛ constant (c=1), sobre l'eix Y, no restringida.
+	// LLum 2: Atenuaci√≥ constant (c=1), sobre l'eix Y, no restringida.
 	llumGL[2].encesa = false;
 	llumGL[2].difusa[1] = 1.0f;			llumGL[2].difusa[1] = 1.0f;			llumGL[2].difusa[2] = 1.0f;		llumGL[2].difusa[3] = 1.0f;
 	llumGL[2].especular[1] = 1.0f;		llumGL[2].especular[1] = 1.0f;		llumGL[2].especular[2] = 1.0f;	llumGL[2].especular[3] = 1;
@@ -327,7 +327,7 @@ CEntornVGIView::CEntornVGIView()
 	llumGL[2].spotdirection[0] = 0.0;	llumGL[2].spotdirection[1] = 0.0;	llumGL[2].spotdirection[2] = 0.0;
 	llumGL[2].cutoff = 0.0;				llumGL[2].exponent = 0.0;
 
-	// LLum 3: AtenuaciÛ constant (c=1), sobre l'eix Y=X, no restringida.
+	// LLum 3: Atenuaci√≥ constant (c=1), sobre l'eix Y=X, no restringida.
 	llumGL[3].encesa = false;
 	llumGL[3].difusa[0] = 1.0f;			llumGL[2].difusa[1] = 1.0f;			llumGL[3].difusa[2] = 1.0f;		llumGL[3].difusa[3] = 1.0f;
 	llumGL[3].especular[0] = 1.0f;		llumGL[2].especular[1] = 1.0f;		llumGL[3].especular[2] = 1.0f;	llumGL[3].especular[3] = 1;
@@ -338,7 +338,7 @@ CEntornVGIView::CEntornVGIView()
 	llumGL[3].spotdirection[0] = 0.0;	llumGL[3].spotdirection[1] = 0.0;	llumGL[3].spotdirection[2] = 0.0;
 	llumGL[3].cutoff = 0.0;				llumGL[3].exponent = 0.0;
 
-	// LLum 4: AtenuaciÛ constant (c=1), sobre l'eix -Z, no restringida.
+	// LLum 4: Atenuaci√≥ constant (c=1), sobre l'eix -Z, no restringida.
 	llumGL[4].encesa = false;
 	llumGL[4].difusa[0] = 1.0f;			llumGL[4].difusa[1] = 1.0f;			llumGL[4].difusa[2] = 1.0f;		llumGL[4].difusa[3] = 1.0f;
 	llumGL[4].especular[0] = 1.0f;		llumGL[4].especular[1] = 1.0f;		llumGL[4].especular[2] = 1.0f;	llumGL[4].especular[3] = 1;
@@ -354,35 +354,35 @@ CEntornVGIView::CEntornVGIView()
 	llumGL[5].difusa[0] = 1.0f;			llumGL[5].difusa[1] = 1.0f;			llumGL[5].difusa[2] = 1.0f;		llumGL[5].difusa[3] = 1.0f;
 	llumGL[5].especular[0] = 1.0f;		llumGL[5].especular[1] = 1.0f;		llumGL[5].especular[2] = 1.0f;	llumGL[5].especular[3] = 1;
 
-	llumGL[5].posicio.R = 0.0;			llumGL[5].posicio.alfa = 0.0;		llumGL[5].posicio.beta = 0.0; // Cap posiciÛ definida
+	llumGL[5].posicio.R = 0.0;			llumGL[5].posicio.alfa = 0.0;		llumGL[5].posicio.beta = 0.0; // Cap posici√≥ definida
 	llumGL[5].atenuacio.a = 0.0;		llumGL[5].atenuacio.b = 0.0;		llumGL[5].atenuacio.c = 1.0;
 	llumGL[5].restringida = false;
 	llumGL[5].spotdirection[0] = 0.0;	llumGL[5].spotdirection[1] = 0.0;	llumGL[5].spotdirection[2] = 0.0;
 	llumGL[5].cutoff = 0.0;				llumGL[5].exponent = 0.0;
 
-	// LLum #6: Llum Vaixell, configurada a la funciÛ vaixell() en escena.cpp.
+	// LLum #6: Llum Vaixell, configurada a la funci√≥ vaixell() en escena.cpp.
 	llumGL[6].encesa = false;
 	llumGL[6].difusa[0] = 1.0f;			llumGL[6].difusa[1] = 1.0f;			llumGL[6].difusa[2] = 1.0f;		llumGL[6].difusa[3] = 1.0f;
 	llumGL[6].especular[0] = 1.0f;		llumGL[6].especular[1] = 1.0f;		llumGL[6].especular[2] = 1.0f;	llumGL[6].especular[3] = 1;
 
-	llumGL[6].posicio.R = 0.0;			llumGL[6].posicio.alfa = 0.0;		llumGL[6].posicio.beta = 0.0; // Cap posiciÛ definida, definida en funciÛ vaixell() en escena.cpp
+	llumGL[6].posicio.R = 0.0;			llumGL[6].posicio.alfa = 0.0;		llumGL[6].posicio.beta = 0.0; // Cap posici√≥ definida, definida en funci√≥ vaixell() en escena.cpp
 	llumGL[6].atenuacio.a = 0.0;		llumGL[6].atenuacio.b = 0.0;		llumGL[6].atenuacio.c = 1.0;
 	llumGL[6].restringida = false;
 	llumGL[6].spotdirection[0] = 0.0;	llumGL[6].spotdirection[1] = 0.0;	llumGL[6].spotdirection[2] = 0.0;
 	llumGL[6].cutoff = 0.0;				llumGL[6].exponent = 0.0;
 
-	// LLum #7: Llum Far, configurada a la funciÛ faro() en escena.cpp.
+	// LLum #7: Llum Far, configurada a la funci√≥ faro() en escena.cpp.
 	llumGL[7].encesa = false;
 	llumGL[7].difusa[0] = 1.0f;		llumGL[7].difusa[1] = 1.0f;			llumGL[7].difusa[2] = 1.0f;		llumGL[7].difusa[3] = 1.0f;
 	llumGL[7].especular[0] = 1.0f;		llumGL[7].especular[1] = 1.0f;		llumGL[7].especular[2] = 1.0f;	llumGL[7].especular[3] = 1;
 
-	llumGL[7].posicio.R = 0.0;			llumGL[7].posicio.alfa = 0.0;		llumGL[7].posicio.beta = 0.0; // Cap posiciÛ definida, definida en funciÛ faro() en escena.cpp
+	llumGL[7].posicio.R = 0.0;			llumGL[7].posicio.alfa = 0.0;		llumGL[7].posicio.beta = 0.0; // Cap posici√≥ definida, definida en funci√≥ faro() en escena.cpp
 	llumGL[7].atenuacio.a = 0.0;		llumGL[7].atenuacio.b = 0.0;		llumGL[7].atenuacio.c = 1.0;
 	llumGL[7].restringida = false;
 	llumGL[7].spotdirection[0] = 0.0;	llumGL[7].spotdirection[1] = 0.0;	llumGL[7].spotdirection[2] = 0.0;
 	llumGL[7].cutoff = 0.0;				llumGL[7].exponent = 0.0;
 
-	// Entorn VGI: Variables de control del men˙ Shaders
+	// Entorn VGI: Variables de control del men√∫ Shaders
 		//InitAPI();
 	sw_shader = false;				shader_menu = CAP;				shader_programID = 0;
 
@@ -392,10 +392,10 @@ CEntornVGIView::CEntornVGIView()
 	m_EsfeEAvall.R = 0.0;		m_EsfeEAvall.alfa = 0.0;	m_EsfeEAvall.beta = 0.0;
 	m_EsfeIncEAvall.R = 0.0;	m_EsfeIncEAvall.alfa = 0.0;	m_EsfeIncEAvall.beta = 0.0;
 
-	// Entorn VGI: Variables que controlen par‡metres visualitzaciÛ: Mides finestra Windows i PV
+	// Entorn VGI: Variables que controlen par√†metres visualitzaci√≥: Mides finestra Windows i PV
 	w = 0;				h = 0;								// Mides finestra
 	w_old = 0;			h_old = 0;							// Copia mides finestre per a FullScreen
-	OPV.R = 15.0;		OPV.alfa = 0.0;		OPV.beta = 0.0;	// Origen PV en esfËriques
+	OPV.R = 15.0;		OPV.alfa = 0.0;		OPV.beta = 0.0;	// Origen PV en esf√®riques
 	Vis_Polar = POLARY;
 
 	// Entorn VGI: Color de fons i de l'objecte
@@ -437,27 +437,27 @@ CEntornVGIView::CEntornVGIView()
 	// Entorn VGI: Altres variables
 	mida = 1.0;			nom = "";		buffer = "";
 
-	// Entorn VGI: InicialitzaciÛ de les llibreries DevIL per a la c‡rrega de textures i fitxers .3DS
+	// Entorn VGI: Inicialitzaci√≥ de les llibreries DevIL per a la c√†rrega de textures i fitxers .3DS
 	ilInit();					// Inicialitzar llibreria IL
 	iluInit();					// Inicialitzar llibreria ILU
 	ilutRenderer(ILUT_OPENGL);	// Inicialitzar llibreria ILUT per a OpenGL
 
-/* Entorn VGI : ActivaciÛ el contexte OpenGL
+/* Entorn VGI : Activaci√≥ el contexte OpenGL
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
 
-// C‡rrega SHADERS
-// C‡rrega Shader Eixos
+// C√†rrega SHADERS
+// C√†rrega Shader Eixos
 		//fprintf(stderr, "Eixos: \n");
 	if (!eixos_programID) eixos_programID = shaderEixos.loadFileShaders(".\\shaders\\eixos.VERT", ".\\shaders\\eixos.FRAG");
 
-// C‡rrega Shader de Gouraud
+// C√†rrega Shader de Gouraud
 	sw_shader = true;				shader_menu = GOURAUD_SHADER;
 	if (!shader_programID) shader_programID = shaderLighting.loadFileShaders(".\\shaders\\gouraud_shdrML.vert", ".\\shaders\\gouraud_shdrML.frag");
 
-// Entorn VGI: CreaciÛ de la llista que dibuixar‡ els eixos Coordenades MÛn. FunciÛ on est‡ codi per dibuixar eixos
-	if (!eixos_Id) eixos_Id = deixos();						// FunciÛ que defineix els Eixos Coordenades MÛn com un VAO.
+// Entorn VGI: Creaci√≥ de la llista que dibuixar√† els eixos Coordenades M√≥n. Funci√≥ on est√† codi per dibuixar eixos
+	if (!eixos_Id) eixos_Id = deixos();						// Funci√≥ que defineix els Eixos Coordenades M√≥n com un VAO.
 
-// Entorn VGI: ActivaciÛ el contexte OpenGL. Permet la coexistencia d'altres contextes de generaciÛ
+// Entorn VGI: Activaci√≥ el contexte OpenGL. Permet la coexistencia d'altres contextes de generaci√≥
 	wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
 */
 
@@ -473,7 +473,7 @@ CEntornVGIView::~CEntornVGIView()
 
 BOOL CEntornVGIView::PreCreateWindow(CREATESTRUCT& cs)
 {
-	// TODO: modificar aquÌ la clase Window o los estilos cambiando
+	// TODO: modificar aqu√≠ la clase Window o los estilos cambiando
 	//  CREATESTRUCT cs
 
 	// An OpenGL window must be created with the following flags and must not
@@ -485,7 +485,7 @@ BOOL CEntornVGIView::PreCreateWindow(CREATESTRUCT& cs)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// ImpresiÛn de CEntornVGIView
+// Impresi√≥n de CEntornVGIView
 
 void CEntornVGIView::OnFilePrintPreview()
 {
@@ -496,18 +496,18 @@ void CEntornVGIView::OnFilePrintPreview()
 
 BOOL CEntornVGIView::OnPreparePrinting(CPrintInfo* pInfo)
 {
-	// PreparaciÛn predeterminada
+	// Preparaci√≥n predeterminada
 	return DoPreparePrinting(pInfo);
 }
 
 void CEntornVGIView::OnBeginPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
 {
-	// TODO: agregar inicializaciÛn adicional antes de imprimir
+	// TODO: agregar inicializaci√≥n adicional antes de imprimir
 }
 
 void CEntornVGIView::OnEndPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
 {
-	// TODO: agregar limpieza despuÈs de imprimir
+	// TODO: agregar limpieza despu√©s de imprimir
 }
 
 void CEntornVGIView::OnContextMenu(CWnd* /* pWnd */, CPoint point)
@@ -518,7 +518,7 @@ void CEntornVGIView::OnContextMenu(CWnd* /* pWnd */, CPoint point)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// DiagnÛsticos de CEntornVGIView
+// Diagn√≥sticos de CEntornVGIView
 
 #ifdef _DEBUG
 void CEntornVGIView::AssertValid() const
@@ -531,7 +531,7 @@ void CEntornVGIView::Dump(CDumpContext& dc) const
 	CView::Dump(dc);
 }
 
-CEntornVGIDoc* CEntornVGIView::GetDocument() const // La versiÛn de no depuraciÛn est· alineada
+CEntornVGIDoc* CEntornVGIView::GetDocument() const // La versi√≥n de no depuraci√≥n est√° alineada
 {
 	ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CEntornVGIDoc)));
 	return (CEntornVGIDoc*)m_pDocument;
@@ -547,7 +547,7 @@ int CEntornVGIView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	if (CView::OnCreate(lpCreateStruct) == -1)
 		return -1;
 
-	// TODO:  Agregue aquÌ su cÛdigo de creaciÛn especializado
+	// TODO:  Agregue aqu√≠ su c√≥digo de creaci√≥n especializado
 
 		//CDC* pDC = GetDC();
 		//m_glRenderer.CreateGLContext(pDC);
@@ -574,7 +574,7 @@ int CEntornVGIView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return false;
 	}
 
-	// ActivaciÛ format pixel per al contexte dispositiu
+	// Activaci√≥ format pixel per al contexte dispositiu
 		//BOOL bResult = SetPixelFormat(pDC->m_hDC, nPixelFormat, &pfd);
 	BOOL bResult = SetPixelFormat(m_pDC->GetSafeHdc(), nPixelFormat, &pfd);
 
@@ -585,7 +585,7 @@ int CEntornVGIView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return false;
 	}
 
-	// Entorn VGI: CreaciÛ contexte generaciÛ OpenGL
+	// Entorn VGI: Creaci√≥ contexte generaci√≥ OpenGL
 		// m_hRC=wglCreateContext(m_hDC);
 	m_hRC = wglCreateContext(m_pDC->GetSafeHdc());
 	if (!m_hRC)
@@ -654,7 +654,7 @@ int CEntornVGIView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hrc);
 
-	// Entorn VGI: InicialitzaciÛ de funcions de shaders per a OpenGL 2.0
+	// Entorn VGI: Inicialitzaci√≥ de funcions de shaders per a OpenGL 2.0
 	InitAPI();
 
 	wglMakeCurrent(NULL, NULL);
@@ -679,7 +679,7 @@ int CEntornVGIView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		}
 	}
 
-	// Permet la coexistencia d'altres contextes de generaciÛ
+	// Permet la coexistencia d'altres contextes de generaci√≥
 	wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
 
 	return true;
@@ -687,7 +687,7 @@ int CEntornVGIView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 void CEntornVGIView::InitAPI()
 {
-	/*	Vendor, Renderer, Version, Shading Laguage Version i Extensions suportades per la placa gr‡fica gravades en fitxer extensions.txt
+	/*	Vendor, Renderer, Version, Shading Laguage Version i Extensions suportades per la placa gr√†fica gravades en fitxer extensions.txt
 		CString nomf;
 		nomf = "extensions.txt";
 		char *nomfitxer = CString2Char(nomf);
@@ -822,7 +822,7 @@ void CEntornVGIView::OnDestroy()
 {
 	CView::OnDestroy();
 
-	// TODO: Agregue aquÌ su cÛdigo de controlador de mensajes
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de mensajes
 	CDC* pDC = GetDC();
 	ReleaseDC(pDC);
 }
@@ -832,12 +832,12 @@ void CEntornVGIView::OnSize(UINT nType, int cx, int cy)
 {
 	CView::OnSize(nType, cx, cy);
 
-	// TODO: Agregue aquÌ su cÛdigo de controlador de mensajes
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de mensajes
 
 	// A resize event occured; cx and cy are the window's new width and height.
 	// Find the OpenGL change size function given in the Lab 1 notes and call it here
 
-	// Entorn VGI: MODIFICACI” ->Establim les mides de la finestra actual
+	// Entorn VGI: MODIFICACI√ì ->Establim les mides de la finestra actual
 	w = cx;
 	h = cy;
 
@@ -860,7 +860,7 @@ void CEntornVGIView::OnInitialUpdate()
 void CEntornVGIView::OnDraw(CDC* /*pDC*/)
 {
 
-	// TODO: agregar aquÌ el cÛdigo de dibujo para datos nativos
+	// TODO: agregar aqu√≠ el c√≥digo de dibujo para datos nativos
 
 	CEntornVGIDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
@@ -872,28 +872,28 @@ void CEntornVGIView::OnDraw(CDC* /*pDC*/)
 void CEntornVGIView::OnPaint()
 {
 	CPaintDC dc(this); // device context for painting
-// TODO: Agregue aquÌ su cÛdigo de controlador de mensajes
+// TODO: Agregue aqu√≠ su c√≥digo de controlador de mensajes
 	GLdouble vpv[3] = { 0.0, 0.0, 1.0 };
 
-	// Entorn VGI: ActivaciÛ el contexte OpenGL
+	// Entorn VGI: Activaci√≥ el contexte OpenGL
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
 
-	// Cridem a les funcions de l'escena i la projecciÛ segons s'hagi 
-	// seleccionat una projecciÛ o un altra
+	// Cridem a les funcions de l'escena i la projecci√≥ segons s'hagi 
+	// seleccionat una projecci√≥ o un altra
 	switch (projeccio)
 	{
 	case AXONOM:
-		// PROJECCI” AXONOM»TRICA
-		// ActivaciÛ del retall de pantalla
+		// PROJECCI√ì AXONOM√àTRICA
+		// Activaci√≥ del retall de pantalla
 		glEnable(GL_SCISSOR_TEST);
 
 		// Retall
 		glScissor(0, 0, w, h);
 		glViewport(0, 0, w, h);
 
-		// AquÌ farem les crides per a definir Viewport, ProjecciÛ i C‡mara: INICI -------------------------
+		// Aqu√≠ farem les crides per a definir Viewport, Projecci√≥ i C√†mara: INICI -------------------------
 
-		// AquÌ farem les cridesper a definir Viewport, ProjecciÛ i C‡mara:: FI -------------------------
+		// Aqu√≠ farem les cridesper a definir Viewport, Projecci√≥ i C√†mara:: FI -------------------------
 				// Dibuixar Model (escena)
 		configura_Escena();     // Aplicar Transformacions Geometriques segons persiana Transformacio i configurar objectes
 		dibuixa_Escena2();		// Dibuix geometria de l'escena amb comandes GL.
@@ -903,8 +903,8 @@ void CEntornVGIView::OnPaint()
 		break;
 
 	case ORTO:
-		// PROJECCI” ORTOGR¿FICA
-		// ActivaciÛ del retall de pantalla
+		// PROJECCI√ì ORTOGR√ÄFICA
+		// Activaci√≥ del retall de pantalla
 		glEnable(GL_SCISSOR_TEST);
 
 		// Retall
@@ -917,11 +917,11 @@ void CEntornVGIView::OnPaint()
 		else
 			FonsN();
 
-		// AquÌ farem les quatre crides a ProjeccioOrto i Ortografica per obtenir 
-		// les quatre vistes ortogr‡fiques
-		// ---------- Entorn VGI: DESCOMENTAR QUAN S'IMPLEMENTI PROJECCIO ORTOGR¿FICA
+		// Aqu√≠ farem les quatre crides a ProjeccioOrto i Ortografica per obtenir 
+		// les quatre vistes ortogr√†fiques
+		// ---------- Entorn VGI: DESCOMENTAR QUAN S'IMPLEMENTI PROJECCIO ORTOGR√ÄFICA
 		// PLANTA (Inferior Esquerra)
-				// DefiniciÛ de Viewport, ProjecciÛ i C‡mara
+				// Definici√≥ de Viewport, Projecci√≥ i C√†mara
 		ProjectionMatrix = Projeccio_Orto();
 		ViewMatrix = Vista_Ortografica(shader_programID, 0, OPV.R, c_fons, col_obj, objecte, mida, pas, front_faces, oculta,
 			test_vis, back_line, ilumina, llum_ambient, llumGL, ifixe, ilum2sides,
@@ -930,8 +930,8 @@ void CEntornVGIView::OnPaint()
 		configura_Escena();     // Aplicar Transformacions Geometriques segons persiana Transformacio i configurar objectes
 		dibuixa_Escena();		// Dibuix geometria de l'escena amb comandes GL.
 
-// ISOM»TRICA (Inferior Dreta)
-		// DefiniciÛ de Viewport, ProjecciÛ i C‡mara
+// ISOM√àTRICA (Inferior Dreta)
+		// Definici√≥ de Viewport, Projecci√≥ i C√†mara
 		ProjectionMatrix = Projeccio_Orto();
 		ViewMatrix = Vista_Ortografica(shader_programID, 3, OPV.R, c_fons, col_obj, objecte, mida, pas, front_faces, oculta,
 			test_vis, back_line, ilumina, llum_ambient, llumGL, ifixe, ilum2sides,
@@ -942,8 +942,8 @@ void CEntornVGIView::OnPaint()
 		dibuixa_Escena();		// Dibuix geometria de l'escena amb comandes GL.
 		//glPopMatrix();
 
-// AL«AT (Superior Esquerra)
-		// DefiniciÛ de Viewport, ProjecciÛ i C‡mara
+// AL√áAT (Superior Esquerra)
+		// Definici√≥ de Viewport, Projecci√≥ i C√†mara
 		ProjectionMatrix = Projeccio_Orto();
 		ViewMatrix = Vista_Ortografica(shader_programID, 1, OPV.R, c_fons, col_obj, objecte, mida, pas, front_faces, oculta,
 			test_vis, back_line, ilumina, llum_ambient, llumGL, ifixe, ilum2sides,
@@ -953,7 +953,7 @@ void CEntornVGIView::OnPaint()
 		dibuixa_Escena();		// Dibuix geometria de l'escena amb comandes GL.
 
 // PERFIL (Superior Dreta)
-		// DefiniciÛ de Viewport, ProjecciÛ i C‡mara
+		// Definici√≥ de Viewport, Projecci√≥ i C√†mara
 		ProjectionMatrix = Projeccio_Orto();
 		ViewMatrix = Vista_Ortografica(shader_programID, 2, OPV.R, c_fons, col_obj, objecte, mida, pas, front_faces, oculta,
 			test_vis, back_line, ilumina, llum_ambient, llumGL, ifixe, ilum2sides,
@@ -967,14 +967,14 @@ void CEntornVGIView::OnPaint()
 		break;
 
 	case PERSPECT:
-		// PROJECCI” PERSPECTIVA
+		// PROJECCI√ì PERSPECTIVA
 				//glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST); // Set Perspective Calculations To Most Accurate
-		glDisable(GL_SCISSOR_TEST);		// DesactivaciÛ del retall de pantalla
+		glDisable(GL_SCISSOR_TEST);		// Desactivaci√≥ del retall de pantalla
 
-		// DefiniciÛ de Viewport, ProjecciÛ i C‡mara
+		// Definici√≥ de Viewport, Projecci√≥ i C√†mara
 		ProjectionMatrix = Projeccio_Perspectiva(shader_programID, 0, 0, w, h, OPV.R);
 
-		// DefiniciÛ de la c‡mera.
+		// Definici√≥ de la c√†mera.
 		if (camera == CAM_ESFERICA) {
 			n[0] = 0;		n[1] = 0;		n[2] = 0;
 			ViewMatrix = Vista_Esferica(shader_programID, OPV, Vis_Polar, pan, tr_cpv, tr_cpvF, c_fons, col_obj, objecte, mida, pas,
@@ -1004,18 +1004,18 @@ void CEntornVGIView::OnPaint()
 		break;
 
 	default:
-		// C‡rrega SHADERS
-		// C‡rrega Shader Eixos
+		// C√†rrega SHADERS
+		// C√†rrega Shader Eixos
 		if (!eixos_programID) eixos_programID = shaderEixos.loadFileShaders(".\\shaders\\eixos.VERT", ".\\shaders\\eixos.FRAG");
 
-		// C‡rrega Shader de Gouraud
+		// C√†rrega Shader de Gouraud
 		sw_shader = true;				shader_menu = GOURAUD_SHADER;
 		if (!shader_programID) shader_programID = shaderLighting.loadFileShaders(".\\shaders\\gouraud_shdrML.vert", ".\\shaders\\gouraud_shdrML.frag");
 
-		// Entorn VGI: CreaciÛ de la llista que dibuixar‡ els eixos Coordenades MÛn. FunciÛ on est‡ codi per dibuixar eixos	
-		if (!eixos_Id) eixos_Id = deixos();						// FunciÛ que defineix els Eixos Coordenades MÛn com un VAO.
+		// Entorn VGI: Creaci√≥ de la llista que dibuixar√† els eixos Coordenades M√≥n. Funci√≥ on est√† codi per dibuixar eixos	
+		if (!eixos_Id) eixos_Id = deixos();						// Funci√≥ que defineix els Eixos Coordenades M√≥n com un VAO.
 
-// DefinciÛ projecciÛ PERSPECTIVA
+// Definci√≥ projecci√≥ PERSPECTIVA
 
 		projeccio = PERSPECT;
 		OnIluminacioGouraud();
@@ -1023,7 +1023,7 @@ void CEntornVGIView::OnPaint()
 		mainTetris();
 
 
-		// Crida a la funciÛ Fons Blanc
+		// Crida a la funci√≥ Fons Blanc
 		FonsB();
 
 		// Intercanvia l'escena al front de la pantalla
@@ -1031,10 +1031,10 @@ void CEntornVGIView::OnPaint()
 		break;
 	}
 
-	// Entorn VGI: ActivaciÛ el contexte OpenGL. Permet la coexistencia d'altres contextes de generaciÛ
+	// Entorn VGI: Activaci√≥ el contexte OpenGL. Permet la coexistencia d'altres contextes de generaci√≥
 	wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
 
-	//  Actualitzar la barra d'estat de l'aplicaciÛ amb els valors R,A,B,PVx,PVy,PVz
+	//  Actualitzar la barra d'estat de l'aplicaci√≥ amb els valors R,A,B,PVx,PVy,PVz
 	Barra_Estat();
 }
 
@@ -1050,13 +1050,13 @@ void CEntornVGIView::configura_Escena()
 // dibuixa_Escena: Funcio que crida al dibuix dels diferents elements de l'escana
 void CEntornVGIView::dibuixa_Escena()
 {
-	//	Dibuix SkyBox C˙bic.
+	//	Dibuix SkyBox C√∫bic.
 	if (SkyBoxCube) dibuixa_Skybox(skC_programID, cubemapTexture, Vis_Polar, ProjectionMatrix, ViewMatrix);
 
-	//	Dibuix Coordenades MÛn i Reixes.
+	//	Dibuix Coordenades M√≥n i Reixes.
 	dibuixa_Eixos(eixos_programID, eixos, eixos_Id, grid, hgrid, ProjectionMatrix, ViewMatrix);
 
-	//	GTMatrix = glm::scalef(GTMatrix,vec3());			// Escalat d'objectes, per adequar-los a les vistes ortogr‡fiques (Pr‡ctica 2)
+	//	GTMatrix = glm::scalef(GTMatrix,vec3());			// Escalat d'objectes, per adequar-los a les vistes ortogr√†fiques (Pr√†ctica 2)
 
 	//	Dibuix geometria de l'escena amb comandes GL.
 
@@ -1064,28 +1064,28 @@ void CEntornVGIView::dibuixa_Escena()
 		dibuixa_EscenaGL(shader_programID, eixos, eixos_Id, grid, hgrid, objecte, col_obj, sw_material,
 			textura, texturesID, textura_map, tFlag_invert_Y,
 			npts_T, PC_t, pas_CS, sw_Punts_Control, dibuixa_TriedreFrenet,
-			FIT_3DS, FIT_OBJ + i, // VAO's i nombre de vËrtexs dels objectes 3DS i OBJ
+			FIT_3DS, FIT_OBJ + i, // VAO's i nombre de v√®rtexs dels objectes 3DS i OBJ
 			ViewMatrix, GTMatrix);
 	}
 
 
 
-	//	Dibuix Coordenades MÛn i Reixes.
+	//	Dibuix Coordenades M√≥n i Reixes.
 			//dibuixa_Eixos(eixos_programID, eixos, eixos_Id, grid, hgrid, ProjectionMatrix, ViewMatrix);
 
-	//	Dibuix Coordenades MÛn i Reixes.
+	//	Dibuix Coordenades M√≥n i Reixes.
 			//if (SkyBoxCube) dibuixa_Skybox(skC_programID, cubemapTexture, ProjectionMatrix, ViewMatrix);
 }
 
 void CEntornVGIView::dibuixa_Escena2()
 {
-	//	Dibuix SkyBox C˙bic.
+	//	Dibuix SkyBox C√∫bic.
 	if (SkyBoxCube) dibuixa_Skybox(skC_programID, cubemapTexture, Vis_Polar, ProjectionMatrix, ViewMatrix);
 
-	//	Dibuix Coordenades MÛn i Reixes.
+	//	Dibuix Coordenades M√≥n i Reixes.
 	dibuixa_Eixos(eixos_programID, eixos, eixos_Id, grid, hgrid, ProjectionMatrix, ViewMatrix);
 
-	//	GTMatrix = glm::scalef(GTMatrix,vec3());			// Escalat d'objectes, per adequar-los a les vistes ortogr‡fiques (Pr‡ctica 2)
+	//	GTMatrix = glm::scalef(GTMatrix,vec3());			// Escalat d'objectes, per adequar-los a les vistes ortogr√†fiques (Pr√†ctica 2)
 
 	//	Dibuix geometria de l'escena amb comandes GL.
 
@@ -1107,7 +1107,7 @@ void CEntornVGIView::dibuixa_Escena2()
 					dibuixa_EscenaGL(shader_programID, eixos, eixos_Id, grid, hgrid, objecte, col_obj, sw_material,
 						textura, texturesID, textura_map, tFlag_invert_Y,
 						npts_T, PC_t, pas_CS, sw_Punts_Control, dibuixa_TriedreFrenet,
-						FIT_3DS, m_board.m_blocks[boardI][boardJ][boardK].getIdVao(), // VAO's i nombre de vËrtexs dels objectes 3DS i OBJ
+						FIT_3DS, m_board.m_blocks[boardI][boardJ][boardK].getIdVao(), // VAO's i nombre de v√®rtexs dels objectes 3DS i OBJ
 						ViewMatrix,
 						sendposite);
 				}
@@ -1121,7 +1121,7 @@ void CEntornVGIView::dibuixa_Escena2()
 	dibuixa_EscenaGL(shader_programID, eixos, eixos_Id, grid, hgrid, objecte, col_obj, sw_material,
 		textura, texturesID, textura_map, tFlag_invert_Y,
 		npts_T, PC_t, pas_CS, sw_Punts_Control, dibuixa_TriedreFrenet,
-		FIT_3DS, pieces[2].getIdVao(), // VAO's i nombre de vËrtexs dels objectes 3DS i OBJ
+		FIT_3DS, pieces[2].getIdVao(), // VAO's i nombre de v√®rtexs dels objectes 3DS i OBJ
 		ViewMatrix,
 		pieces[2].getMatrix());
 
@@ -1132,32 +1132,32 @@ void CEntornVGIView::dibuixa_Escena2()
 	dibuixa_EscenaGL(shader_programID, eixos, eixos_Id, grid, hgrid, objecte, col_obj, sw_material,
 		textura, texturesID, textura_map, tFlag_invert_Y,
 		npts_T, PC_t, pas_CS, sw_Punts_Control, dibuixa_TriedreFrenet,
-		FIT_3DS, m_board.getIdVao(), // VAO's i nombre de vËrtexs dels objectes 3DS i OBJ
+		FIT_3DS, m_board.getIdVao(), // VAO's i nombre de v√®rtexs dels objectes 3DS i OBJ
 		ViewMatrix,
 		m_board.getMatrix());
 	glm::mat4 rotM = toMat4(pieces[numPiece].getQuaternio());
 	dibuixa_EscenaGL(shader_programID, eixos, eixos_Id, grid, hgrid, objecte, col_obj, sw_material,
 		textura, texturesID, textura_map, tFlag_invert_Y,
 		npts_T, PC_t, pas_CS, sw_Punts_Control, dibuixa_TriedreFrenet,
-		FIT_3DS, pieces[numPiece].getIdVao(), // VAO's i nombre de vËrtexs dels objectes 3DS i OBJ
+		FIT_3DS, pieces[numPiece].getIdVao(), // VAO's i nombre de v√®rtexs dels objectes 3DS i OBJ
 		ViewMatrix, pieces[numPiece].getMatrix() * rotM);
 
 
 
-	// Matriu de transformacions de la peÁa en questio
+	// Matriu de transformacions de la pe√ßa en questio
 
 
 
-	//	Dibuix Coordenades MÛn i Reixes.
+	//	Dibuix Coordenades M√≥n i Reixes.
 			//dibuixa_Eixos(eixos_programID, eixos, eixos_Id, grid, hgrid, ProjectionMatrix, ViewMatrix);
 
-	//	Dibuix Coordenades MÛn i Reixes.
+	//	Dibuix Coordenades M√≥n i Reixes.
 			//if (SkyBoxCube) dibuixa_Skybox(skC_programID, cubemapTexture, ProjectionMatrix, ViewMatrix);
 }
 
 
-// Barra_Estat: Actualitza la barra d'estat (Status Bar) de l'aplicaciÛ amb els
-//      valors R,A,B,PVx,PVy,PVz en VisualitzaciÛ Interactiva.
+// Barra_Estat: Actualitza la barra d'estat (Status Bar) de l'aplicaci√≥ amb els
+//      valors R,A,B,PVx,PVy,PVz en Visualitzaci√≥ Interactiva.
 void CEntornVGIView::Barra_Estat()
 {
 	CString sss;
@@ -1168,19 +1168,19 @@ void CEntornVGIView::Barra_Estat()
 // Status Bar fitxer fractal
 	if (nom != "") GetStatusBar().SetPaneText(0, nom);
 
-	// C‡lcul dels valors per l'opciÛ Vista->Navega
+	// C√†lcul dels valors per l'opci√≥ Vista->Navega
 	if (projeccio != CAP && projeccio != ORTO) {
 		if (camera == CAM_ESFERICA)
-		{	// C‡mera EsfËrica
+		{	// C√†mera Esf√®rica
 			OPVAux.R = OPV.R; OPVAux.alfa = OPV.alfa; OPVAux.beta = OPV.beta;
 		}
 		else if (camera == CAM_NAVEGA)
-		{	// C‡mera Navega
+		{	// C√†mera Navega
 			OPVAux.R = sqrt(opvN.x * opvN.x + opvN.y * opvN.y + opvN.z * opvN.z);
 			OPVAux.alfa = (asin(opvN.z / OPVAux.R) * 180) / PI;
 			OPVAux.beta = (atan(opvN.y / opvN.x)) * 180 / PI;
 		}
-		else {	// C‡mera Geode
+		else {	// C√†mera Geode
 			OPVAux.R = OPV_G.R; OPVAux.alfa = OPV_G.alfa; OPVAux.beta = OPV_G.beta;
 		}
 	}
@@ -1194,7 +1194,7 @@ void CEntornVGIView::Barra_Estat()
 	else if (camera == CAM_NAVEGA) buffer = " NAV   ";
 	else buffer.Format(_T("%.1f"), OPVAux.R);
 	sss = _T("R=") + buffer;
-	// Refrescar posiciÛ R Status Bar
+	// Refrescar posici√≥ R Status Bar
 	GetStatusBar().SetPaneText(1, sss);
 
 	// Status Bar angle alfa Origen Punt de Vista
@@ -1203,7 +1203,7 @@ void CEntornVGIView::Barra_Estat()
 	else if (camera == CAM_NAVEGA) buffer = " NAV   ";
 	else buffer.Format(_T("%.1f"), OPVAux.alfa);
 	sss = _T("a=") + buffer;
-	// Refrescar posiciÛ angleh Status Bar
+	// Refrescar posici√≥ angleh Status Bar
 	GetStatusBar().SetPaneText(2, sss);
 
 	// Status Bar angle beta Origen Punt de Vista
@@ -1211,11 +1211,11 @@ void CEntornVGIView::Barra_Estat()
 	else if (projeccio == ORTO) buffer = "ORTO   ";
 	else if (camera == CAM_NAVEGA) buffer = " NAV   ";
 	else buffer.Format(_T("%.1f"), OPVAux.beta);
-	sss = _T("ﬂ=") + buffer;
-	// Refrescar posiciÛ anglev Status Bar
+	sss = _T("√ü=") + buffer;
+	// Refrescar posici√≥ anglev Status Bar
 	GetStatusBar().SetPaneText(3, sss);
 
-	// TransformaciÛ PV de Coord. esfËriques (R,anglev,angleh) --> Coord. cartesianes (PVx,PVy,PVz)
+	// Transformaci√≥ PV de Coord. esf√®riques (R,anglev,angleh) --> Coord. cartesianes (PVx,PVy,PVz)
 	if (camera == CAM_NAVEGA) { PVx = opvN.x; PVy = opvN.y; PVz = opvN.z; }
 	else {
 		if (Vis_Polar == POLARZ) {
@@ -1240,7 +1240,7 @@ void CEntornVGIView::Barra_Estat()
 	else if (pan) double2CString(tr_cpv.x);
 	else double2CString(PVx);
 	sss = _T("PVx=") + buffer;
-	// Refrescar posiciÛ PVx Status Bar
+	// Refrescar posici√≥ PVx Status Bar
 	GetStatusBar().SetPaneText(4, sss);
 
 	// Status Bar PVy
@@ -1248,7 +1248,7 @@ void CEntornVGIView::Barra_Estat()
 	else if (pan) double2CString(tr_cpv.y);
 	else double2CString(PVy);
 	sss = _T("PVy=") + buffer;
-	// Refrescar posiciÛ PVy Status Bar
+	// Refrescar posici√≥ PVy Status Bar
 	GetStatusBar().SetPaneText(5, sss);
 
 	// Status Bar PVz
@@ -1256,7 +1256,7 @@ void CEntornVGIView::Barra_Estat()
 	else if (pan) double2CString(tr_cpv.z);
 	else double2CString(PVz);
 	sss = _T("PVz=") + buffer;
-	// Refrescar posiciÛ PVz Status Bar
+	// Refrescar posici√≥ PVz Status Bar
 	GetStatusBar().SetPaneText(6, sss);
 
 	// Status Bar per indicar el modus de canvi de color (FONS o OBJECTE)
@@ -1267,10 +1267,10 @@ void CEntornVGIView::Barra_Estat()
 	else if (sw_color) sss = " OBJ";
 	else sss = "FONS";
 
-	// Refrescar posiciÛ Transformacions en Status Bar
+	// Refrescar posici√≥ Transformacions en Status Bar
 	GetStatusBar().SetPaneText(7, sss);
 
-	// Status Bar per indicar tipus de TransformaciÛ (TRAS, ROT, ESC)
+	// Status Bar per indicar tipus de Transformaci√≥ (TRAS, ROT, ESC)
 	sss = " ";
 	if (transf) {
 		if (rota) sss = "ROT";
@@ -1287,10 +1287,10 @@ void CEntornVGIView::Barra_Estat()
 		else if (fonsG) sss = "   G ";
 		else if (fonsB) sss = "      B";
 	}
-	// Refrescar posiciÛ Transformacions en Status Bar
+	// Refrescar posici√≥ Transformacions en Status Bar
 	GetStatusBar().SetPaneText(8, sss);
 
-	// Status Bar dels par‡metres de TransformaciÛ, Color i posicions de Robot i Cama
+	// Status Bar dels par√†metres de Transformaci√≥, Color i posicions de Robot i Cama
 	sss = " ";
 	if (transf)
 	{
@@ -1354,7 +1354,7 @@ void CEntornVGIView::Barra_Estat()
 		}
 	}
 
-	// Refrescar posiciÛ dels par‡metres de TransformaciÛ, Color i posicions de Robot i Cama
+	// Refrescar posici√≥ dels par√†metres de Transformaci√≥, Color i posicions de Robot i Cama
 	GetStatusBar().SetPaneText(9, sss);
 
 	// Status Bar per indicar el pas del Fractal
@@ -1365,7 +1365,7 @@ void CEntornVGIView::Barra_Estat()
 	}
 	else { sss = "          "; }
 
-	// Refrescar posiciÛ Transformacions en Status Bar
+	// Refrescar posici√≥ Transformacions en Status Bar
 	GetStatusBar().SetPaneText(10, sss);
 }
 
@@ -1424,10 +1424,10 @@ GLuint CEntornVGIView::initializeShaders(CString filename)
 		free(vs);
 		free(fs);
 
-		// COMPILACI” VERTEX SHADER (VS)
+		// COMPILACI√ì VERTEX SHADER (VS)
 		glCompileShader(v);
 		glGetShaderiv(v, GL_COMPILE_STATUS, &compile_result);
-		// Llista error de compilaciÛ del Vertex Shader
+		// Llista error de compilaci√≥ del Vertex Shader
 		if (compile_result == GL_FALSE) {
 			GLint maxLength = 0;
 
@@ -1436,7 +1436,7 @@ GLuint CEntornVGIView::initializeShaders(CString filename)
 			std::vector<GLchar> errorLog(maxLength);
 			glGetShaderInfoLog(v, maxLength, &maxLength, &errorLog[0]);
 
-			AfxMessageBox(_T("Error compilaciÛ Vertex Shader"));
+			AfxMessageBox(_T("Error compilaci√≥ Vertex Shader"));
 
 			// Volcar missatges error a fitxer GLSL_Error.VERT
 			if ((fd = fopen("GLSL_Error.VERT", "w")) == NULL)
@@ -1454,11 +1454,11 @@ GLuint CEntornVGIView::initializeShaders(CString filename)
 		}
 		else AfxMessageBox(_T("Compilacio Vertex Shader Ok"));
 
-		// COMPILACI” FRAGMENT SHADER (FS)
+		// COMPILACI√ì FRAGMENT SHADER (FS)
 		glCompileShader(f);
 		glGetShaderiv(f, GL_COMPILE_STATUS, &compile_result);
 
-		// Llista error de compilaciÛ del Vertex Shader
+		// Llista error de compilaci√≥ del Vertex Shader
 		if (compile_result == GL_FALSE) {
 			GLint maxLength = 0;
 
@@ -1467,7 +1467,7 @@ GLuint CEntornVGIView::initializeShaders(CString filename)
 			std::vector<GLchar> errorLog(maxLength);
 			glGetShaderInfoLog(f, maxLength, &maxLength, &errorLog[0]);
 
-			AfxMessageBox(_T("Error compilaciÛ Fragment Shader"));
+			AfxMessageBox(_T("Error compilaci√≥ Fragment Shader"));
 
 			// Volcar missatges error a fitxer GLSL_Error.FRAG
 			if ((fd = fopen("GLSL_Error.FRAG", "w")) == NULL)
@@ -1485,16 +1485,16 @@ GLuint CEntornVGIView::initializeShaders(CString filename)
 		}
 		else AfxMessageBox(_T("Compilacio Fragment Shader Ok"));
 
-		// LINKEDICI” SHADER PROGRAM (p)
+		// LINKEDICI√ì SHADER PROGRAM (p)
 		p = glCreateProgram();
 		glAttachShader(p, v);	// Relaciona Vertex Shader al Program
 		glAttachShader(p, f);	// relaciona Fragment Shader al Program
 
-// LinkediciÛ del Program
+// Linkedici√≥ del Program
 		glLinkProgram(p);
 		glGetProgramiv(p, GL_LINK_STATUS, &link_result);
 
-		// Llista error de linkediciÛ del Shader Program
+		// Llista error de linkedici√≥ del Shader Program
 		if (link_result == GL_FALSE) {
 			GLint maxLength = 0;
 
@@ -1502,7 +1502,7 @@ GLuint CEntornVGIView::initializeShaders(CString filename)
 			// The maxLength includes the NULL character
 			std::vector<GLchar> errorLog(maxLength);
 			glGetProgramInfoLog(p, maxLength, &maxLength, &errorLog[0]);
-			AfxMessageBox(_T("Error LinkediciÛ Shader Program"));
+			AfxMessageBox(_T("Error Linkedici√≥ Shader Program"));
 
 			// Volcar missatges error a fitxer GLSL_Error.LINK
 			if ((fd = fopen("GLSL_Error.LINK", "w")) == NULL)
@@ -1520,10 +1520,10 @@ GLuint CEntornVGIView::initializeShaders(CString filename)
 		}
 		else AfxMessageBox(_T("Linkedicio Shader Program OK"));
 
-		// ActivaciÛ del Programa
+		// Activaci√≥ del Programa
 		glUseProgram(p);
 
-		// Retorna referËncia al Program creat
+		// Retorna refer√®ncia al Program creat
 		return p;
 	}
 	else return GL_FALSE;	// retornar 0 si no s'ha trobat el fitxer.
@@ -1567,10 +1567,10 @@ GLuint CEntornVGIView::loadFileShaders(CString file_Vert, CString file_Frag)
 	free(vs);
 	free(fs);
 
-	// COMPILACI” VERTEX SHADER (VS)
+	// COMPILACI√ì VERTEX SHADER (VS)
 	glCompileShader(v);
 	glGetShaderiv(v, GL_COMPILE_STATUS, &compile_result);
-	// Llista error de compilaciÛ
+	// Llista error de compilaci√≥
 	if (compile_result == GL_FALSE) {
 		GLint maxLength = 0;
 
@@ -1578,7 +1578,7 @@ GLuint CEntornVGIView::loadFileShaders(CString file_Vert, CString file_Frag)
 		// The maxLength includes the NULL character
 		std::vector<GLchar> errorLog(maxLength);
 		glGetShaderInfoLog(v, maxLength, &maxLength, &errorLog[0]);
-		AfxMessageBox(_T("Error compilaciÛ Vertex Shader"));
+		AfxMessageBox(_T("Error compilaci√≥ Vertex Shader"));
 
 		// Volcar missatges error a fitxer GLSL_Error.VERT
 		if ((fd = fopen("GLSL_Error.VERT", "w")) == NULL)
@@ -1594,10 +1594,10 @@ GLuint CEntornVGIView::loadFileShaders(CString file_Vert, CString file_Frag)
 		return GL_FALSE;
 	}
 
-	// COMPILACI” FRAGMENT SHADER (FS)
+	// COMPILACI√ì FRAGMENT SHADER (FS)
 	glCompileShader(f);
 	glGetShaderiv(f, GL_COMPILE_STATUS, &compile_result);
-	// Llista error de compilaciÛ
+	// Llista error de compilaci√≥
 	if (compile_result == GL_FALSE) {
 		GLint maxLength = 0;
 
@@ -1605,7 +1605,7 @@ GLuint CEntornVGIView::loadFileShaders(CString file_Vert, CString file_Frag)
 		// The maxLength includes the NULL character
 		std::vector<GLchar> errorLog(maxLength);
 		glGetShaderInfoLog(f, maxLength, &maxLength, &errorLog[0]);
-		AfxMessageBox(_T("Error compilaciÛ Fragment Shader"));
+		AfxMessageBox(_T("Error compilaci√≥ Fragment Shader"));
 
 		// Volcar missatges error a fitxer GLSL_Error.FRAG
 		if ((fd = fopen("GLSL_Error.FRAG", "w")) == NULL)
@@ -1621,16 +1621,16 @@ GLuint CEntornVGIView::loadFileShaders(CString file_Vert, CString file_Frag)
 		return GL_FALSE;
 	}
 
-	// COMPILACI” FRAGMENT SHADER (FS)
+	// COMPILACI√ì FRAGMENT SHADER (FS)
 	p = glCreateProgram();
 	glAttachShader(p, v);
 	glAttachShader(p, f);
 
-	// LINKEDICI” SHADER PROGRAM (programID)
+	// LINKEDICI√ì SHADER PROGRAM (programID)
 	glLinkProgram(p);
 	glGetProgramiv(p, GL_LINK_STATUS, &link_result);
 
-	// Llista error de compilaciÛ del Vertex Shader
+	// Llista error de compilaci√≥ del Vertex Shader
 	if (compile_result == GL_FALSE) {
 		GLint maxLength = 0;
 
@@ -1655,10 +1655,10 @@ GLuint CEntornVGIView::loadFileShaders(CString file_Vert, CString file_Frag)
 	}
 	else AfxMessageBox(_T("Linkedicio Shader Program OK"));
 
-	// ActivaciÛ del Programa
+	// Activaci√≥ del Programa
 	glUseProgram(p);
 
-	// Retorna referËncia al Program creat
+	// Retorna refer√®ncia al Program creat
 	return p;
 }
 
@@ -1694,12 +1694,12 @@ char* CEntornVGIView::textFileRead(char* fn) {
 *****************************************************************************/
 void CEntornVGIView::releaseAllShaders()
 {
-	// Entorn VGI: ActivaciÛ del contexte OpenGL
+	// Entorn VGI: Activaci√≥ del contexte OpenGL
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
 
 	glUseProgram(0);
 
-	// Entorn VGI: DesactivaciÛ del contexte OpenGL. Permet la coexistencia d'altres contextes de generaciÛ
+	// Entorn VGI: Desactivaci√≥ del contexte OpenGL. Permet la coexistencia d'altres contextes de generaci√≥
 	wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
 }
 
@@ -1708,19 +1708,19 @@ void CEntornVGIView::releaseAllShaders()
 /*                           CONTROL DEL TECLAT                              */
 /* ------------------------------------------------------------------------- */
 
-// OnKeyDown: FunciÛ de tractament de teclat (funciÛ que es crida quan es prem una tecla)
-//   PAR¿METRES:
+// OnKeyDown: Funci√≥ de tractament de teclat (funci√≥ que es crida quan es prem una tecla)
+//   PAR√ÄMETRES:
 //    - nChar: Codi del caracter seleccionat
-//    - nRepCnt: Nombre de vegades que s'ha apretat la tecla (acceleraciÛ)
-//    - nFlags: Flags d'interrupciÛ activats.
+//    - nRepCnt: Nombre de vegades que s'ha apretat la tecla (acceleraci√≥)
+//    - nFlags: Flags d'interrupci√≥ activats.
 void CEntornVGIView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de mensajes o llame al valor predeterminado
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de mensajes o llame al valor predeterminado
 	const double incr = 0.025f;
 	double modul = 0;
 	GLdouble vdir[3] = { 0, 0, 0 };
 
-	if ((nChar == 'F') || (nChar == VK_F12)) this->OnVistaFullscreen();	// ActivaciÛ-DesactivaciÛ Full Screen
+	if ((nChar == 'F') || (nChar == VK_F12)) this->OnVistaFullscreen();	// Activaci√≥-Desactivaci√≥ Full Screen
 	else if (objecte == C_BEZIER || objecte == C_BSPLINE || objecte == C_LEMNISCATA) Teclat_PasCorbes(nChar, nRepCnt);
 	else if ((sw_grid) && ((grid.x) || (grid.y) || (grid.z))) Teclat_Grid(nChar, nRepCnt);
 	else if (((nChar == 'G') || (nChar == 'g')) && ((grid.x) || (grid.y) || (grid.z))) sw_grid = !sw_grid;
@@ -1808,7 +1808,7 @@ void CEntornVGIView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 void CEntornVGIView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de mensajes o llame al valor predeterminado
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de mensajes o llame al valor predeterminado
 
 	CView::OnKeyUp(nChar, nRepCnt, nFlags);
 }
@@ -1819,16 +1819,16 @@ void CEntornVGIView::Teclat_ColorObjecte(UINT nChar, UINT nRepCnt)
 {
 	const double incr = 0.025f;
 
-	// FRACTAL: Canvi resoluciÛ del fractal pe tecles '+' i'-'
+	// FRACTAL: Canvi resoluci√≥ del fractal pe tecles '+' i'-'
 	if (objecte == O_FRACTAL)
 	{
-		if (nChar == 109) // Car‡cter '-' 
+		if (nChar == 109) // Car√†cter '-' 
 		{
 			pas = pas * 2;
 			if (pas > 64) pas = 64;
 			sw_il = true;
 		}
-		else if (nChar == 107) // Car‡cter '+' 
+		else if (nChar == 107) // Car√†cter '+' 
 		{
 			pas = pas / 2;
 			if (pas < 1) pas = 1;
@@ -1906,16 +1906,16 @@ void CEntornVGIView::Teclat_ColorFons(UINT nChar, UINT nRepCnt)
 {
 	const double incr = 0.025f;
 
-	// FRACTAL: Canvi resoluciÛ del fractal pe tecles '+' i'-'
+	// FRACTAL: Canvi resoluci√≥ del fractal pe tecles '+' i'-'
 	if (objecte == O_FRACTAL)
 	{
-		if (nChar == 109) // Car‡cter '-' 
+		if (nChar == 109) // Car√†cter '-' 
 		{
 			pas = pas * 2;
 			if (pas > 64) pas = 64;
 			sw_il = true;
 		}
-		else if (nChar == 107) // Car‡cter '+' 
+		else if (nChar == 107) // Car√†cter '+' 
 		{
 			pas = pas / 2;
 			if (pas < 1) pas = 1;
@@ -1983,13 +1983,13 @@ void CEntornVGIView::Teclat_ColorFons(UINT nChar, UINT nRepCnt)
 	else if ((nChar == 'b') || (nChar == 'B')) sw_color = false;
 }
 
-// Teclat_Navega: Teclat pels moviments de navegaciÛ.
+// Teclat_Navega: Teclat pels moviments de navegaci√≥.
 void CEntornVGIView::Teclat_Navega(UINT nChar, UINT nRepCnt)
 {
 	GLdouble vdir[3] = { 0, 0, 0 };
 	double modul = 0;
 
-	// Entorn VGI: Controls de moviment de navegaciÛ
+	// Entorn VGI: Controls de moviment de navegaci√≥
 	vdir[0] = n[0] - opvN.x;
 	vdir[1] = n[1] - opvN.y;
 	vdir[2] = n[2] - opvN.z;
@@ -2108,9 +2108,9 @@ void CEntornVGIView::Teclat_Pan(UINT nChar, UINT nRepCnt)
 		if (fact_pan > 2048) fact_pan = 2048;
 		break;
 
-		// Tecla Insert: Fixar el desplaÁament de pantalla (pan)
+		// Tecla Insert: Fixar el despla√ßament de pantalla (pan)
 	case VK_INSERT:
-		// Acumular desplaÁaments de pan (tr_cpv) en variables fixes (tr_cpvF).
+		// Acumular despla√ßaments de pan (tr_cpv) en variables fixes (tr_cpvF).
 		tr_cpvF.x += tr_cpv.x;		tr_cpv.x = 0.0;
 		if (tr_cpvF.x > 100000) tr_cpvF.y = 100000;
 		tr_cpvF.y += tr_cpv.y;		tr_cpv.y = 0.0;
@@ -2119,7 +2119,7 @@ void CEntornVGIView::Teclat_Pan(UINT nChar, UINT nRepCnt)
 		if (tr_cpvF.z > 100000) tr_cpvF.z = 100000;
 		break;
 
-		// Tecla Delete: Inicialitzar el desplaÁament de pantalla (pan)
+		// Tecla Delete: Inicialitzar el despla√ßament de pantalla (pan)
 	case VK_DELETE:
 		// Inicialitzar els valors de pan tant de la variable tr_cpv com de la tr_cpvF.
 		tr_cpv.x = 0.0;			tr_cpv.y = 0.0;			tr_cpv.z = 0.0;
@@ -2136,7 +2136,7 @@ void CEntornVGIView::Teclat_TransEscala(UINT nChar, UINT nRepCnt)
 {
 	switch (nChar)
 	{
-		// Modificar vector d'Escalatge per teclat (actiu amb Escalat ˙nicament)
+		// Modificar vector d'Escalatge per teclat (actiu amb Escalat √∫nicament)
 			// Tecla '+' (augmentar tot l'escalat)
 	case 107:
 		TG.VScal.x = TG.VScal.x * 2;
@@ -2195,7 +2195,7 @@ void CEntornVGIView::Teclat_TransEscala(UINT nChar, UINT nRepCnt)
 
 		// Tecla INSERT
 	case VK_INSERT:
-		// Acumular transformacions GeomËtriques (variable TG) i de pan en variables fixes (variable TGF)
+		// Acumular transformacions Geom√®triques (variable TG) i de pan en variables fixes (variable TGF)
 		TGF.VScal.x *= TG.VScal.x;	TGF.VScal.y *= TG.VScal.y; TGF.VScal.z *= TG.VScal.z;
 		if (TGF.VScal.x > 8192)		TGF.VScal.x = 8192;
 		if (TGF.VScal.y > 8192)		TGF.VScal.y = 8192;
@@ -2213,9 +2213,9 @@ void CEntornVGIView::Teclat_TransEscala(UINT nChar, UINT nRepCnt)
 		TG.VTras.x = 0.0;		TG.VTras.y = 0.0;		TG.VTras.z = 0.0;
 		break;
 
-		// Tecla Delete: Esborrar les Transformacions GeomËtriques Calculades
+		// Tecla Delete: Esborrar les Transformacions Geom√®triques Calculades
 	case VK_DELETE:
-		// Inicialitzar els valors de transformacions GeomËtriques i de pan en variables fixes.
+		// Inicialitzar els valors de transformacions Geom√®triques i de pan en variables fixes.
 		TGF.VScal.x = 1.0;		TGF.VScal.y = 1.0;;		TGF.VScal.z = 1.0;
 		TG.VScal.x = 1.0;		TG.VScal.y = 1.0;		TG.VScal.z = 1.0;
 		TGF.VRota.x = 0.0;		TGF.VRota.y = 0.0;		TGF.VRota.z = 0.0;
@@ -2229,7 +2229,7 @@ void CEntornVGIView::Teclat_TransEscala(UINT nChar, UINT nRepCnt)
 	}
 }
 
-// Teclat_TransRota: Teclat pels canvis del valor del vector de l'angle de rotaciÛ per X,Y,Z.
+// Teclat_TransRota: Teclat pels canvis del valor del vector de l'angle de rotaci√≥ per X,Y,Z.
 void CEntornVGIView::Teclat_TransRota(UINT nChar, UINT nRepCnt)
 {
 	switch (nChar)
@@ -2288,7 +2288,7 @@ void CEntornVGIView::Teclat_TransRota(UINT nChar, UINT nRepCnt)
 		if (fact_Rota > 90) fact_Rota = 90;
 		break;
 
-		// Modificar vector d'Escalatge per teclat (actiu amb RotaciÛ)
+		// Modificar vector d'Escalatge per teclat (actiu amb Rotaci√≥)
 			// Tecla '+' (augmentar escalat)
 	case 107:
 		TG.VScal.x = TG.VScal.x * 2;
@@ -2309,7 +2309,7 @@ void CEntornVGIView::Teclat_TransRota(UINT nChar, UINT nRepCnt)
 		if (TG.VScal.z < 0.25) TG.VScal.z = 0.25;
 		break;
 
-		// Tecla Insert: Acumular transformacions GeomËtriques (variable TG) i de pan en variables fixes (variable TGF)
+		// Tecla Insert: Acumular transformacions Geom√®triques (variable TG) i de pan en variables fixes (variable TGF)
 	case VK_INSERT:
 		TGF.VScal.x *= TG.VScal.x;	TGF.VScal.y *= TG.VScal.y; TGF.VScal.z *= TG.VScal.z;
 		if (TGF.VScal.x > 8192)		TGF.VScal.x = 8192;
@@ -2328,9 +2328,9 @@ void CEntornVGIView::Teclat_TransRota(UINT nChar, UINT nRepCnt)
 		TG.VTras.x = 0.0;		TG.VTras.y = 0.0;		TG.VTras.z = 0.0;
 		break;
 
-		// Tecla Delete: Esborrar les Transformacions GeomËtriques Calculades
+		// Tecla Delete: Esborrar les Transformacions Geom√®triques Calculades
 	case VK_DELETE:
-		// Inicialitzar els valors de transformacions GeomËtriques i de pan en variables fixes.
+		// Inicialitzar els valors de transformacions Geom√®triques i de pan en variables fixes.
 		TGF.VScal.x = 1.0;	TGF.VScal.y = 1.0;;	TGF.VScal.z = 1.0;
 		TG.VScal.x = 1.0;		TG.VScal.y = 1.0;		TG.VScal.z = 1.0;
 		TGF.VRota.x = 0.0;	TGF.VRota.y = 0.0;	TGF.VRota.z = 0.0;
@@ -2351,7 +2351,7 @@ void CEntornVGIView::Teclat_TransRota(UINT nChar, UINT nRepCnt)
 }
 
 
-// Teclat_TransTraslada: Teclat pels canvis del valor de traslaciÛ per X,Y,Z.
+// Teclat_TransTraslada: Teclat pels canvis del valor de traslaci√≥ per X,Y,Z.
 void CEntornVGIView::Teclat_TransTraslada(UINT nChar, UINT nRepCnt)
 {
 	GLdouble vdir[3] = { 0, 0, 0 };
@@ -2407,7 +2407,7 @@ void CEntornVGIView::Teclat_TransTraslada(UINT nChar, UINT nRepCnt)
 		if (fact_Tras > 100000) fact_Tras = 100000;
 		break;
 
-		// Modificar vector d'Escalatge per teclat (actiu amb TraslaciÛ)
+		// Modificar vector d'Escalatge per teclat (actiu amb Traslaci√≥)
 			// Tecla '+' (augmentar escalat)
 	case 107:
 		TG.VScal.x = TG.VScal.x * 2;
@@ -2430,7 +2430,7 @@ void CEntornVGIView::Teclat_TransTraslada(UINT nChar, UINT nRepCnt)
 
 		// Tecla INSERT
 	case VK_INSERT:
-		// Acumular transformacions GeomËtriques (variable TG) i de pan en variables fixes (variable TGF)
+		// Acumular transformacions Geom√®triques (variable TG) i de pan en variables fixes (variable TGF)
 		TGF.VScal.x *= TG.VScal.x;	TGF.VScal.y *= TG.VScal.y; TGF.VScal.z *= TG.VScal.z;
 		if (TGF.VScal.x > 8192)		TGF.VScal.x = 8192;
 		if (TGF.VScal.y > 8192)		TGF.VScal.y = 8192;
@@ -2448,9 +2448,9 @@ void CEntornVGIView::Teclat_TransTraslada(UINT nChar, UINT nRepCnt)
 		TG.VTras.x = 0.0;		TG.VTras.y = 0.0;		TG.VTras.z = 0.0;
 		break;
 
-		// Tecla Delete: Esborrar les Transformacions GeomËtriques Calculades
+		// Tecla Delete: Esborrar les Transformacions Geom√®triques Calculades
 	case VK_DELETE:
-		// Inicialitzar els valors de transformacions GeomËtriques i de pan en variables fixes.
+		// Inicialitzar els valors de transformacions Geom√®triques i de pan en variables fixes.
 		TGF.VScal.x = 1.0;		TGF.VScal.y = 1.0;;		TGF.VScal.z = 1.0;
 		TG.VScal.x = 1.0;		TG.VScal.y = 1.0;		TG.VScal.z = 1.0;
 		TGF.VRota.x = 0.0;		TGF.VRota.y = 0.0;		TGF.VRota.z = 0.0;
@@ -2471,7 +2471,7 @@ void CEntornVGIView::Teclat_TransTraslada(UINT nChar, UINT nRepCnt)
 }
 
 
-// Teclat_Grid: Teclat pels desplaÁaments dels gridXY, gridXZ i gridYZ.
+// Teclat_Grid: Teclat pels despla√ßaments dels gridXY, gridXZ i gridYZ.
 void CEntornVGIView::Teclat_Grid(UINT nChar, UINT nRepCnt)
 {
 	switch (nChar)
@@ -2573,12 +2573,12 @@ void CEntornVGIView::Teclat_PasCorbes(UINT nChar, UINT nRepCnt)
 /*                           CONTROL DEL RATOLI                              */
 /* ------------------------------------------------------------------------- */
 
-// OnLButtonDown: FunciÛ que es crida quan s'apreta el botÛ esquerra del mouse.
+// OnLButtonDown: Funci√≥ que es crida quan s'apreta el bot√≥ esquerra del mouse.
 void CEntornVGIView::OnLButtonDown(UINT nFlags, CPoint point)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de mensajes o llame al valor predeterminado
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de mensajes o llame al valor predeterminado
 
-	// Entorn VGI: Detectem en quina posiciÛ s'ha apretat el botÛ esquerra del
+	// Entorn VGI: Detectem en quina posici√≥ s'ha apretat el bot√≥ esquerra del
 	//				mouse i ho guardem a la variable m_PosEAvall i activem flag m_ButoEAvall
 	m_ButoEAvall = true;
 	m_PosEAvall = point;
@@ -2588,14 +2588,14 @@ void CEntornVGIView::OnLButtonDown(UINT nFlags, CPoint point)
 }
 
 
-// OnLButtonDown: FunciÛ que es crida quan deixem d'apretar el botÛ esquerra del mouse.
+// OnLButtonDown: Funci√≥ que es crida quan deixem d'apretar el bot√≥ esquerra del mouse.
 void CEntornVGIView::OnLButtonUp(UINT nFlags, CPoint point)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de mensajes o llame al valor predeterminado
-	// Entorn VGI: Desactivem flag m_ButoEAvall quan deixem d'apretar botÛ esquerra del mouse.
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de mensajes o llame al valor predeterminado
+	// Entorn VGI: Desactivem flag m_ButoEAvall quan deixem d'apretar bot√≥ esquerra del mouse.
 	m_ButoEAvall = false;
 
-	// OPCI” VISTA-->SAT»LIT: C‡lcul increment desplaÁament del Punt de Vista
+	// OPCI√ì VISTA-->SAT√àLIT: C√†lcul increment despla√ßament del Punt de Vista
 	if ((satelit) && (projeccio != ORTO))
 	{	//m_EsfeIncEAvall.R = m_EsfeEAvall.R - OPV.R;
 		m_EsfeIncEAvall.alfa = 0.01f * (OPV.alfa - m_EsfeEAvall.alfa); //if (abs(m_EsfeIncEAvall.alfa)<0.01) { if ((m_EsfeIncEAvall.alfa)>0.0) m_EsfeIncEAvall.alfa = 0.01 else m_EsfeIncEAvall.alfa=0.01}
@@ -2612,11 +2612,11 @@ void CEntornVGIView::OnLButtonUp(UINT nFlags, CPoint point)
 }
 
 
-// OnLButtonDown: FunciÛ que es crida quan s'apreta el botÛ dret del mouse.
+// OnLButtonDown: Funci√≥ que es crida quan s'apreta el bot√≥ dret del mouse.
 void CEntornVGIView::OnRButtonDown(UINT nFlags, CPoint point)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de mensajes o llame al valor predeterminado
-	// Entorn VGI: Detectem en quina posiciÛ s'ha apretat el botÛ esquerra del
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de mensajes o llame al valor predeterminado
+	// Entorn VGI: Detectem en quina posici√≥ s'ha apretat el bot√≥ esquerra del
 	//				mouse i ho guardem a la variable m_PosEAvall i activem flag m_ButoDAvall
 	m_ButoDAvall = true;
 	m_PosDAvall = point;
@@ -2625,16 +2625,16 @@ void CEntornVGIView::OnRButtonDown(UINT nFlags, CPoint point)
 }
 
 
-// OnLButtonDown: FunciÛ que es crida quan deixem d'apretar el botÛ dret del mouse.
+// OnLButtonDown: Funci√≥ que es crida quan deixem d'apretar el bot√≥ dret del mouse.
 void CEntornVGIView::OnRButtonUp(UINT /* nFlags */, CPoint point)
 {
-	// Entorn VGI: Desactivem flag m_ButoEAvall quan deixem d'apretar botÛ esquerra del mouse.
+	// Entorn VGI: Desactivem flag m_ButoEAvall quan deixem d'apretar bot√≥ esquerra del mouse.
 	m_ButoDAvall = false;
 
 	//	ClientToScreen(&point);
 	//	OnContextMenu(this, point);
 
-	// Si fullscreen afegir men˙ per a restaurar Pantalla Normal en posiciÛ del cursor.
+	// Si fullscreen afegir men√∫ per a restaurar Pantalla Normal en posici√≥ del cursor.
 	if (fullscreen) {
 		ClientToScreen(&point);
 		if (ContextMenu->GetSubMenu(0)) {
@@ -2649,29 +2649,29 @@ void CEntornVGIView::OnRButtonUp(UINT /* nFlags */, CPoint point)
 }
 
 
-// OnMouseMove: FunciÛ que es crida quan es mou el mouse. La utilitzem per la 
-//				  VisualitzaciÛ Interactiva amb les tecles del mouse apretades per 
-//				  modificar els par‡metres de P.V. (R,angleh,anglev) segons els 
+// OnMouseMove: Funci√≥ que es crida quan es mou el mouse. La utilitzem per la 
+//				  Visualitzaci√≥ Interactiva amb les tecles del mouse apretades per 
+//				  modificar els par√†metres de P.V. (R,angleh,anglev) segons els 
 //				  moviments del mouse.
-//      PARAMETRES: - nFlags: Flags que controlen si el botÛ es apretat o no.
-//					- point: Estructura (x,y) que dÛna la posiciÛ del mouse 
-//							 (coord. pantalla) quan el botÛ s'ha apretat.
+//      PARAMETRES: - nFlags: Flags que controlen si el bot√≥ es apretat o no.
+//					- point: Estructura (x,y) que d√≥na la posici√≥ del mouse 
+//							 (coord. pantalla) quan el bot√≥ s'ha apretat.
 void CEntornVGIView::OnMouseMove(UINT nFlags, CPoint point)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de mensajes o llame al valor predeterminado
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de mensajes o llame al valor predeterminado
 	double modul = 0;
 	GLdouble vdir[3] = { 0, 0, 0 };
 
 	// TODO: Add your message handler code here and/or call default
 	if (m_ButoEAvall && mobil && projeccio != CAP)
 	{
-		// Entorn VGI: DeterminaciÛ dels angles (en graus) segons l'increment
-		//				horitzontal i vertical de la posiciÛ del mouse per c‡meres EsfËrica i Geode.
+		// Entorn VGI: Determinaci√≥ dels angles (en graus) segons l'increment
+		//				horitzontal i vertical de la posici√≥ del mouse per c√†meres Esf√®rica i Geode.
 		CSize gir = m_PosEAvall - point;
 		CPoint posEAvallOld = m_PosEAvall;
 		m_PosEAvall = point;
 		if (camera == CAM_ESFERICA)
-		{	// C‡mera EsfËrica
+		{	// C√†mera Esf√®rica
 			OPV.beta = OPV.beta + gir.cx / 2;
 			//OPV.alfa = OPV.alfa + gir.cy / 2;
 
@@ -2682,13 +2682,13 @@ void CEntornVGIView::OnMouseMove(UINT nFlags, CPoint point)
 			if (OPV.beta < 0)			OPV.beta = OPV.beta + 360;
 
 
-			// zoom amb el botÛ esquerra
+			// zoom amb el bot√≥ esquerra
 			CSize zoomincr = posEAvallOld - point;
 			long int incr = zoomincr.cy / 4.0;
 			OPV.R = OPV.R + incr;
 			if (OPV.R < 0.25) OPV.R = 0.25;
 		}
-		else { // C‡mera Geode
+		else { // C√†mera Geode
 			OPV_G.beta = OPV_G.beta + gir.cx / 2;
 			OPV_G.alfa = OPV_G.alfa + gir.cy / 2;
 			// Entorn VGI: Control per evitar el creixement desmesurat dels angles
@@ -2699,9 +2699,9 @@ void CEntornVGIView::OnMouseMove(UINT nFlags, CPoint point)
 		}
 		InvalidateRect(NULL, false);
 	}
-	else if (m_ButoEAvall && camera == CAM_NAVEGA && (projeccio != CAP && projeccio != ORTO)) // OpciÛ NavegaciÛ
+	else if (m_ButoEAvall && camera == CAM_NAVEGA && (projeccio != CAP && projeccio != ORTO)) // Opci√≥ Navegaci√≥
 	{
-		// Entorn VGI: Canviar orientaciÛ en opciÛ de NavegaciÛ
+		// Entorn VGI: Canviar orientaci√≥ en opci√≥ de Navegaci√≥
 		CSize girn = m_PosEAvall - point;
 		angleZ = girn.cx / 2.0;
 		// Entorn VGI: Control per evitar el creixement desmesurat dels angles.
@@ -2719,7 +2719,7 @@ void CEntornVGIView::OnMouseMove(UINT nFlags, CPoint point)
 		InvalidateRect(NULL, false);
 	}
 
-	// Entorn VGI: TransformaciÛ GeomËtrica interactiva pels eixos X,Y boto esquerra del mouse.
+	// Entorn VGI: Transformaci√≥ Geom√®trica interactiva pels eixos X,Y boto esquerra del mouse.
 	else {
 		bool transE = transX || transY;
 		if (m_ButoEAvall && transE && transf)
@@ -2781,20 +2781,20 @@ void CEntornVGIView::OnMouseMove(UINT nFlags, CPoint point)
 		}
 	}
 
-	// Entorn VGI: DeterminaciÛ del desplaÁament del pan segons l'increment
-	//				vertical de la posiciÛ del mouse (tecla dreta apretada).
+	// Entorn VGI: Determinaci√≥ del despla√ßament del pan segons l'increment
+	//				vertical de la posici√≥ del mouse (tecla dreta apretada).
 	if (m_ButoDAvall && pan && (projeccio != CAP && projeccio != ORTO))
 	{
 		CSize zoomincr = m_PosDAvall - point;
 		long int incrx = zoomincr.cx;
 		long int incry = zoomincr.cy;
 
-		// DesplaÁament pan vertical
+		// Despla√ßament pan vertical
 		tr_cpv.y -= incry * fact_pan;
 		if (tr_cpv.y > 100000) tr_cpv.y = 100000;
 		else if (tr_cpv.y < -100000) tr_cpv.y = -100000;
 
-		// DesplaÁament pan horitzontal
+		// Despla√ßament pan horitzontal
 		tr_cpv.x += incrx * fact_pan;
 		if (tr_cpv.x > 100000) tr_cpv.x = 100000;
 		else if (tr_cpv.x < -100000) tr_cpv.x = -100000;
@@ -2802,18 +2802,18 @@ void CEntornVGIView::OnMouseMove(UINT nFlags, CPoint point)
 		m_PosDAvall = point;
 		InvalidateRect(NULL, false);
 	}
-	// DeterminaciÛ del par‡metre R segons l'increment
-	//   vertical de la posiciÛ del mouse (tecla dreta apretada)
+	// Determinaci√≥ del par√†metre R segons l'increment
+	//   vertical de la posici√≥ del mouse (tecla dreta apretada)
 		//else if (m_ButoDAvall && zzoom && (projeccio!=CAP && projeccio!=ORTO))
 	else if (m_ButoDAvall && (zzoom || zzoomO) && (projeccio != CAP))
 	{
 		CSize zoomincr = m_PosDAvall - point;
 		long int incr = zoomincr.cy / 1.0;
-		if (camera == CAM_ESFERICA) {	// C‡mera EsfËrica
+		if (camera == CAM_ESFERICA) {	// C√†mera Esf√®rica
 			OPV.R = OPV.R + incr;
 			if (OPV.R < 0.25) OPV.R = 0.25;
 		}
-		else { // C‡mera Geode
+		else { // C√†mera Geode
 			OPV_G.R = OPV_G.R + incr;
 			if (OPV_G.R < 0.0f) OPV_G.R = 0.0f;
 		}
@@ -2821,7 +2821,7 @@ void CEntornVGIView::OnMouseMove(UINT nFlags, CPoint point)
 		InvalidateRect(NULL, false);
 	}
 	else if (m_ButoDAvall && camera == CAM_NAVEGA && (projeccio != CAP && projeccio != ORTO))
-	{	// AvanÁar en opciÛ de NavegaciÛ
+	{	// Avan√ßar en opci√≥ de Navegaci√≥
 		if (m_PosDAvall != point)
 		{
 			CSize zoomincr = m_PosDAvall - point;
@@ -2844,7 +2844,7 @@ void CEntornVGIView::OnMouseMove(UINT nFlags, CPoint point)
 		}
 	}
 
-	// Entorn VGI: TransformaciÛ GeomËtrica interactiva per l'eix Z amb boto dret del mouse.
+	// Entorn VGI: Transformaci√≥ Geom√®trica interactiva per l'eix Z amb boto dret del mouse.
 	else if (m_ButoDAvall && transZ && transf)
 	{
 		// Calcular increment
@@ -2883,29 +2883,29 @@ void CEntornVGIView::OnMouseMove(UINT nFlags, CPoint point)
 	CView::OnMouseMove(nFlags, point);
 }
 
-// OnMouseWheel: FunciÛ que es crida quan es mou el rodet del mouse. La utilitzem per la 
-//				  VisualitzaciÛ Interactiva per modificar el par‡metre R de P.V. (R,angleh,anglev) 
+// OnMouseWheel: Funci√≥ que es crida quan es mou el rodet del mouse. La utilitzem per la 
+//				  Visualitzaci√≥ Interactiva per modificar el par√†metre R de P.V. (R,angleh,anglev) 
 //				  segons el moviment del rodet del mouse.
-//      PARAMETRES: - nFlags: Flags que controlen si el botÛ es apretat o no.
-//					- zDelta: Unitats de desplaÁament del rodet del mouse.
-//					- pt: Estructura (x,y) que dÛna la posiciÛ del mouse 
-//							 (coord. pantalla) quan el botÛ s'ha apretat.
+//      PARAMETRES: - nFlags: Flags que controlen si el bot√≥ es apretat o no.
+//					- zDelta: Unitats de despla√ßament del rodet del mouse.
+//					- pt: Estructura (x,y) que d√≥na la posici√≥ del mouse 
+//							 (coord. pantalla) quan el bot√≥ s'ha apretat.
 BOOL CEntornVGIView::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de mensajes o llame al valor predeterminado
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de mensajes o llame al valor predeterminado
 	double modul = 0;
 	GLdouble vdir[3] = { 0, 0, 0 };
 
-	// FunciÛ de zoom quan est‡ activada la funciÛ pan o les T. GeomËtriques
+	// Funci√≥ de zoom quan est√† activada la funci√≥ pan o les T. Geom√®triques
 	if ((zzoom || zzoomO) || (transX) || (transY) || (transZ))
 	{
-		if (camera == CAM_ESFERICA) {	// C‡mera EsfËrica
+		if (camera == CAM_ESFERICA) {	// C√†mera Esf√®rica
 			OPV.R = OPV.R + zDelta / 4;
 			if (OPV.R < 0.25) OPV.R = 0.25;
 			InvalidateRect(NULL, false);
 		}
 		else if (camera == CAM_GEODE)
-		{	// C‡mera Geode
+		{	// C√†mera Geode
 			OPV_G.R = OPV_G.R + zDelta / 4.0f;
 			if (OPV_G.R < 0.0f) OPV_G.R = 0.0f;
 			InvalidateRect(NULL, false);
@@ -2932,18 +2932,18 @@ BOOL CEntornVGIView::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
 
 
 /* ------------------------------------------------------------------------- */
-/*					     TIMER (ANIMACI”)									 */
+/*					     TIMER (ANIMACI√ì)									 */
 /* ------------------------------------------------------------------------- */
 void CEntornVGIView::OnTimer(UINT_PTR nIDEvent)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de mensajes o llame al valor predeterminado
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de mensajes o llame al valor predeterminado
 	if (anima) {
-		// Codi de tractament de l'animaciÛ quan transcorren els ms. del crono.
+		// Codi de tractament de l'animaci√≥ quan transcorren els ms. del crono.
 
 		// Crida a OnPaint() per redibuixar l'escena
 		InvalidateRect(NULL, false);
 	}
-	else if (satelit) {	// OPCI” SAT»LIT: Increment OPV segons moviments mouse.
+	else if (satelit) {	// OPCI√ì SAT√àLIT: Increment OPV segons moviments mouse.
 		//OPV.R = OPV.R + m_EsfeIncEAvall.R;
 		OPV.alfa = OPV.alfa + m_EsfeIncEAvall.alfa;
 		while (OPV.alfa > 360) OPV.alfa = OPV.alfa - 360;	while (OPV.alfa < 0) OPV.alfa = OPV.alfa + 360;
@@ -2958,6 +2958,7 @@ void CEntornVGIView::OnTimer(UINT_PTR nIDEvent)
 			pieces[numPiece].ViewcauPeca();
 		}
 		else {
+			m_board.checkFloors();
 			numPiece = rand() % (sizeof(pieces) / sizeof(pieces[0]));
 			pieces[numPiece].posIni();
 		}
@@ -2972,13 +2973,13 @@ void CEntornVGIView::OnTimer(UINT_PTR nIDEvent)
 /* ------------------------------------------------------------------------- */
 /*   RECURSOS DE MENU (persianes) DE L'APLICACIO:                            */
 /*					1. ARXIUS												 */
-/*					4. C¿MERA: EsfËrica (Mobil, Zoom, ZoomO, Satelit), Navega*/
+/*					4. C√ÄMERA: Esf√®rica (Mobil, Zoom, ZoomO, Satelit), Navega*/
 /*					5. VISTA: Pan, Eixos i Grid							     */
-/*					6. PROJECCI”                                             */
+/*					6. PROJECCI√ì                                             */
 /*					7. OBJECTE					                             */
 /*					8. TRANSFORMA											 */
 /*					9. OCULTACIONS											 */
-/*				   10. IL.LUMINACI”											 */
+/*				   10. IL.LUMINACI√ì											 */
 /*				   11. LLUMS												 */
 /*				   12. SHADERS												 */
 /* ------------------------------------------------------------------------- */
@@ -2990,8 +2991,8 @@ void CEntornVGIView::OnTimer(UINT_PTR nIDEvent)
 // Obrir fitxer Fractal
 void CEntornVGIView::OnArxiuObrirFractal()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
-	// Entorn VGI: Obrir di‡leg de lectura de fitxer (fitxers (*.MNT)
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
+	// Entorn VGI: Obrir di√†leg de lectura de fitxer (fitxers (*.MNT)
 	CFileDialog openMunt(TRUE, NULL, NULL,
 		OFN_FILEMUSTEXIST | OFN_HIDEREADONLY,
 		_T("MNT Files(*.mnt)|*.mnt|Error Files (*.err)|*err|All Files (*.*)|*.*||"));;
@@ -3000,13 +3001,13 @@ void CEntornVGIView::OnArxiuObrirFractal()
 		return;                 // stay with old data file
 	else nom = openMunt.GetPathName();
 
-	// Entorn VGI: Variable de tipus CString 'nom' contÈ el nom del fitxer seleccionat
+	// Entorn VGI: Variable de tipus CString 'nom' cont√© el nom del fitxer seleccionat
 
-	// Entorn VGI: ConversiÛ de la variable CString nom a la variable char *nomfitx, 
-	//		compatible amb  les funcions de c‡rrega de fitxers fractals
+	// Entorn VGI: Conversi√≥ de la variable CString nom a la variable char *nomfitx, 
+	//		compatible amb  les funcions de c√†rrega de fitxers fractals
 	char* nomfitx = CString2Char(nom);
 
-	// Entorn VGI: Variable de tipus char *nomfitx contÈ el nom del fitxer seleccionat
+	// Entorn VGI: Variable de tipus char *nomfitx cont√© el nom del fitxer seleccionat
 
 
 	// Crida a OnPaint() per redibuixar l'escena
@@ -3014,15 +3015,15 @@ void CEntornVGIView::OnArxiuObrirFractal()
 }
 
 
-// OnArchivoObrirFitxerObj: Obrir fitxer en format gr‡fic OBJ
+// OnArchivoObrirFitxerObj: Obrir fitxer en format gr√†fic OBJ
 void CEntornVGIView::OnArxiuObrirFitxerObj()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	//if (ObOBJ != NULL) delete ObOBJ;
 
 	objecte = OBJOBJ;	textura = true;		tFlag_invert_Y = false;
 
-	// Entorn VGI: Obrir di‡leg de lectura de fitxer
+	// Entorn VGI: Obrir di√†leg de lectura de fitxer
 	CFileDialog openOBJ(TRUE, NULL, NULL,
 		OFN_FILEMUSTEXIST | OFN_HIDEREADONLY,
 		_T("OBJ Files(*.obj)|*.obj|Error Files (*.err)|*err|All Files (*.*)|*.*||"));;
@@ -3030,10 +3031,10 @@ void CEntornVGIView::OnArxiuObrirFitxerObj()
 	if (openOBJ.DoModal() != IDOK)	return;  // stay with old data file
 	else nom = openOBJ.GetPathName();
 
-	// Entorn VGI: Variable de tipus CString 'nom' contÈ el nom del fitxer seleccionat
+	// Entorn VGI: Variable de tipus CString 'nom' cont√© el nom del fitxer seleccionat
 
-	// Entorn VGI: ConversiÛ de la variable CString nom a la variable char *nomfitx, 
-	//		compatible amb  les funcions de c‡rrega de fitxers fractals
+	// Entorn VGI: Conversi√≥ de la variable CString nom a la variable char *nomfitx, 
+	//		compatible amb  les funcions de c√†rrega de fitxers fractals
 	char* nomfitx = CString2Char(nom);
 
 	// i carreguem
@@ -3043,7 +3044,7 @@ void CEntornVGIView::OnArxiuObrirFitxerObj()
 	if (vaoId_OBJ != 0) deleteVAOList(FIT_OBJ); // Eliminar VAO anterior.
 	vaoId_OBJ = ObOBJ->LoadModel(nomfitx, FIT_OBJ);	// Carregar objecte OBJ AMB textura
 
-//	Pas de par‡metres textura al shader
+//	Pas de par√†metres textura al shader
 	if (shader_menu != CAP_SHADER) glUniform1i(glGetUniformLocation(shader_programID, "textur"), textura);
 	if (shader_menu != CAP_SHADER) glUniform1i(glGetUniformLocation(shader_programID, "flag_invert_y"), tFlag_invert_Y);
 
@@ -3054,15 +3055,15 @@ void CEntornVGIView::OnArxiuObrirFitxerObj()
 
 }
 
-// Obrir fitxer en format gr‡fic 3DS
+// Obrir fitxer en format gr√†fic 3DS
 void CEntornVGIView::OnArxiuObrirFitxer3ds()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 		//if(Ob3DS!=NULL) delete Ob3DS;
 
 	objecte = OBJ3DS;	textura = true;		tFlag_invert_Y = false;
 
-	// Entorn VGI: Obrir di‡leg de lectura de fitxer
+	// Entorn VGI: Obrir di√†leg de lectura de fitxer
 	CFileDialog open3DS(TRUE, NULL, NULL,
 		OFN_FILEMUSTEXIST | OFN_HIDEREADONLY,
 		_T("3DS Files(*.3ds)|*.3ds|Error Files (*.err)|*err|All Files (*.*)|*.*||"));;
@@ -3070,10 +3071,10 @@ void CEntornVGIView::OnArxiuObrirFitxer3ds()
 	if (open3DS.DoModal() != IDOK)	return;  // stay with old data file
 	else nom = open3DS.GetPathName();
 
-	// Entorn VGI: Variable de tipus CString 'nom' contÈ el nom del fitxer seleccionat
+	// Entorn VGI: Variable de tipus CString 'nom' cont√© el nom del fitxer seleccionat
 
-	// Entorn VGI: ConversiÛ de la variable CString nom a la variable char *nomfitx, 
-	//		compatible amb  les funcions de c‡rrega de fitxers fractals
+	// Entorn VGI: Conversi√≥ de la variable CString nom a la variable char *nomfitx, 
+	//		compatible amb  les funcions de c√†rrega de fitxers fractals
 	char* nomfitx = CString2Char(nom);
 
 	// i carreguem
@@ -3084,12 +3085,12 @@ void CEntornVGIView::OnArxiuObrirFitxer3ds()
 	Ob3DS->Inicialitzar();
 	Ob3DS->Carregar3DS(nomfitx);
 
-	// PrecompilaciÛ de dos objectes nous: OBJECTE3DS: Objecte 3DS sense textures i OBJECTE3DST amb textures,
+	// Precompilaci√≥ de dos objectes nous: OBJECTE3DS: Objecte 3DS sense textures i OBJECTE3DST amb textures,
 	vaoId_3DS = Get_VAOId(FIT_3DS);
 	if (vaoId_3DS != 0) deleteVAOList(FIT_3DS); // Eliminar VAO anterior.
 	Ob3DS->Dibuixa3DS(false, FIT_3DS);
 
-	//	Pas de par‡metres textura al shader
+	//	Pas de par√†metres textura al shader
 	if (shader_menu != CAP_SHADER) glUniform1i(glGetUniformLocation(shader_programID, "textur"), textura);
 	if (shader_menu != CAP_SHADER) glUniform1i(glGetUniformLocation(shader_programID, "flag_invert_y"), tFlag_invert_Y);
 
@@ -3105,16 +3106,16 @@ void CEntornVGIView::OnArxiuObrirFitxer3ds()
 }
 
 /* ------------------------------------------------------------------------- */
-/*					4. C¿MERA: EsfËrica (Mobil, Zoom, ZoomO, Satelit), Navega*/
+/*					4. C√ÄMERA: Esf√®rica (Mobil, Zoom, ZoomO, Satelit), Navega*/
 /* ------------------------------------------------------------------------- */
-// C¿MERA: Mode EsfËrica (C‡mera esfËrica en polars-opciÛ booleana)
+// C√ÄMERA: Mode Esf√®rica (C√†mera esf√®rica en polars-opci√≥ booleana)
 void CEntornVGIView::OnCameraEsferica()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	camera = CAM_ESFERICA;
 
-	// Inicialitzar par‡metres C‡mera EsfËrica
-	OPV.R = 15.0;		OPV.alfa = 0.0;		OPV.beta = 0.0;				// Origen PV en esfËriques
+	// Inicialitzar par√†metres C√†mera Esf√®rica
+	OPV.R = 15.0;		OPV.alfa = 0.0;		OPV.beta = 0.0;				// Origen PV en esf√®riques
 	mobil = true;	zzoom = true;	satelit = false;
 	Vis_Polar = POLARZ;
 
@@ -3124,19 +3125,19 @@ void CEntornVGIView::OnCameraEsferica()
 
 void CEntornVGIView::OnUpdateCameraEsferica(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (camera == CAM_ESFERICA) 	pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
 
 
-// C¿MERA--> ESFERICA: Mobil. Punt de Vista Interactiu (opciÛ booleana)
+// C√ÄMERA--> ESFERICA: Mobil. Punt de Vista Interactiu (opci√≥ booleana)
 void CEntornVGIView::OnVistaMobil()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	if ((projeccio != ORTO) || (projeccio != CAP) && (camera == CAM_ESFERICA || camera == CAM_GEODE))  mobil = !mobil;
-	// DesactivaciÛ de Transformacions GeomËtriques via mouse 
-	//		si VisualitzaciÛ Interactiva activada.	
+	// Desactivaci√≥ de Transformacions Geom√®triques via mouse 
+	//		si Visualitzaci√≥ Interactiva activada.	
 	if (mobil) {
 		transX = false;	transY = false; transZ = false;
 	}
@@ -3147,17 +3148,17 @@ void CEntornVGIView::OnVistaMobil()
 
 void CEntornVGIView::OnUpdateVistaMobil(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if ((camera == CAM_ESFERICA || camera == CAM_GEODE) && (mobil)) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
 
-// C¿MERA--> ESFERICA: Zoom. Zoom Interactiu (opciÛ booleana)
+// C√ÄMERA--> ESFERICA: Zoom. Zoom Interactiu (opci√≥ booleana)
 void CEntornVGIView::OnVistaZoom()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	if ((projeccio != ORTO) || (projeccio != CAP) && (camera == CAM_ESFERICA || camera == CAM_GEODE)) zzoom = !zzoom;
-	// DesactivaciÛ de Transformacions GeomËtriques via mouse 
+	// Desactivaci√≥ de Transformacions Geom√®triques via mouse 
 	//		si Zoom activat.
 	if (zzoom) {
 		transX = false;	transY = false;	transZ = false;
@@ -3170,18 +3171,18 @@ void CEntornVGIView::OnVistaZoom()
 
 void CEntornVGIView::OnUpdateVistaZoom(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if ((camera == CAM_ESFERICA || camera == CAM_GEODE) && zzoom) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
 
 
-// C¿MERA--> ESFERICA: Zoom Orto. Zoom Interactiu en Ortogr‡fica (opciÛ booleana)
+// C√ÄMERA--> ESFERICA: Zoom Orto. Zoom Interactiu en Ortogr√†fica (opci√≥ booleana)
 void CEntornVGIView::OnVistaZoomOrto()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	if (projeccio != CAP || projeccio != PERSPECT) zzoomO = !zzoomO;
-	// DesactivaciÛ de Transformacions GeomËtriques via mouse 
+	// Desactivaci√≥ de Transformacions Geom√®triques via mouse 
 	//	si Zoom activat
 	if (zzoomO) {
 		zzoom = false;
@@ -3195,19 +3196,19 @@ void CEntornVGIView::OnVistaZoomOrto()
 
 void CEntornVGIView::OnUpdateVistaZoomOrto(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if ((camera == CAM_ESFERICA || camera == CAM_GEODE) && zzoomO) pCmdUI->SetCheck(1);
 }
 
 
-// C¿MERA--> ESFERICA: SatËlit. Vista interactiva i animada en que increment de movimen Ès activat per mouse (opciÛ booleana)
+// C√ÄMERA--> ESFERICA: Sat√®lit. Vista interactiva i animada en que increment de movimen √©s activat per mouse (opci√≥ booleana)
 void CEntornVGIView::OnVistaSatelit()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	if ((projeccio != CAP || projeccio != ORTO) && (camera == CAM_ESFERICA)) satelit = !satelit;
 	if (satelit) mobil = true;
-	bool testA = anima;									// Testejar si hi ha alguna animaciÛ activa apart de SatËlit.
-	if ((!satelit) && (!testA)) KillTimer(WM_TIMER);	// Si es desactiva SatËlit i no hi ha cap animaciÛ activa es desactiva el Timer.
+	bool testA = anima;									// Testejar si hi ha alguna animaci√≥ activa apart de Sat√®lit.
+	if ((!satelit) && (!testA)) KillTimer(WM_TIMER);	// Si es desactiva Sat√®lit i no hi ha cap animaci√≥ activa es desactiva el Timer.
 
 // Crida a OnPaint() per redibuixar l'escena
 	InvalidateRect(NULL, false);
@@ -3215,16 +3216,16 @@ void CEntornVGIView::OnVistaSatelit()
 
 void CEntornVGIView::OnUpdateVistaSatelit(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if ((camera == CAM_ESFERICA) && (satelit)) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
 
 
-// C¿MERA--> ESFERICA: Polars Eix X cap amunt per a VisualitzaciÛ Interactiva
+// C√ÄMERA--> ESFERICA: Polars Eix X cap amunt per a Visualitzaci√≥ Interactiva
 void CEntornVGIView::OnVistaPolarsX()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	if ((projeccio != CAP) && (camera == CAM_ESFERICA)) Vis_Polar = POLARX;
 
 	// Crida a OnPaint() per redibuixar l'escena
@@ -3233,16 +3234,16 @@ void CEntornVGIView::OnVistaPolarsX()
 
 void CEntornVGIView::OnUpdateVistaPolarsX(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if ((camera == CAM_ESFERICA) && (Vis_Polar == POLARX)) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
 
 
-// C¿MERA--> ESFERICA: Polars Eix Y cap amunt per a VisualitzaciÛ Interactiva
+// C√ÄMERA--> ESFERICA: Polars Eix Y cap amunt per a Visualitzaci√≥ Interactiva
 void CEntornVGIView::OnVistaPolarsY()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	if ((projeccio != CAP) && (camera == CAM_ESFERICA)) Vis_Polar = POLARY;
 
 	// Crida a OnPaint() per redibuixar l'escena
@@ -3251,16 +3252,16 @@ void CEntornVGIView::OnVistaPolarsY()
 
 void CEntornVGIView::OnUpdateVistaPolarsY(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if ((camera == CAM_ESFERICA) && (Vis_Polar == POLARY)) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
 
 
-// C¿MERA--> ESFERICA: Polars Eix Z cap amunt per a VisualitzaciÛ Interactiva
+// C√ÄMERA--> ESFERICA: Polars Eix Z cap amunt per a Visualitzaci√≥ Interactiva
 void CEntornVGIView::OnVistaPolarsZ()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	if ((projeccio != CAP) && (camera == CAM_ESFERICA)) Vis_Polar = POLARZ;
 
 	// Crida a OnPaint() per redibuixar l'escena
@@ -3269,24 +3270,24 @@ void CEntornVGIView::OnVistaPolarsZ()
 
 void CEntornVGIView::OnUpdateVistaPolarsZ(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if ((camera == CAM_ESFERICA) && (Vis_Polar == POLARZ)) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
 
 
-// C¿MERA--> NAVEGA:  Mode de navegaciÛ sobre un pla amb botons de teclat o de mouse (nav) (opciÛ booleana)
+// C√ÄMERA--> NAVEGA:  Mode de navegaci√≥ sobre un pla amb botons de teclat o de mouse (nav) (opci√≥ booleana)
 void CEntornVGIView::OnVistaNavega()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	if (projeccio != ORTO) camera = CAM_NAVEGA;
 
-	// DesactivaciÛ de zoom, mobil, Transformacions GeomËtriques via mouse i pan
+	// Desactivaci√≥ de zoom, mobil, Transformacions Geom√®triques via mouse i pan
 	mobil = false;	zzoom = false;
 	transX = false;	transY = false;	transZ = false;
 	//pan = false;
-	tr_cpv.x = 0.0;		tr_cpv.y = 0.0;		tr_cpv.z = 0.0;		// Inicialitzar a 0 desplaÁament de pantalla
-	tr_cpvF.x = 0.0;	tr_cpvF.y = 0.0;	tr_cpvF.x = 0.0;	// Inicialitzar a 0 desplaÁament de pantalla
+	tr_cpv.x = 0.0;		tr_cpv.y = 0.0;		tr_cpv.z = 0.0;		// Inicialitzar a 0 despla√ßament de pantalla
+	tr_cpvF.x = 0.0;	tr_cpvF.y = 0.0;	tr_cpvF.x = 0.0;	// Inicialitzar a 0 despla√ßament de pantalla
 
 // Incialitzar variables Navega
 	n[0] = 0.0;		n[1] = 0.0;		n[2] = 0.0;
@@ -3299,7 +3300,7 @@ void CEntornVGIView::OnVistaNavega()
 
 void CEntornVGIView::OnUpdateVistaNavega(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (camera == CAM_NAVEGA) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
@@ -3307,7 +3308,7 @@ void CEntornVGIView::OnUpdateVistaNavega(CCmdUI* pCmdUI)
 // Tornar a lloc d'origen
 void CEntornVGIView::OnVistaOrigennavega()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	if (camera == CAM_NAVEGA) {
 		n[0] = 0.0;		n[1] = 0.0;		n[2] = 0.0;
 		opvN.x = 10.0;	opvN.y = 0.0;		opvN.z = 0.0;
@@ -3320,14 +3321,14 @@ void CEntornVGIView::OnVistaOrigennavega()
 
 
 
-// C¿MERA--> GEODE:  Mode de navegaciÛ centrat a l'origent mirant un punt en coord. esfËriques (R,alfa,beta) (opciÛ booleana)
+// C√ÄMERA--> GEODE:  Mode de navegaci√≥ centrat a l'origent mirant un punt en coord. esf√®riques (R,alfa,beta) (opci√≥ booleana)
 void CEntornVGIView::OnCameraGeode()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	camera = CAM_GEODE;
 
-	// Inicialitzar par‡metres C‡mera Geode
-	OPV.R = 0.0;		OPV.alfa = 0.0;		OPV.beta = 0.0;				// Origen PV en esfËriques
+	// Inicialitzar par√†metres C√†mera Geode
+	OPV.R = 0.0;		OPV.alfa = 0.0;		OPV.beta = 0.0;				// Origen PV en esf√®riques
 	mobil = true;	zzoom = true;	zzoomO = false;	 satelit = false;	pan = false;
 	Vis_Polar = POLARZ;
 	llumGL[5].encesa = true;
@@ -3344,7 +3345,7 @@ void CEntornVGIView::OnCameraGeode()
 
 void CEntornVGIView::OnUpdateCameraGeode(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (camera == CAM_GEODE) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
@@ -3352,9 +3353,9 @@ void CEntornVGIView::OnUpdateCameraGeode(CCmdUI* pCmdUI)
 
 void CEntornVGIView::OnCameraOrigenGeode()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
-	// Inicialitzar par‡metres C‡mera Geode
-	OPV.R = 0.0;		OPV.alfa = 0.0;		OPV.beta = 0.0;				// Origen PV en esfËriques
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
+	// Inicialitzar par√†metres C√†mera Geode
+	OPV.R = 0.0;		OPV.alfa = 0.0;		OPV.beta = 0.0;				// Origen PV en esf√®riques
 	mobil = true;	zzoom = true;	zzoomO = false;		 satelit = false;	pan = false;
 	Vis_Polar = POLARZ;
 
@@ -3366,10 +3367,10 @@ void CEntornVGIView::OnCameraOrigenGeode()
 /* -------------------------------------------------------------------------------- */
 /*					5. VISTA: Pantalla Completa, Pan i Eixos	                    */
 /* -------------------------------------------------------------------------------- */
-// VISTA: FullScreen (Pantalla Completa-opciÛ booleana)
+// VISTA: FullScreen (Pantalla Completa-opci√≥ booleana)
 void CEntornVGIView::OnVistaFullscreen()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 
 	if (!fullscreen)
 	{	// I note that I go to full-screen mode
@@ -3400,18 +3401,18 @@ void CEntornVGIView::OnVistaFullscreen()
 
 void CEntornVGIView::OnUpdateVistaFullscreen(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (fullscreen) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
 
 
-// VISTA: Mode de DesplaÁament horitzontal i vertical per pantalla del Punt de Vista (pan) (opciÛ booleana)
+// VISTA: Mode de Despla√ßament horitzontal i vertical per pantalla del Punt de Vista (pan) (opci√≥ booleana)
 void CEntornVGIView::OnVistaPan()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	if ((projeccio != ORTO) || (projeccio != CAP)) pan = !pan;
-	// DesactivaciÛ de Transformacions GeomËtriques via mouse i navega si pan activat
+	// Desactivaci√≥ de Transformacions Geom√®triques via mouse i navega si pan activat
 	if (pan) {
 		mobil = true;		zzoom = true;
 		transX = false;		transY = false;		transZ = false;
@@ -3424,7 +3425,7 @@ void CEntornVGIView::OnVistaPan()
 
 void CEntornVGIView::OnUpdateVistaPan(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (pan) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
@@ -3432,7 +3433,7 @@ void CEntornVGIView::OnUpdateVistaPan(CCmdUI* pCmdUI)
 // Tornar a lloc d'origen
 void CEntornVGIView::OnVistaOrigenpan()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	if (pan) {
 		fact_pan = 1;
 		tr_cpv.x = 0;	tr_cpv.y = 0;	tr_cpv.z = 0;
@@ -3444,10 +3445,10 @@ void CEntornVGIView::OnVistaOrigenpan()
 
 
 
-// VISTA: Visualitzar eixos coordenades mÛn (opciÛ booleana)
+// VISTA: Visualitzar eixos coordenades m√≥n (opci√≥ booleana)
 void CEntornVGIView::OnVistaEixos()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	eixos = !eixos;
 
 	// Crida a OnPaint() per redibuixar l'escena
@@ -3456,25 +3457,25 @@ void CEntornVGIView::OnVistaEixos()
 
 void CEntornVGIView::OnUpdateVistaEixos(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (eixos) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
 
 
-// SKYBOX: Visualitzar Skybox en l'escena (opciÛ booleana)
+// SKYBOX: Visualitzar Skybox en l'escena (opci√≥ booleana)
 void CEntornVGIView::OnVistaSkyBox()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	SkyBoxCube = !SkyBoxCube;
 
-	// Entorn VGI: ActivaciÛ el contexte OpenGL
+	// Entorn VGI: Activaci√≥ el contexte OpenGL
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
 
-	// C‡rrega Shader Skybox
+	// C√†rrega Shader Skybox
 	if (!skC_programID) skC_programID = shader_SkyBoxC.loadFileShaders(".\\shaders\\skybox.VERT", ".\\shaders\\skybox.FRAG");
 
-	// C‡rrega VAO Skybox Cube
+	// C√†rrega VAO Skybox Cube
 	if (skC_VAOID.vaoId == -1) skC_VAOID = loadCubeSkybox_VAO();
 	Set_VAOList(CUBE_SKYBOX, skC_VAOID);
 
@@ -3492,7 +3493,7 @@ void CEntornVGIView::OnVistaSkyBox()
 		cubemapTexture = loadCubemap(faces);
 	}
 
-	// Entorn VGI: ActivaciÛ el contexte OpenGL. Permet la coexistencia d'altres contextes de generaciÛ
+	// Entorn VGI: Activaci√≥ el contexte OpenGL. Permet la coexistencia d'altres contextes de generaci√≥
 	wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
 
 	// Crida a OnPaint() per redibuixar l'escena
@@ -3502,16 +3503,16 @@ void CEntornVGIView::OnVistaSkyBox()
 
 void CEntornVGIView::OnUpdateVistaSkyBox(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (SkyBoxCube) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
 
 
-// VISTA: Visualitzar Grid XY (opciÛ booleana)
+// VISTA: Visualitzar Grid XY (opci√≥ booleana)
 void CEntornVGIView::OnVistaGridXY()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	grid.x = !grid.x;	hgrid.x = 0.0;
 	if (grid.x) grid.w = false;
 
@@ -3522,15 +3523,15 @@ void CEntornVGIView::OnVistaGridXY()
 
 void CEntornVGIView::OnUpdateVistaGridXY(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (grid.x) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
 
-// VISTA: Visualitzar Grid XZ (opciÛ booleana)
+// VISTA: Visualitzar Grid XZ (opci√≥ booleana)
 void CEntornVGIView::OnVistaGridXZ()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	grid.y = !grid.y;	hgrid.y = 0.0;
 	if (grid.y) grid.w = false;
 
@@ -3541,16 +3542,16 @@ void CEntornVGIView::OnVistaGridXZ()
 
 void CEntornVGIView::OnUpdateVistaGridXZ(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (grid.y) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
 
 
-// VISTA: Visualitzar Grid YZ (opciÛ booleana)
+// VISTA: Visualitzar Grid YZ (opci√≥ booleana)
 void CEntornVGIView::OnVistaGridYZ()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	grid.z = !grid.z;	hgrid.z = 0.0;
 	if (grid.z) grid.w = false;
 
@@ -3560,16 +3561,16 @@ void CEntornVGIView::OnVistaGridYZ()
 
 void CEntornVGIView::OnUpdateVistaGridYZ(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (grid.z) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
 
 
-// VISTA: Visualitzar Grid XYZ (opciÛ booleana)
+// VISTA: Visualitzar Grid XYZ (opci√≥ booleana)
 void CEntornVGIView::OnVistaGridXYZ()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	grid.w = !grid.w;	hgrid.w = 0.0;
 	if (grid.w)
 	{
@@ -3582,7 +3583,7 @@ void CEntornVGIView::OnVistaGridXYZ()
 
 void CEntornVGIView::OnUpdateVistaGridXYZ(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (grid.w) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 
@@ -3590,13 +3591,13 @@ void CEntornVGIView::OnUpdateVistaGridXYZ(CCmdUI* pCmdUI)
 
 
 /* ------------------------------------------------------------------------- */
-/*					6. PROJECCI”                                             */
+/*					6. PROJECCI√ì                                             */
 /* ------------------------------------------------------------------------- */
 
-// PROJECCI”: Perspectiva
+// PROJECCI√ì: Perspectiva
 void CEntornVGIView::OnProjeccioPerspectiva()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	projeccio = PERSPECT;
 	mobil = true;			zzoom = true;
 
@@ -3607,7 +3608,7 @@ void CEntornVGIView::OnProjeccioPerspectiva()
 
 void CEntornVGIView::OnUpdateProjeccioPerspectiva(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (projeccio == PERSPECT) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
@@ -3620,23 +3621,23 @@ void CEntornVGIView::OnUpdateProjeccioPerspectiva(CCmdUI* pCmdUI)
 // OBJECTE: Cub
 void CEntornVGIView::OnObjecteCub()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 
 	objecte = CUB;
 	CVAO cubeVAO;
 
 	//  Modificar R per centrar la Vista a la mida de l'objecte (Perspectiva)
-	//	Canviar l'escala per a centrar la vista (Ortogr‡fica)
+	//	Canviar l'escala per a centrar la vista (Ortogr√†fica)
 
-	// Entorn VGI: ActivaciÛ el contexte OpenGL
+	// Entorn VGI: Activaci√≥ el contexte OpenGL
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
 
 	//netejaVAOList();						// Neteja Llista VAO.
 	if (Get_VAOId(GLUT_CUBE) != 0) deleteVAOList(GLUT_CUBE);				// Neteja VAO Cub
-	cubeVAO = loadglutSolidCube_VAO(1.0);	// C‡rrega cub de costat 1 com a VAO
-	Set_VAOList(GLUT_CUBE, cubeVAO);		// Guarda (vaoId, vboId, nVertexs) a la posiciÛ GLUT_CUBE.
+	cubeVAO = loadglutSolidCube_VAO(1.0);	// C√†rrega cub de costat 1 com a VAO
+	Set_VAOList(GLUT_CUBE, cubeVAO);		// Guarda (vaoId, vboId, nVertexs) a la posici√≥ GLUT_CUBE.
 
-// Entorn VGI: ActivaciÛ el contexte OpenGL. Permet la coexistencia d'altres contextes de generaciÛ
+// Entorn VGI: Activaci√≥ el contexte OpenGL. Permet la coexistencia d'altres contextes de generaci√≥
 	wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
 
 	// Crida a OnPaint() per redibuixar l'escena
@@ -3645,7 +3646,7 @@ void CEntornVGIView::OnObjecteCub()
 
 void CEntornVGIView::OnUpdateObjecteCub(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (objecte == CUB) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
@@ -3655,22 +3656,22 @@ void CEntornVGIView::OnUpdateObjecteCub(CCmdUI* pCmdUI)
 // OBJECTE: Cub RGB
 void CEntornVGIView::OnObjecteCubRGB()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	objecte = CUB_RGB;
 	CVAO cubeVAO;
 
 	//  Modificar R per centrar la Vista a la mida de l'objecte (Perspectiva)
-	//	Canviar l'escala per a centrar la vista (Ortogr‡fica)
+	//	Canviar l'escala per a centrar la vista (Ortogr√†fica)
 
-	// Entorn VGI: ActivaciÛ el contexte OpenGL
+	// Entorn VGI: Activaci√≥ el contexte OpenGL
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
 
 	//netejaVAOList();						// Neteja Llista VAO.
 	if (Get_VAOId(GLUT_CUBE_RGB) != 0) deleteVAOList(GLUT_CUBE_RGB);
-	cubeVAO = loadglutSolidCubeRGB_VAO(1.0);	// C‡rrega cub RGB de costat 1 com a VAO
-	Set_VAOList(GLUT_CUBE_RGB, cubeVAO);		// Guarda (vaoId, vboId, nVertexs) a la posiciÛ GLUT_CUBE_RGB.
+	cubeVAO = loadglutSolidCubeRGB_VAO(1.0);	// C√†rrega cub RGB de costat 1 com a VAO
+	Set_VAOList(GLUT_CUBE_RGB, cubeVAO);		// Guarda (vaoId, vboId, nVertexs) a la posici√≥ GLUT_CUBE_RGB.
 
-// Entorn VGI: ActivaciÛ el contexte OpenGL. Permet la coexistencia d'altres contextes de generaciÛ
+// Entorn VGI: Activaci√≥ el contexte OpenGL. Permet la coexistencia d'altres contextes de generaci√≥
 	wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
 
 	// Crida a OnPaint() per redibuixar l'escena
@@ -3680,7 +3681,7 @@ void CEntornVGIView::OnObjecteCubRGB()
 
 void CEntornVGIView::OnUpdateObjecteCubRGB(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (objecte == CUB_RGB) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
@@ -3689,21 +3690,21 @@ void CEntornVGIView::OnUpdateObjecteCubRGB(CCmdUI* pCmdUI)
 // OBJECTE Esfera
 void CEntornVGIView::OnObjecteEsfera()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	objecte = ESFERA;
 
 	//  Modificar R per centrar la Vista a la mida de l'objecte (Perspectiva)
-	//	Canviar l'escala per a centrar la vista (Ortogr‡fica)
+	//	Canviar l'escala per a centrar la vista (Ortogr√†fica)
 
-	// Entorn VGI: ActivaciÛ el contexte OpenGL
+	// Entorn VGI: Activaci√≥ el contexte OpenGL
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
 
 	//	netejaVAOList();						// Neteja Llista VAO.
 	if (Get_VAOId(GLU_SPHERE) != 0) deleteVAOList(GLU_SPHERE);
-	CVAO sphereVAO = loadgluSphere_VAO(1.0, 20, 20);	// C‡rrega cub RGB de costat 1 com a VAO
+	CVAO sphereVAO = loadgluSphere_VAO(1.0, 20, 20);	// C√†rrega cub RGB de costat 1 com a VAO
 	Set_VAOList(GLU_SPHERE, sphereVAO);
 
-	// Entorn VGI: ActivaciÛ el contexte OpenGL. Permet la coexistencia d'altres contextes de generaciÛ
+	// Entorn VGI: Activaci√≥ el contexte OpenGL. Permet la coexistencia d'altres contextes de generaci√≥
 	wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
 
 	// Crida a OnPaint() per redibuixar l'escena
@@ -3712,7 +3713,7 @@ void CEntornVGIView::OnObjecteEsfera()
 
 void CEntornVGIView::OnUpdateObjecteEsfera(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (objecte == ESFERA) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
@@ -3720,21 +3721,21 @@ void CEntornVGIView::OnUpdateObjecteEsfera(CCmdUI* pCmdUI)
 // OBJECTE Tetera
 void CEntornVGIView::OnObjecteTetera()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	objecte = TETERA;
 
 	//  Modificar R per centrar la Vista a la mida de l'objecte (Perspectiva)
-	//	Canviar l'escala per a centrar la vista (Ortogr‡fica)
+	//	Canviar l'escala per a centrar la vista (Ortogr√†fica)
 
-	// Entorn VGI: ActivaciÛ el contexte OpenGL
+	// Entorn VGI: Activaci√≥ el contexte OpenGL
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
 
 	//	netejaVAOList();						// Neteja Llista VAO.
 	if (Get_VAOId(GLUT_TEAPOT) != 0) deleteVAOList(GLUT_TEAPOT);
-	CVAO teteraVAO = loadglutSolidTeapot_VAO(1.0);	// C‡rrega Teapot de costat 1 com a VAO
+	CVAO teteraVAO = loadglutSolidTeapot_VAO(1.0);	// C√†rrega Teapot de costat 1 com a VAO
 	Set_VAOList(GLUT_TEAPOT, teteraVAO);
 
-	// Entorn VGI: ActivaciÛ el contexte OpenGL. Permet la coexistencia d'altres contextes de generaciÛ
+	// Entorn VGI: Activaci√≥ el contexte OpenGL. Permet la coexistencia d'altres contextes de generaci√≥
 	wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
 
 	// Crida a OnPaint() per redibuixar l'escena
@@ -3743,7 +3744,7 @@ void CEntornVGIView::OnObjecteTetera()
 
 void CEntornVGIView::OnUpdateObjecteTetera(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (objecte == TETERA) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
@@ -3758,34 +3759,34 @@ void CEntornVGIView::OnObjecteArc()
 	CVAO objectVAO;
 
 	color_Mar.r = 0.5;	color_Mar.g = 0.4; color_Mar.b = 0.9; color_Mar.a = 1.0;
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	objecte = ARC;
 
 	//  Modificar R per centrar la Vista a la mida de l'objecte (Perspectiva)
-	//	Canviar l'escala per a centrar la vista (Ortogr‡fica)
+	//	Canviar l'escala per a centrar la vista (Ortogr√†fica)
 
-	// Entorn VGI: ActivaciÛ el contexte OpenGL
+	// Entorn VGI: Activaci√≥ el contexte OpenGL
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
 
-	// C‡rrega dels VAO's per a construir objecte ARC
+	// C√†rrega dels VAO's per a construir objecte ARC
 	//	netejaVAOList();						// Neteja Llista VAO.
 	if (Get_VAOId(GLUT_CUBE) != 0) deleteVAOList(GLUT_CUBE);
-	objectVAO = loadglutSolidCube_VAO(1.0);		// C‡rrega Cub de costat 1 com a VAO
-	Set_VAOList(GLUT_CUBE, objectVAO);			// Guarda (vaoId, vboId, nVertexs) a la posiciÛ GLUT_CUBE.
+	objectVAO = loadglutSolidCube_VAO(1.0);		// C√†rrega Cub de costat 1 com a VAO
+	Set_VAOList(GLUT_CUBE, objectVAO);			// Guarda (vaoId, vboId, nVertexs) a la posici√≥ GLUT_CUBE.
 
 	if (Get_VAOId(GLU_SPHERE) != 0) deleteVAOList(GLU_SPHERE);
 	objectVAO = loadgluSphere_VAO(0.5, 20, 20);
-	Set_VAOList(GLU_SPHERE, objectVAO);			// Guarda (vaoId, vboId, nVertexs) a la posiciÛ GLU_SPHERE.
+	Set_VAOList(GLU_SPHERE, objectVAO);			// Guarda (vaoId, vboId, nVertexs) a la posici√≥ GLU_SPHERE.
 
 	if (Get_VAOId(GLUT_TEAPOT) != 0) deleteVAOList(GLUT_TEAPOT);
 	objectVAO = loadglutSolidTeapot_VAO(1.0);
-	Set_VAOList(GLUT_TEAPOT, objectVAO);			// Guarda (vaoId, vboId, nVertexs) a la posiciÛ GLUT_TEAPOT.
+	Set_VAOList(GLUT_TEAPOT, objectVAO);			// Guarda (vaoId, vboId, nVertexs) a la posici√≥ GLUT_TEAPOT.
 
 	if (Get_VAOId(MAR_FRACTAL_VAO) != 0) deleteVAOList(MAR_FRACTAL_VAO);
 	objectVAO = loadSea_VAO(color_Mar);
-	Set_VAOList(MAR_FRACTAL_VAO, objectVAO);			// Guarda (vaoId, vboId, nVertexs) a la posiciÛ MAR_FRACTAL_VAO.
+	Set_VAOList(MAR_FRACTAL_VAO, objectVAO);			// Guarda (vaoId, vboId, nVertexs) a la posici√≥ MAR_FRACTAL_VAO.
 
-// Entorn VGI: ActivaciÛ el contexte OpenGL. Permet la coexistencia d'altres contextes de generaciÛ
+// Entorn VGI: Activaci√≥ el contexte OpenGL. Permet la coexistencia d'altres contextes de generaci√≥
 	wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
 
 	// Crida a OnPaint() per redibuixar l'escena
@@ -3795,7 +3796,7 @@ void CEntornVGIView::OnObjecteArc()
 
 void CEntornVGIView::OnUpdateObjecteArc(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (objecte == ARC) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
@@ -3804,51 +3805,51 @@ void CEntornVGIView::OnUpdateObjecteArc(CCmdUI* pCmdUI)
 // OBJECTE Tie
 void CEntornVGIView::OnObjecteTie()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	objecte = TIE;
 	CVAO objectVAO;
 
 	//  Modificar R per centrar la Vista a la mida de l'objecte (Perspectiva)
-	//	Canviar l'escala per a centrar la vista (Ortogr‡fica)
+	//	Canviar l'escala per a centrar la vista (Ortogr√†fica)
 
-	// Entorn VGI: ActivaciÛ el contexte OpenGL
+	// Entorn VGI: Activaci√≥ el contexte OpenGL
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
 
-	// C‡rrega dels VAO's per a construir objecte ARC
+	// C√†rrega dels VAO's per a construir objecte ARC
 		//	netejaVAOList();						// Neteja Llista VAO.
 	if (Get_VAOId(GLU_CYLINDER) != 0) deleteVAOList(GLU_CYLINDER);
-	objectVAO = loadgluCylinder_VAO(5.0f, 5.0f, 0.5f, 6, 1);	// C‡rrega cilindre com a VAO
-	//Set_VAOList(GLUT_CYLINDER, objectVAO);			// Guarda (vaoId, vboId, nVertexs) a la posiciÛ GLUT_CYLINDER.
+	objectVAO = loadgluCylinder_VAO(5.0f, 5.0f, 0.5f, 6, 1);	// C√†rrega cilindre com a VAO
+	//Set_VAOList(GLUT_CYLINDER, objectVAO);			// Guarda (vaoId, vboId, nVertexs) a la posici√≥ GLUT_CYLINDER.
 
 	if (Get_VAOId(GLU_DISK) != 0)deleteVAOList(GLU_DISK);
 	objectVAO = loadgluDisk_VAO(0.0f, 5.0f, 6, 1);
-	//Set_VAOList(GLU_DISK, objectVAO);			// Guarda (vaoId, vboId, nVertexs) a la posiciÛ GLU_DISK.
+	//Set_VAOList(GLU_DISK, objectVAO);			// Guarda (vaoId, vboId, nVertexs) a la posici√≥ GLU_DISK.
 
 	if (Get_VAOId(GLUT_USER1) != 0)deleteVAOList(GLUT_USER1);
-	objectVAO = loadgluCylinder_VAO(5.0f, 5.0f, 2.0f, 6, 1);	// C‡rrega cilindre com a VAO
-	Set_VAOList(GLUT_USER1, objectVAO);			// Guarda (vaoId, vboId, nVertexs) a la posiciÛ GLUT_USER1.
+	objectVAO = loadgluCylinder_VAO(5.0f, 5.0f, 2.0f, 6, 1);	// C√†rrega cilindre com a VAO
+	Set_VAOList(GLUT_USER1, objectVAO);			// Guarda (vaoId, vboId, nVertexs) a la posici√≥ GLUT_USER1.
 
 	if (Get_VAOId(GLUT_CUBE) != 0)deleteVAOList(GLUT_CUBE);
 	objectVAO = loadglutSolidCube_VAO(1.0);
-	Set_VAOList(GLUT_CUBE, objectVAO);			// Guarda (vaoId, vboId, nVertexs) a la posiciÛ GLUT_CUBE.
+	Set_VAOList(GLUT_CUBE, objectVAO);			// Guarda (vaoId, vboId, nVertexs) a la posici√≥ GLUT_CUBE.
 
 	if (Get_VAOId(GLUT_TORUS) != 0)deleteVAOList(GLUT_TORUS);
 	objectVAO = loadglutSolidTorus_VAO(1.0, 5.0, 20, 20);
-	Set_VAOList(GLUT_TORUS, objectVAO);			// Guarda (vaoId, vboId, nVertexs) a la posiciÛ GLUT_TORUS.
+	Set_VAOList(GLUT_TORUS, objectVAO);			// Guarda (vaoId, vboId, nVertexs) a la posici√≥ GLUT_TORUS.
 
 	if (Get_VAOId(GLUT_USER2) != 0)deleteVAOList(GLUT_USER2);
-	objectVAO = loadgluCylinder_VAO(1.0f, 0.5f, 5.0f, 60, 1);	// C‡rrega cilindre com a VAO
-	Set_VAOList(GLUT_USER2, objectVAO);			// Guarda (vaoId, vboId, nVertexs) a la posiciÛ GLUT_USER2.
+	objectVAO = loadgluCylinder_VAO(1.0f, 0.5f, 5.0f, 60, 1);	// C√†rrega cilindre com a VAO
+	Set_VAOList(GLUT_USER2, objectVAO);			// Guarda (vaoId, vboId, nVertexs) a la posici√≥ GLUT_USER2.
 
 	if (Get_VAOId(GLUT_USER3) != 0)deleteVAOList(GLUT_USER3);
-	objectVAO = loadgluCylinder_VAO(0.35f, 0.35f, 5.0f, 80, 1);	// C‡rrega cilindre com a VAO
-	Set_VAOList(GLUT_USER3, objectVAO);			// Guarda (vaoId, vboId, nVertexs) a la posiciÛ GLUT_USER3.
+	objectVAO = loadgluCylinder_VAO(0.35f, 0.35f, 5.0f, 80, 1);	// C√†rrega cilindre com a VAO
+	Set_VAOList(GLUT_USER3, objectVAO);			// Guarda (vaoId, vboId, nVertexs) a la posici√≥ GLUT_USER3.
 
 	if (Get_VAOId(GLUT_USER4) != 0)deleteVAOList(GLUT_USER4);
-	objectVAO = loadgluCylinder_VAO(4.0f, 2.0f, 10.25f, 40, 1);	// C‡rrega cilindre com a VAO
-	Set_VAOList(GLUT_USER4, objectVAO);			// Guarda (vaoId, vboId, nVertexs) a la posiciÛ GLUT_USER4.
+	objectVAO = loadgluCylinder_VAO(4.0f, 2.0f, 10.25f, 40, 1);	// C√†rrega cilindre com a VAO
+	Set_VAOList(GLUT_USER4, objectVAO);			// Guarda (vaoId, vboId, nVertexs) a la posici√≥ GLUT_USER4.
 
-// Entorn VGI: ActivaciÛ el contexte OpenGL. Permet la coexistencia d'altres contextes de generaciÛ
+// Entorn VGI: Activaci√≥ el contexte OpenGL. Permet la coexistencia d'altres contextes de generaci√≥
 	wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
 
 	// Crida a OnPaint() per redibuixar l'escena
@@ -3858,7 +3859,7 @@ void CEntornVGIView::OnObjecteTie()
 
 void CEntornVGIView::OnUpdateObjecteTie(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (objecte == TIE) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
@@ -3869,13 +3870,13 @@ void CEntornVGIView::OnUpdateObjecteTie(CCmdUI* pCmdUI)
 // OBJECTE Corba Bezier
 void CEntornVGIView::OnObjeteCorbaBezier()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	CVAO objectVAO;
 
 	nom = "";
 	objecte = C_BEZIER;		sw_material[4] = true;
 
-	// Entorn VGI: Obrir di‡leg de lectura de fitxer (fitxers (*.crv)
+	// Entorn VGI: Obrir di√†leg de lectura de fitxer (fitxers (*.crv)
 	CFileDialog openSpline(TRUE, NULL, NULL,
 		OFN_FILEMUSTEXIST | OFN_HIDEREADONLY,
 		_T("SPL Files(*.crv)|*.crv|All Files (*.*)|*.*||"));;
@@ -3884,30 +3885,30 @@ void CEntornVGIView::OnObjeteCorbaBezier()
 		return;                 // stay with old data file
 	else nom = openSpline.GetPathName();
 
-	// Entorn VGI: Variable de tipus CString 'nom' contÈ el nom del fitxer seleccionat
+	// Entorn VGI: Variable de tipus CString 'nom' cont√© el nom del fitxer seleccionat
 
-	// Entorn VGI: ConversiÛ de la variable CString nom a la variable char *nomfitx, 
-	//		compatible amb  les funcions de c‡rrega de fitxers fractals
+	// Entorn VGI: Conversi√≥ de la variable CString nom a la variable char *nomfitx, 
+	//		compatible amb  les funcions de c√†rrega de fitxers fractals
 	char* nomfitx = CString2Char(nom);
 
 	npts_T = llegir_ptsC(nomfitx);
 
 	// 	---- Entorn VGI: Modificar R per centrar Vista amb mida de l'objecte
 
-	// Entorn VGI: ActivaciÛ el contexte OpenGL
+	// Entorn VGI: Activaci√≥ el contexte OpenGL
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
 
-	// C‡rrega dels VAO's per a construir la corba Bezier
+	// C√†rrega dels VAO's per a construir la corba Bezier
 		//	netejaVAOList();						// Neteja Llista VAO.
 	deleteVAOList(GLU_SPHERE);
 	objectVAO = loadgluSphere_VAO(5.0, 20, 20);
-	Set_VAOList(GLU_SPHERE, objectVAO);			// Guarda (vaoId, vboId, nVertexs) a la posiciÛ GLUT_CUBE.
+	Set_VAOList(GLU_SPHERE, objectVAO);			// Guarda (vaoId, vboId, nVertexs) a la posici√≥ GLUT_CUBE.
 
 	if (Get_VAOId(CRV_BEZIER) != 0) deleteVAOList(CRV_BEZIER);
 	CVAO BezierVAO = load_Bezier_Curve_VAO(npts_T, PC_t, pas_CS, false);
 	Set_VAOList(CRV_BEZIER, BezierVAO);
 
-	// Entorn VGI: ActivaciÛ el contexte OpenGL. Permet la coexistencia d'altres contextes de generaciÛ
+	// Entorn VGI: Activaci√≥ el contexte OpenGL. Permet la coexistencia d'altres contextes de generaci√≥
 	wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
 
 	// Crida a OnPaint() per redibuixar l'escena
@@ -3916,7 +3917,7 @@ void CEntornVGIView::OnObjeteCorbaBezier()
 
 void CEntornVGIView::OnUpdateObjeteCorbaBezier(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (objecte == C_BEZIER) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
@@ -3925,21 +3926,21 @@ void CEntornVGIView::OnUpdateObjeteCorbaBezier(CCmdUI* pCmdUI)
 // OBJECTE Corba Lemniscata 3D
 void CEntornVGIView::OnObjecteCorbaLemniscata()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	objecte = C_LEMNISCATA;		sw_material[4] = true;
 
 	// 	---- Entorn VGI: Modificar R per centrar Vista amb mida de l'objecte
 
-	// Entorn VGI: ActivaciÛ el contexte OpenGL
+	// Entorn VGI: Activaci√≥ el contexte OpenGL
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
 
-	// C‡rrega dels VAO's per a construir la corba Bezier
+	// C√†rrega dels VAO's per a construir la corba Bezier
 		//	netejaVAOList();						// Neteja Llista VAO.
 	if (Get_VAOId(CRV_LEMNISCATA3D) != 0) deleteVAOList(CRV_LEMNISCATA3D);
 	CVAO Lemni3DVAO = load_Lemniscata3D_VAO(800, pas_CS * 20.0);
 	Set_VAOList(CRV_LEMNISCATA3D, Lemni3DVAO);
 
-	// Entorn VGI: ActivaciÛ el contexte OpenGL. Permet la coexistencia d'altres contextes de generaciÛ
+	// Entorn VGI: Activaci√≥ el contexte OpenGL. Permet la coexistencia d'altres contextes de generaci√≥
 	wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
 
 	// Crida a OnPaint() per redibuixar l'escena
@@ -3949,7 +3950,7 @@ void CEntornVGIView::OnObjecteCorbaLemniscata()
 
 void CEntornVGIView::OnUpdateObjecteCorbaLemniscata(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (objecte == C_LEMNISCATA) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
@@ -3958,11 +3959,11 @@ void CEntornVGIView::OnUpdateObjecteCorbaLemniscata(CCmdUI* pCmdUI)
 // OBJECTE Corba B-Spline
 void CEntornVGIView::OnObjecteCorbaBSpline()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	nom = "";
 	objecte = C_BSPLINE;	sw_material[4] = true;
 
-	// Entorn VGI: Obrir di‡leg de lectura de fitxer (fitxers (*.crv)
+	// Entorn VGI: Obrir di√†leg de lectura de fitxer (fitxers (*.crv)
 	CFileDialog openSpline(TRUE, NULL, NULL,
 		OFN_FILEMUSTEXIST | OFN_HIDEREADONLY,
 		_T("SPL Files(*.crv)|*.crv|All Files (*.*)|*.*||"));;
@@ -3971,30 +3972,30 @@ void CEntornVGIView::OnObjecteCorbaBSpline()
 		return;                 // stay with old data file
 	else nom = openSpline.GetPathName();
 
-	// Entorn VGI: Variable de tipus CString 'nom' contÈ el nom del fitxer seleccionat
+	// Entorn VGI: Variable de tipus CString 'nom' cont√© el nom del fitxer seleccionat
 
-	// Entorn VGI: ConversiÛ de la variable CString nom a la variable char *nomfitx, 
-	//		compatible amb  les funcions de c‡rrega de fitxers fractals
+	// Entorn VGI: Conversi√≥ de la variable CString nom a la variable char *nomfitx, 
+	//		compatible amb  les funcions de c√†rrega de fitxers fractals
 	char* nomfitx = CString2Char(nom);
 
 	npts_T = llegir_ptsC(nomfitx);
 
 	// 	---- Entorn VGI: Modificar R per centrar Vista amb mida de l'objecte
 
-	// Entorn VGI: ActivaciÛ el contexte OpenGL
+	// Entorn VGI: Activaci√≥ el contexte OpenGL
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
 
-	// C‡rrega dels VAO's per a construir la corba BSpline
+	// C√†rrega dels VAO's per a construir la corba BSpline
 			//	netejaVAOList();						// Neteja Llista VAO.
 	if (Get_VAOId(GLU_SPHERE) != 0) deleteVAOList(GLU_SPHERE);
 	CVAO objectVAO = loadgluSphere_VAO(5.0, 20, 20);
-	Set_VAOList(GLU_SPHERE, objectVAO);			// Guarda (vaoId, vboId, nVertexs) a la posiciÛ GLUT_CUBE.
+	Set_VAOList(GLU_SPHERE, objectVAO);			// Guarda (vaoId, vboId, nVertexs) a la posici√≥ GLUT_CUBE.
 
 	if (Get_VAOId(CRV_BSPLINE) != 0) deleteVAOList(CRV_BSPLINE);
 	CVAO BSplineVAO = load_BSpline_Curve_VAO(npts_T, PC_t, pas_CS);
 	Set_VAOList(CRV_BSPLINE, BSplineVAO);
 
-	// Entorn VGI: ActivaciÛ el contexte OpenGL. Permet la coexistencia d'altres contextes de generaciÛ
+	// Entorn VGI: Activaci√≥ el contexte OpenGL. Permet la coexistencia d'altres contextes de generaci√≥
 	wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
 
 
@@ -4005,16 +4006,16 @@ void CEntornVGIView::OnObjecteCorbaBSpline()
 
 void CEntornVGIView::OnUpdateObjecteCorbaBSpline(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (objecte == C_BSPLINE) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
 
 
-// OBJECTE Punts de Control: ActivaciÛ de la visualitzaciÛ dels Punts de control de les Corbes (OPCI” BOOLEANA)
+// OBJECTE Punts de Control: Activaci√≥ de la visualitzaci√≥ dels Punts de control de les Corbes (OPCI√ì BOOLEANA)
 void CEntornVGIView::OnObjectePuntsControl()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	sw_Punts_Control = !sw_Punts_Control;
 
 	// Crida a OnPaint() per redibuixar l'escena
@@ -4023,17 +4024,17 @@ void CEntornVGIView::OnObjectePuntsControl()
 
 void CEntornVGIView::OnUpdateObjectePuntsControl(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (sw_Punts_Control) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
 
 
-// OBJECTE --> CORBES: Activar o desactivar visualitzaciÛ Triedre de Frenet Punts de control de les corbes 
+// OBJECTE --> CORBES: Activar o desactivar visualitzaci√≥ Triedre de Frenet Punts de control de les corbes 
 //					Lemniscata, Bezier i BSpline
 void CEntornVGIView::OnCorbesTriedreFrenet()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	dibuixa_TriedreFrenet = !dibuixa_TriedreFrenet;
 
 	// Crida a OnPaint() per redibuixar l'escena
@@ -4043,7 +4044,7 @@ void CEntornVGIView::OnCorbesTriedreFrenet()
 
 void CEntornVGIView::OnUpdateCorbesTriedreFrenet(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (dibuixa_TriedreFrenet) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
@@ -4052,7 +4053,7 @@ void CEntornVGIView::OnUpdateCorbesTriedreFrenet(CCmdUI* pCmdUI)
 // OBJECTE Matriu Primitives
 void CEntornVGIView::OnObjecteMatriuPrimitives()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	objecte = MATRIUP;
 
 	// Crida a OnPaint() per redibuixar l'escena
@@ -4061,7 +4062,7 @@ void CEntornVGIView::OnObjecteMatriuPrimitives()
 
 void CEntornVGIView::OnUpdateObjecteMatriuPrimitives(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (objecte == MATRIUP) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
@@ -4070,16 +4071,16 @@ void CEntornVGIView::OnUpdateObjecteMatriuPrimitives(CCmdUI* pCmdUI)
 // OBJECTE Matriu Primitives VAO
 void CEntornVGIView::OnObjecteMatriuPrimitivesVBO()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	// ------- VAO
 	CVAO objectVAO;
 
 	objecte = MATRIUP_VAO;
 
-	// Entorn VGI: ActivaciÛ el contexte OpenGL
+	// Entorn VGI: Activaci√≥ el contexte OpenGL
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
 
-	// C‡rrega dels VAO's per a construir objecte ARC
+	// C√†rrega dels VAO's per a construir objecte ARC
 		//	netejaVAOList();						// Neteja Llista VAO.
 	if (Get_VAOId(GLUT_CUBE) != 0) deleteVAOList(GLUT_CUBE);
 	objectVAO = loadglutSolidCube_VAO(1.0f);
@@ -4093,7 +4094,7 @@ void CEntornVGIView::OnObjecteMatriuPrimitivesVBO()
 	objectVAO = loadgluSphere_VAO(1.0, 20, 20);
 	Set_VAOList(GLU_SPHERE, objectVAO);
 
-	// Entorn VGI: ActivaciÛ el contexte OpenGL. Permet la coexistencia d'altres contextes de generaciÛ
+	// Entorn VGI: Activaci√≥ el contexte OpenGL. Permet la coexistencia d'altres contextes de generaci√≥
 	wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
 
 	// Crida a OnPaint() per redibuixar l'escena
@@ -4102,7 +4103,7 @@ void CEntornVGIView::OnObjecteMatriuPrimitivesVBO()
 
 void CEntornVGIView::OnUpdateObjecteMatriuPrimitivesVBO(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (objecte == MATRIUP_VAO) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
@@ -4112,10 +4113,10 @@ void CEntornVGIView::OnUpdateObjecteMatriuPrimitivesVBO(CCmdUI* pCmdUI)
 /*					8. TRANSFORMA											 */
 /* ------------------------------------------------------------------------- */
 
-// TRANSFORMA: TRASLACI”
+// TRANSFORMA: TRASLACI√ì
 void CEntornVGIView::OnTransformaTraslacio()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	trasl = !trasl;
 	rota = false;
 	if (trasl) escal = true;
@@ -4128,7 +4129,7 @@ void CEntornVGIView::OnTransformaTraslacio()
 
 void CEntornVGIView::OnUpdateTransformaTraslacio(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (trasl) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
@@ -4136,7 +4137,7 @@ void CEntornVGIView::OnUpdateTransformaTraslacio(CCmdUI* pCmdUI)
 
 void CEntornVGIView::OnTransformaOrigentraslacio()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	if (trasl)
 	{
 		fact_Tras = 1;
@@ -4148,10 +4149,10 @@ void CEntornVGIView::OnTransformaOrigentraslacio()
 }
 
 
-// TRANSFORMA: ROTACI”
+// TRANSFORMA: ROTACI√ì
 void CEntornVGIView::OnTransformaRotacio()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	rota = !rota;
 	trasl = false;
 	if (rota) escal = true;
@@ -4163,7 +4164,7 @@ void CEntornVGIView::OnTransformaRotacio()
 
 void CEntornVGIView::OnUpdateTransformaRotacio(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (rota) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
@@ -4171,7 +4172,7 @@ void CEntornVGIView::OnUpdateTransformaRotacio(CCmdUI* pCmdUI)
 
 void CEntornVGIView::OnTransformaOrigenrotacio()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	if (rota)
 	{
 		fact_Rota = 90;
@@ -4186,7 +4187,7 @@ void CEntornVGIView::OnTransformaOrigenrotacio()
 // TRANSFORMA: ESCALAT
 void CEntornVGIView::OnTransformaEscalat()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	if ((!rota) && (!trasl)) escal = !escal;
 	transf = trasl || rota || escal;
 
@@ -4196,7 +4197,7 @@ void CEntornVGIView::OnTransformaEscalat()
 
 void CEntornVGIView::OnUpdateTransformaEscalat(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (escal) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
@@ -4204,7 +4205,7 @@ void CEntornVGIView::OnUpdateTransformaEscalat(CCmdUI* pCmdUI)
 
 void CEntornVGIView::OnTransformaOrigenescalat()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	if (escal) { TG.VScal.x = 1;	TG.VScal.y = 1;	TG.VScal.z = 1; }
 
 	// Crida a OnPaint() per redibuixar l'escena
@@ -4212,10 +4213,10 @@ void CEntornVGIView::OnTransformaOrigenescalat()
 }
 
 
-// TRANSFOMA: MÚbil Eix X? (opciÛ booleana).
+// TRANSFOMA: M√≤bil Eix X? (opci√≥ booleana).
 void CEntornVGIView::OnTransformaMobilx()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	if (transf)
 	{
 		transX = !transX;
@@ -4235,16 +4236,16 @@ void CEntornVGIView::OnTransformaMobilx()
 
 void CEntornVGIView::OnUpdateTransformaMobilx(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (transX) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
 
 
-// TRANSFOMA: MÚbil Eix Y? (opciÛ booleana).
+// TRANSFOMA: M√≤bil Eix Y? (opci√≥ booleana).
 void CEntornVGIView::OnTransformaMobily()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	if (transf)
 	{
 		transY = !transY;
@@ -4264,16 +4265,16 @@ void CEntornVGIView::OnTransformaMobily()
 
 void CEntornVGIView::OnUpdateTransformaMobily(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (transY) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
 
 
-// TRANSFOMA: MÚbil Eix Z? (opciÛ booleana).
+// TRANSFOMA: M√≤bil Eix Z? (opci√≥ booleana).
 void CEntornVGIView::OnTransformaMobilz()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	if (transf)
 	{
 		transZ = !transZ;
@@ -4293,7 +4294,7 @@ void CEntornVGIView::OnTransformaMobilz()
 
 void CEntornVGIView::OnUpdateTransformaMobilz(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (transZ) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
@@ -4305,7 +4306,7 @@ void CEntornVGIView::OnUpdateTransformaMobilz(CCmdUI* pCmdUI)
 
 void CEntornVGIView::OnOcultacionsFrontFaces()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	front_faces = !front_faces;
 
 	// Crida a OnPaint() per redibuixar l'escena
@@ -4314,16 +4315,16 @@ void CEntornVGIView::OnOcultacionsFrontFaces()
 
 void CEntornVGIView::OnUpdateOcultacionsFrontFaces(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (front_faces) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
 
 
-// OCULTACIONS: Test de Visibilitat? (opciÛ booleana).
+// OCULTACIONS: Test de Visibilitat? (opci√≥ booleana).
 void CEntornVGIView::OnOcultacionsTestvis()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	test_vis = !test_vis;
 
 	// Crida a OnPaint() per redibuixar l'escena
@@ -4332,16 +4333,16 @@ void CEntornVGIView::OnOcultacionsTestvis()
 
 void CEntornVGIView::OnUpdateOcultacionsTestvis(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (test_vis) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
 
 
-// OCULTACIONS: Z-Buffer? (opciÛ booleana).
+// OCULTACIONS: Z-Buffer? (opci√≥ booleana).
 void CEntornVGIView::OnOcultacionsZbuffer()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	oculta = !oculta;
 
 	// Crida a OnPaint() per redibuixar l'escena
@@ -4350,16 +4351,16 @@ void CEntornVGIView::OnOcultacionsZbuffer()
 
 void CEntornVGIView::OnUpdateOcultacionsZbuffer(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (oculta) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
 
 
-// OCULTACIONS: Back Line? (opciÛ booleana).
+// OCULTACIONS: Back Line? (opci√≥ booleana).
 void CEntornVGIView::OnOcultacionsBackline()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	back_line = !back_line;
 
 	// Crida a OnPaint() per redibuixar l'escena
@@ -4368,20 +4369,20 @@ void CEntornVGIView::OnOcultacionsBackline()
 
 void CEntornVGIView::OnUpdateOcultacionsBackline(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (back_line) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
 
 
 /* ------------------------------------------------------------------------- */
-/*					10. IL.LUMINACI”											 */
+/*					10. IL.LUMINACI√ì											 */
 /* ------------------------------------------------------------------------- */
 
-// IL.LUMINACI” Font de llum fixe? (opciÛ booleana).
+// IL.LUMINACI√ì Font de llum fixe? (opci√≥ booleana).
 void CEntornVGIView::OnIluminacioLlumfixe()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	ifixe = !ifixe;
 
 	// Crida a OnPaint() per redibuixar l'escena
@@ -4390,16 +4391,16 @@ void CEntornVGIView::OnIluminacioLlumfixe()
 
 void CEntornVGIView::OnUpdateIluminacioLlumfixe(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (ifixe) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
 
 
-// IL.LUMINACI”: Mantenir iluminades les Cares Front i Back
+// IL.LUMINACI√ì: Mantenir iluminades les Cares Front i Back
 void CEntornVGIView::OnIluminacio2Sides()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	ilum2sides = !ilum2sides;
 
 	// Crida a OnPaint() per redibuixar l'escena
@@ -4409,17 +4410,17 @@ void CEntornVGIView::OnIluminacio2Sides()
 
 void CEntornVGIView::OnUpdateIluminacio2Sides(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (ilum2sides) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
 
 
 
-// ILUMINACI” PUNTS
+// ILUMINACI√ì PUNTS
 void CEntornVGIView::OnIluminacioPunts()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	ilumina = PUNTS;
 	test_vis = false;		oculta = false;
 
@@ -4429,16 +4430,16 @@ void CEntornVGIView::OnIluminacioPunts()
 
 void CEntornVGIView::OnUpdateIluminacioPunts(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (ilumina == PUNTS) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
 
 
-// ILUMINACI” FILFERROS
+// ILUMINACI√ì FILFERROS
 void CEntornVGIView::OnIluminacioFilferros()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	ilumina = FILFERROS;
 	test_vis = false;		oculta = false;
 
@@ -4448,28 +4449,28 @@ void CEntornVGIView::OnIluminacioFilferros()
 
 void CEntornVGIView::OnUpdateIluminacioFilferros(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (ilumina == FILFERROS) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
 
 
-// ILUMINACI” PLANA
+// ILUMINACI√ì PLANA
 void CEntornVGIView::OnIluminacioPlana()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	ilumina = PLANA;
 	test_vis = false;		oculta = true;
 
-	// Entorn VGI: ActivaciÛ del contexte OpenGL
+	// Entorn VGI: Activaci√≥ del contexte OpenGL
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
 
 	// Elimina shader anterior
 	shaderLighting.DeleteProgram();
-	// C‡rrega Flat shader
+	// C√†rrega Flat shader
 	shader_programID = shaderLighting.loadFileShaders(".\\shaders\\flat_shdrML.vert", ".\\shaders\\flat_shdrML.frag");
 
-	// Entorn VGI: DesactivaciÛ del contexte OpenGL. Permet la coexistencia d'altres contextes de generaciÛ
+	// Entorn VGI: Desactivaci√≥ del contexte OpenGL. Permet la coexistencia d'altres contextes de generaci√≥
 	wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
 
 	// Crida a OnPaint() per redibuixar l'escena
@@ -4479,28 +4480,28 @@ void CEntornVGIView::OnIluminacioPlana()
 
 void CEntornVGIView::OnUpdateIluminacioPlana(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (ilumina == PLANA) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
 
 
-// ILUMINACI” GOURAUD
+// ILUMINACI√ì GOURAUD
 void CEntornVGIView::OnIluminacioGouraud()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	ilumina = GOURAUD;
 	test_vis = false;		oculta = true;
 
-	// Entorn VGI: ActivaciÛ del contexte OpenGL
+	// Entorn VGI: Activaci√≥ del contexte OpenGL
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
 
 	// Elimina shader anterior
 	shaderLighting.DeleteProgram();
-	// C‡rrega Gouraud shader 
+	// C√†rrega Gouraud shader 
 	shader_programID = shaderLighting.loadFileShaders(".\\shaders\\gouraud_shdrML.vert", ".\\shaders\\gouraud_shdrML.frag");
 
-	// Entorn VGI: DesactivaciÛ del contexte OpenGL. Permet la coexistencia d'altres contextes de generaciÛ
+	// Entorn VGI: Desactivaci√≥ del contexte OpenGL. Permet la coexistencia d'altres contextes de generaci√≥
 	wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
 
 	// Crida a OnPaint() per redibuixar l'escena
@@ -4509,28 +4510,28 @@ void CEntornVGIView::OnIluminacioGouraud()
 
 void CEntornVGIView::OnUpdateIluminacioGouraud(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (ilumina == GOURAUD) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
 
 
-// ILUMINACI” PHONG
+// ILUMINACI√ì PHONG
 void CEntornVGIView::OnIluminacioPhong()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	ilumina = PHONG;
 	test_vis = false;		oculta = true;
 
-	// Entorn VGI: ActivaciÛ del contexte OpenGL
+	// Entorn VGI: Activaci√≥ del contexte OpenGL
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
 
 	// Elimina shader anterior
 	shaderLighting.DeleteProgram();
-	// C‡rrega Phong Shader
+	// C√†rrega Phong Shader
 	shader_programID = shaderLighting.loadFileShaders(".\\shaders\\phong_shdrML.vert", ".\\shaders\\phong_shdrML.frag");
 
-	// Entorn VGI: DesactivaciÛ del contexte OpenGL. Permet la coexistencia d'altres contextes de generaciÛ
+	// Entorn VGI: Desactivaci√≥ del contexte OpenGL. Permet la coexistencia d'altres contextes de generaci√≥
 	wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
 
 	// Crida a OnPaint() per redibuixar l'escena
@@ -4540,25 +4541,25 @@ void CEntornVGIView::OnIluminacioPhong()
 
 void CEntornVGIView::OnUpdateIluminacioPhong(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (ilumina == PHONG) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
 
-// ILUMINACI”->REFLECTIVITAT MATERIAL / COLOR: ActivaciÛ i desactivaciÛ de la reflectivitat prÚpia del material com a color.
+// ILUMINACI√ì->REFLECTIVITAT MATERIAL / COLOR: Activaci√≥ i desactivaci√≥ de la reflectivitat pr√≤pia del material com a color.
 void CEntornVGIView::OnMaterialReflmaterial()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	sw_material[4] = !sw_material[4];
 
 	sw_il = true;
 
 	if (shader_menu != CAP_SHADER) {
-		// Entorn VGI: ActivaciÛ del contexte OpenGL
+		// Entorn VGI: Activaci√≥ del contexte OpenGL
 		wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
-		// Pas m‡scara llums
+		// Pas m√†scara llums
 		glUniform1i(glGetUniformLocation(shader_programID, "sw_material"), sw_material[4]);
-		// Entorn VGI: DesactivaciÛ del contexte OpenGL. Permet la coexistencia d'altres contextes de generaciÛ
+		// Entorn VGI: Desactivaci√≥ del contexte OpenGL. Permet la coexistencia d'altres contextes de generaci√≥
 		wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
 	}
 
@@ -4569,24 +4570,24 @@ void CEntornVGIView::OnMaterialReflmaterial()
 
 void CEntornVGIView::OnUpdateMaterialReflMaterial(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (sw_material[4])	pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
 
 
-// ILUMINACI”->REFLECTIVITAT MATERIAL EMISSI”: ActivaciÛ i desactivaciÛ de la reflectivitat prÚpia del material.
+// ILUMINACI√ì->REFLECTIVITAT MATERIAL EMISSI√ì: Activaci√≥ i desactivaci√≥ de la reflectivitat pr√≤pia del material.
 void CEntornVGIView::OnMaterialEmissio()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	sw_material[0] = !sw_material[0];
 
 	if (shader_menu != CAP_SHADER) {
-		// Entorn VGI: ActivaciÛ del contexte OpenGL
+		// Entorn VGI: Activaci√≥ del contexte OpenGL
 		wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
-		// Pas m‡scara llums
+		// Pas m√†scara llums
 		glUniform1i(glGetUniformLocation(shader_programID, "sw_intensity[0]"), sw_material[0]);
-		// Entorn VGI: DesactivaciÛ del contexte OpenGL. Permet la coexistencia d'altres contextes de generaciÛ
+		// Entorn VGI: Desactivaci√≥ del contexte OpenGL. Permet la coexistencia d'altres contextes de generaci√≥
 		wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
 	}
 
@@ -4596,24 +4597,24 @@ void CEntornVGIView::OnMaterialEmissio()
 
 void CEntornVGIView::OnUpdateMaterialEmissio(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (sw_material[0])	pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
 
 
-// ILUMINACI”->REFLECTIVITAT MATERIAL AMBIENT: ActivaciÛ i desactivaciÛ de la reflectivitat ambient del material.
+// ILUMINACI√ì->REFLECTIVITAT MATERIAL AMBIENT: Activaci√≥ i desactivaci√≥ de la reflectivitat ambient del material.
 void CEntornVGIView::OnMaterialAmbient()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	sw_material[1] = !sw_material[1];
 
 	if (shader_menu != CAP_SHADER) {
-		// Entorn VGI: ActivaciÛ del contexte OpenGL
+		// Entorn VGI: Activaci√≥ del contexte OpenGL
 		wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
-		// Pas m‡scara llums
+		// Pas m√†scara llums
 		glUniform1i(glGetUniformLocation(shader_programID, "sw_intensity[1]"), sw_material[1]);
-		// Entorn VGI: DesactivaciÛ del contexte OpenGL. Permet la coexistencia d'altres contextes de generaciÛ
+		// Entorn VGI: Desactivaci√≥ del contexte OpenGL. Permet la coexistencia d'altres contextes de generaci√≥
 		wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
 	}
 
@@ -4623,24 +4624,24 @@ void CEntornVGIView::OnMaterialAmbient()
 
 void CEntornVGIView::OnUpdateMaterialAmbient(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (sw_material[1])	pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
 
 
-// ILUMINACI”->REFLECTIVITAT MATERIAL DIFUSA: ActivaciÛ i desactivaciÛ de la reflectivitat difusa del materials.
+// ILUMINACI√ì->REFLECTIVITAT MATERIAL DIFUSA: Activaci√≥ i desactivaci√≥ de la reflectivitat difusa del materials.
 void CEntornVGIView::OnMaterialDifusa()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	sw_material[2] = !sw_material[2];
 
 	if (shader_menu != CAP_SHADER) {
-		// Entorn VGI: ActivaciÛ del contexte OpenGL
+		// Entorn VGI: Activaci√≥ del contexte OpenGL
 		wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
-		// Pas m‡scara llums
+		// Pas m√†scara llums
 		glUniform1i(glGetUniformLocation(shader_programID, "sw_intensity[2]"), sw_material[2]);
-		// Entorn VGI: DesactivaciÛ del contexte OpenGL. Permet la coexistencia d'altres contextes de generaciÛ
+		// Entorn VGI: Desactivaci√≥ del contexte OpenGL. Permet la coexistencia d'altres contextes de generaci√≥
 		wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
 	}
 
@@ -4650,24 +4651,24 @@ void CEntornVGIView::OnMaterialDifusa()
 
 void CEntornVGIView::OnUpdateMaterialDifusa(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (sw_material[2])	pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
 
 
-// ILUMINACI”->REFLECTIVITAT MATERIAL ESPECULAR: ActivaciÛ i desactivaciÛ de la reflectivitat especular del material.
+// ILUMINACI√ì->REFLECTIVITAT MATERIAL ESPECULAR: Activaci√≥ i desactivaci√≥ de la reflectivitat especular del material.
 void CEntornVGIView::OnMaterialEspecular()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	sw_material[3] = !sw_material[3];
 
 	if (shader_menu != CAP_SHADER) {
-		// Entorn VGI: ActivaciÛ del contexte OpenGL
+		// Entorn VGI: Activaci√≥ del contexte OpenGL
 		wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
-		// Pas m‡scara llums
+		// Pas m√†scara llums
 		glUniform1i(glGetUniformLocation(shader_programID, "sw_intensity[3]"), sw_material[3]);
-		// Entorn VGI: DesactivaciÛ del contexte OpenGL. Permet la coexistencia d'altres contextes de generaciÛ
+		// Entorn VGI: Desactivaci√≥ del contexte OpenGL. Permet la coexistencia d'altres contextes de generaci√≥
 		wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
 	}
 
@@ -4677,25 +4678,25 @@ void CEntornVGIView::OnMaterialEspecular()
 
 void CEntornVGIView::OnUpdateMaterialEspecular(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (sw_material[3])	pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
 
 
-// ILUMINACI”: Textures?: ActivaciÛ (TRUE) o desactivaciÛ (FALSE) de textures.
+// ILUMINACI√ì: Textures?: Activaci√≥ (TRUE) o desactivaci√≥ (FALSE) de textures.
 void CEntornVGIView::OnIluminacioTextures()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	textura = !textura;
 
-	// Entorn VGI: ActivaciÛ del contexte OpenGL
+	// Entorn VGI: Activaci√≥ del contexte OpenGL
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
 
 	//	Pas de textura al shader
 	if (shader_menu != CAP_SHADER) glUniform1i(glGetUniformLocation(shader_programID, "texture"), textura);
 
-	// Entorn VGI: DesactivaciÛ del contexte OpenGL. Permet la coexistencia d'altres contextes de generaciÛ
+	// Entorn VGI: Desactivaci√≥ del contexte OpenGL. Permet la coexistencia d'altres contextes de generaci√≥
 	wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
 
 	// Crida a OnPaint() per redibuixar l'escena
@@ -4704,27 +4705,27 @@ void CEntornVGIView::OnIluminacioTextures()
 
 void CEntornVGIView::OnUpdateIluminacioTextures(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (textura) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
 
 
-// IL.LUMINACI”->TEXTURA TEXTURES PREDEFINIDES
+// IL.LUMINACI√ì->TEXTURA TEXTURES PREDEFINIDES
 // TEXTURA Fusta
 // TEXTURA Marbre
 // TEXTURA Metall
 
 
-// ILUMINACI” --> TEXTURA: C‡rrega fitxer textura per llibreria SOIL
+// ILUMINACI√ì --> TEXTURA: C√†rrega fitxer textura per llibreria SOIL
 void CEntornVGIView::OnIluminacioTexturaFitxerimatge()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	CString nomf;
 	t_textura = FITXERIMA;		tFlag_invert_Y = true;
 	textura = true;
 
-	// Obrir di‡leg de lectura de fitxer
+	// Obrir di√†leg de lectura de fitxer
 	CFileDialog openTextur(TRUE, NULL, NULL,
 		OFN_FILEMUSTEXIST | OFN_HIDEREADONLY,
 		_T("JPG Files(*.jpg)|*.jpg|Error Files (*.err)|*err|All Files (*.*)|*.*||"));;
@@ -4732,11 +4733,11 @@ void CEntornVGIView::OnIluminacioTexturaFitxerimatge()
 	if (openTextur.DoModal() != IDOK)	return;                 // stay with old data file
 	else nomf = openTextur.GetPathName();
 
-	// ConversiÛ de la variable CString nom a la variable char *nomfitx, 
-	//		compatible amb  les funcions de c‡rrega de fitxers textura
+	// Conversi√≥ de la variable CString nom a la variable char *nomfitx, 
+	//		compatible amb  les funcions de c√†rrega de fitxers textura
 	char* nomfitx = CString2Char(nomf);
 
-	// Entorn VGI: ActivaciÛ el contexte OpenGL
+	// Entorn VGI: Activaci√≥ el contexte OpenGL
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
 
 	texturesID[0] = loadIMA_SOIL(nomfitx);
@@ -4744,7 +4745,7 @@ void CEntornVGIView::OnIluminacioTexturaFitxerimatge()
 	//	Pas de textura al shader
 	if (shader_menu != CAP_SHADER) glUniform1i(glGetUniformLocation(shader_programID, "texture0"), GLint(0));
 
-	// DesactivaciÛ contexte OpenGL: Permet la coexistencia d'altres contextes de generaciÛ
+	// Desactivaci√≥ contexte OpenGL: Permet la coexistencia d'altres contextes de generaci√≥
 	wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
 
 	// Crida a OnPaint() per redibuixar l'escena
@@ -4753,26 +4754,26 @@ void CEntornVGIView::OnIluminacioTexturaFitxerimatge()
 
 void CEntornVGIView::OnUpdateIluminacioTexturaFitxerimatge(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (t_textura == FITXERIMA) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
 
 
-// ILUMINACI” --> TEXTURA: FLAG_INVERT_Y InversiÛ coordenada t de textura (1-cty) per a textures SOIL (TRUE) 
+// ILUMINACI√ì --> TEXTURA: FLAG_INVERT_Y Inversi√≥ coordenada t de textura (1-cty) per a textures SOIL (TRUE) 
 //			o no (FALSE) per a objectes 3DS i OBJ.
 void CEntornVGIView::OnIluminacioTexturaFlagInvertY()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	if (textura) tFlag_invert_Y = !tFlag_invert_Y;
 
-	// Entorn VGI: ActivaciÛ el contexte OpenGL
+	// Entorn VGI: Activaci√≥ el contexte OpenGL
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
 
-	//	Pas de par‡metres textura al shader
+	//	Pas de par√†metres textura al shader
 	if (shader_menu != CAP_SHADER) glUniform1i(glGetUniformLocation(shader_programID, "flag_invert_y"), tFlag_invert_Y);
 
-	// DesactivaciÛ contexte OpenGL: Permet la coexistencia d'altres contextes de generaciÛ
+	// Desactivaci√≥ contexte OpenGL: Permet la coexistencia d'altres contextes de generaci√≥
 	wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
 
 	// Crida a OnPaint() per redibuixar l'escena
@@ -4782,7 +4783,7 @@ void CEntornVGIView::OnIluminacioTexturaFlagInvertY()
 
 void CEntornVGIView::OnUpdateIluminacioTexturaFlagInvertY(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (tFlag_invert_Y) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
@@ -4792,18 +4793,18 @@ void CEntornVGIView::OnUpdateIluminacioTexturaFlagInvertY(CCmdUI* pCmdUI)
 /*					11. LLUMS												 */
 /* ------------------------------------------------------------------------- */
 
-// LLUMS: ActivaciÛ / DesactivaciÛ llum ambient 
+// LLUMS: Activaci√≥ / Desactivaci√≥ llum ambient 
 void CEntornVGIView::OnLlumsLlumambient()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	llum_ambient = !llum_ambient;
 
 	if (shader_menu != CAP_SHADER) {
-		// Entorn VGI: ActivaciÛ del contexte OpenGL
+		// Entorn VGI: Activaci√≥ del contexte OpenGL
 		wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
-		// Pas m‡scara llums
+		// Pas m√†scara llums
 		glUniform1i(glGetUniformLocation(shader_programID, "sw_intensity[1]"), (llum_ambient && sw_material[1]));
-		// Entorn VGI: DesactivaciÛ del contexte OpenGL. Permet la coexistencia d'altres contextes de generaciÛ
+		// Entorn VGI: Desactivaci√≥ del contexte OpenGL. Permet la coexistencia d'altres contextes de generaci√≥
 		wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
 	}
 
@@ -4813,24 +4814,24 @@ void CEntornVGIView::OnLlumsLlumambient()
 
 void CEntornVGIView::OnUpdateLlumsLlumambient(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (llum_ambient) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
 
 
-// LLUMS: ActivaciÛ /DesactivaciÛ llum 0 (GL_LIGHT0)
+// LLUMS: Activaci√≥ /Desactivaci√≥ llum 0 (GL_LIGHT0)
 void CEntornVGIView::OnLlumsLlum0()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	llumGL[0].encesa = !llumGL[0].encesa;
 
 	if (shader_menu != CAP_SHADER) {
-		// Entorn VGI: ActivaciÛ del contexte OpenGL
+		// Entorn VGI: Activaci√≥ del contexte OpenGL
 		wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
-		// Pas m‡scara llums
+		// Pas m√†scara llums
 		glUniform1i(glGetUniformLocation(shader_programID, "sw_lights[0]"), llumGL[0].encesa);
-		// Entorn VGI: DesactivaciÛ del contexte OpenGL. Permet la coexistencia d'altres contextes de generaciÛ
+		// Entorn VGI: Desactivaci√≥ del contexte OpenGL. Permet la coexistencia d'altres contextes de generaci√≥
 		wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
 	}
 
@@ -4841,24 +4842,24 @@ void CEntornVGIView::OnLlumsLlum0()
 
 void CEntornVGIView::OnUpdateLlumsLlum0(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (llumGL[0].encesa) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
 
 
-// LLUMS-->ON/OFF: ActivaciÛ /DesactivaciÛ llum 1 (GL_LIGHT1)
+// LLUMS-->ON/OFF: Activaci√≥ /Desactivaci√≥ llum 1 (GL_LIGHT1)
 void CEntornVGIView::OnLlumsLlum1()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	llumGL[1].encesa = !llumGL[1].encesa;
 
 	if (shader_menu != CAP_SHADER) {
-		// Entorn VGI: ActivaciÛ del contexte OpenGL
+		// Entorn VGI: Activaci√≥ del contexte OpenGL
 		wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
-		// Pas m‡scara llums
+		// Pas m√†scara llums
 		glUniform1i(glGetUniformLocation(shader_programID, "sw_lights[1]"), llumGL[1].encesa);
-		// Entorn VGI: DesactivaciÛ del contexte OpenGL. Permet la coexistencia d'altres contextes de generaciÛ
+		// Entorn VGI: Desactivaci√≥ del contexte OpenGL. Permet la coexistencia d'altres contextes de generaci√≥
 		wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
 	}
 
@@ -4869,24 +4870,24 @@ void CEntornVGIView::OnLlumsLlum1()
 
 void CEntornVGIView::OnUpdateLlumsLlum1(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (llumGL[1].encesa) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
 
 
-// LLUMS-->ON/OFF: ActivaciÛ /DesactivaciÛ llum 2 (GL_LIGHT2)
+// LLUMS-->ON/OFF: Activaci√≥ /Desactivaci√≥ llum 2 (GL_LIGHT2)
 void CEntornVGIView::OnLlumsLlum2()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	llumGL[2].encesa = !llumGL[2].encesa;
 
 	if (shader_menu != CAP_SHADER) {
-		// Entorn VGI: ActivaciÛ del contexte OpenGL
+		// Entorn VGI: Activaci√≥ del contexte OpenGL
 		wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
-		// Pas m‡scara llums
+		// Pas m√†scara llums
 		glUniform1i(glGetUniformLocation(shader_programID, "sw_lights[2]"), llumGL[2].encesa);
-		// Entorn VGI: DesactivaciÛ del contexte OpenGL. Permet la coexistencia d'altres contextes de generaciÛ
+		// Entorn VGI: Desactivaci√≥ del contexte OpenGL. Permet la coexistencia d'altres contextes de generaci√≥
 		wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
 	}
 
@@ -4897,25 +4898,25 @@ void CEntornVGIView::OnLlumsLlum2()
 
 void CEntornVGIView::OnUpdateLlumsLlum2(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (llumGL[2].encesa) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
 
 
-// LLUMS-->ON/OFF: ActivaciÛ /DesactivaciÛ llum 3 (GL_LIGHT3)
+// LLUMS-->ON/OFF: Activaci√≥ /Desactivaci√≥ llum 3 (GL_LIGHT3)
 void CEntornVGIView::OnLlumsLlum3()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	llumGL[3].encesa = !llumGL[3].encesa;
 	sw_il = true;
 
 	if (shader_menu != CAP_SHADER) {
-		// Entorn VGI: ActivaciÛ del contexte OpenGL
+		// Entorn VGI: Activaci√≥ del contexte OpenGL
 		wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
-		// Pas m‡scara llums
+		// Pas m√†scara llums
 		glUniform1i(glGetUniformLocation(shader_programID, "sw_lights[3]"), llumGL[3].encesa);
-		// Entorn VGI: DesactivaciÛ del contexte OpenGL. Permet la coexistencia d'altres contextes de generaciÛ
+		// Entorn VGI: Desactivaci√≥ del contexte OpenGL. Permet la coexistencia d'altres contextes de generaci√≥
 		wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
 	}
 
@@ -4926,25 +4927,25 @@ void CEntornVGIView::OnLlumsLlum3()
 
 void CEntornVGIView::OnUpdateLlumsLlum3(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (llumGL[3].encesa) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
 
 
-// LLUMS-->ON/OFF: ActivaciÛ /DesactivaciÛ llum 4 (GL_LIGHT4)
+// LLUMS-->ON/OFF: Activaci√≥ /Desactivaci√≥ llum 4 (GL_LIGHT4)
 void CEntornVGIView::OnLlumsLlum4()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	llumGL[4].encesa = !llumGL[4].encesa;
 	sw_il = true;
 
 	if (shader_menu != CAP_SHADER) {
-		// Entorn VGI: ActivaciÛ del contexte OpenGL
+		// Entorn VGI: Activaci√≥ del contexte OpenGL
 		wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
-		// Pas m‡scara llums
+		// Pas m√†scara llums
 		glUniform1i(glGetUniformLocation(shader_programID, "sw_lights[4]"), llumGL[4].encesa);
-		// Entorn VGI: DesactivaciÛ del contexte OpenGL. Permet la coexistencia d'altres contextes de generaciÛ
+		// Entorn VGI: Desactivaci√≥ del contexte OpenGL. Permet la coexistencia d'altres contextes de generaci√≥
 		wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
 	}
 
@@ -4955,7 +4956,7 @@ void CEntornVGIView::OnLlumsLlum4()
 
 void CEntornVGIView::OnUpdateLlumsLlum4(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (llumGL[4].encesa) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
@@ -4965,10 +4966,10 @@ void CEntornVGIView::OnUpdateLlumsLlum4(CCmdUI* pCmdUI)
 /*					12. SHADERS												 */
 /* ------------------------------------------------------------------------- */
 
-// SHADERS: DesactivaciÛ de tots els shaders
+// SHADERS: Desactivaci√≥ de tots els shaders
 void CEntornVGIView::OnShadersSense()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	shader_menu = CAP_SHADER;
 	releaseAllShaders();
 
@@ -4978,27 +4979,27 @@ void CEntornVGIView::OnShadersSense()
 
 void CEntornVGIView::OnUpdateShadersSense(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (shader_menu == CAP) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
 
 
-// SHADERS: IluminaciÛ Gouraud amb Shaders
+// SHADERS: Iluminaci√≥ Gouraud amb Shaders
 void CEntornVGIView::OnShadersGouraud()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	bool apagat = false;
 	if (sw_shader) releaseAllShaders();
 	else sw_shader = true;
 	shader_menu = GOURAUD_SHADER;
 
-	// Entorn VGI: ActivaciÛ del contexte OpenGL
+	// Entorn VGI: Activaci√≥ del contexte OpenGL
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
 
 	shader_programID = shaderLighting.loadFileShaders("./shaders/gouraud_shdrML.VERT", "./shaders/gouraud_shdrML.FRAG");
 
-	// Entorn VGI: DesactivaciÛ del contexte OpenGL. Permet la coexistencia d'altres contextes de generaciÛ
+	// Entorn VGI: Desactivaci√≥ del contexte OpenGL. Permet la coexistencia d'altres contextes de generaci√≥
 	wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
 
 	// Crida a OnPaint() per redibuixar l'escena
@@ -5008,28 +5009,28 @@ void CEntornVGIView::OnShadersGouraud()
 
 void CEntornVGIView::OnUpdateShadersGouraud(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (shader_menu == GOURAUD_SHADER) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
 
 
-// SHADERS: IluminaciÛ Phong amb Shaders
+// SHADERS: Iluminaci√≥ Phong amb Shaders
 void CEntornVGIView::OnShadersPhong()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	bool apagat = false;
 	if (sw_shader) releaseAllShaders();		// Eliminar Programs previs
 	else sw_shader = true;
 	shader_menu = PHONG_SHADER;
 
-	// Entorn VGI: ActivaciÛ del contexte OpenGL
+	// Entorn VGI: Activaci√≥ del contexte OpenGL
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
 
 	// Carregar shaders phong_shdrML.vert i phong_shdrML.frag en Program shader_program
 	shader_programID = shaderLighting.loadFileShaders("./shaders/phong_shdrML.VERT", "./shaders/phong_shdrML.FRAG");
 
-	// Entorn VGI: DesactivaciÛ del contexte OpenGL. Permet la coexistencia d'altres contextes de generaciÛ
+	// Entorn VGI: Desactivaci√≥ del contexte OpenGL. Permet la coexistencia d'altres contextes de generaci√≥
 	wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
 
 	// Crida a OnPaint() per redibuixar l'escena
@@ -5039,24 +5040,24 @@ void CEntornVGIView::OnShadersPhong()
 
 void CEntornVGIView::OnUpdateShadersPhong(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (shader_menu == PHONG_SHADER) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
 
 
-// SHADERS: C‡rrega Fitxers Shader
+// SHADERS: C√†rrega Fitxers Shader
 void CEntornVGIView::OnShaderLoadFiles()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	CString nomVert, nomFrag;
 
 	if (sw_shader) releaseAllShaders();
 	else sw_shader = true;
 	shader_menu = FILE_SHADER;
 
-	// C‡rrega fitxer VERT
-	// Entorn VGI: Obrir di‡leg de lectura de fitxer (fitxers (*.VERT)
+	// C√†rrega fitxer VERT
+	// Entorn VGI: Obrir di√†leg de lectura de fitxer (fitxers (*.VERT)
 	CFileDialog openVert(TRUE, NULL, NULL,
 		OFN_FILEMUSTEXIST | OFN_HIDEREADONLY,
 		_T("VERT Files(*.vert)|*.vert|All Files (*.*)|*.*||"));;
@@ -5064,17 +5065,17 @@ void CEntornVGIView::OnShaderLoadFiles()
 	if (openVert.DoModal() != IDOK)
 		return;                 // stay with old data file
 	else nomVert = openVert.GetPathName();
-	// Entorn VGI: Variable de tipus CString 'nomVert' contÈ el nom del fitxer seleccionat
+	// Entorn VGI: Variable de tipus CString 'nomVert' cont√© el nom del fitxer seleccionat
 
-	// Entorn VGI: ConversiÛ de la variable CString nom a la variable char *nomfitx, 
-	//		compatible amb  les funcions de c‡rrega de fitxers fractals
+	// Entorn VGI: Conversi√≥ de la variable CString nom a la variable char *nomfitx, 
+	//		compatible amb  les funcions de c√†rrega de fitxers fractals
 	//	char *nomfitxV = CString2Char(nomVert);
 
-	// ConversiÛ CString nomFrag a--> std::string nomFragS
+	// Conversi√≥ CString nomFrag a--> std::string nomFragS
 	std::string nomVertS = CString2String(nomVert);
 
-	// C‡rrega fitxer FRAG
-	// Entorn VGI: Obrir di‡leg de lectura de fitxer (fitxers (*.VERT)
+	// C√†rrega fitxer FRAG
+	// Entorn VGI: Obrir di√†leg de lectura de fitxer (fitxers (*.VERT)
 	CFileDialog openFrag(TRUE, NULL, NULL,
 		OFN_FILEMUSTEXIST | OFN_HIDEREADONLY,
 		_T("FRAG Files(*.frag)|*.frag|All Files (*.*)|*.*||"));;
@@ -5082,21 +5083,21 @@ void CEntornVGIView::OnShaderLoadFiles()
 	if (openFrag.DoModal() != IDOK)
 		return;                 // stay with old data file
 	else nomFrag = openFrag.GetPathName();
-	// Entorn VGI: Variable de tipus CString 'nomFrag' contÈ el nom del fitxer seleccionat
+	// Entorn VGI: Variable de tipus CString 'nomFrag' cont√© el nom del fitxer seleccionat
 
-// Entorn VGI: ConversiÛ de la variable CString nom a la variable char *nomfitx, 
-//		compatible amb  les funcions de c‡rrega de fitxers fractals
+// Entorn VGI: Conversi√≥ de la variable CString nom a la variable char *nomfitx, 
+//		compatible amb  les funcions de c√†rrega de fitxers fractals
 //	char *nomfitxF = CString2Char(nomFrag);
 
-	// ConversiÛ CString nomFrag a--> std::string nomFragS
+	// Conversi√≥ CString nomFrag a--> std::string nomFragS
 	std::string nomFragS = CString2String(nomFrag);
 
-	// Entorn VGI: ActivaciÛ del contexte OpenGL
+	// Entorn VGI: Activaci√≥ del contexte OpenGL
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
 
 	shader_programID = shaderLighting.loadFileShadersTest(nomVertS, nomFragS);
 
-	// Entorn VGI: DesactivaciÛ del contexte OpenGL. Permet la coexistencia d'altres contextes de generaciÛ
+	// Entorn VGI: Desactivaci√≥ del contexte OpenGL. Permet la coexistencia d'altres contextes de generaci√≥
 	wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
 
 	// Crida a OnPaint() per redibuixar l'escena
@@ -5107,7 +5108,7 @@ void CEntornVGIView::OnShaderLoadFiles()
 
 void CEntornVGIView::OnUpdateShaderLoadFiles(CCmdUI* pCmdUI)
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de IU para actualizaciÛn de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de IU para actualizaci√≥n de comandos
 	if (shader_menu == FILE_SHADER) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
@@ -5122,7 +5123,7 @@ void CEntornVGIView::OnUpdateShaderLoadFiles(CCmdUI* pCmdUI)
 
 // ---------------- Entorn VGI: Funcions locals a EntornVGIView.cpp
 
-// Log2: C‡lcul del log base 2 de num
+// Log2: C√†lcul del log base 2 de num
 int CEntornVGIView::Log2(int num)
 {
 	int tlog;
@@ -5146,17 +5147,17 @@ int CEntornVGIView::Log2(int num)
 }
 
 
-// CString2char: FunciÛ de conversiÛ de variable CString a char * per a noms de fitxers 
+// CString2char: Funci√≥ de conversi√≥ de variable CString a char * per a noms de fitxers 
 char* CEntornVGIView::CString2Char(CString entrada)
 {
 	//char * par_sortida=" ";
-	// Variable de tipus CString 'entrada' contÈ un string tipus CString
+	// Variable de tipus CString 'entrada' cont√© un string tipus CString
 	//-------------------------------------------------------------------------------------
-	// ConversiÛ de la variable CString entrada a la variable char *sortida, 
-	//	compatible amb la funciÛ Carregar3DS, de c‡rrega de fitxers 3DS
+	// Conversi√≥ de la variable CString entrada a la variable char *sortida, 
+	//	compatible amb la funci√≥ Carregar3DS, de c√†rrega de fitxers 3DS
 	//	char * nomfitx = (char *)(LPCTSTR)nom;
 
-	// ConversiÛ variable w_char --> char *
+	// Conversi√≥ variable w_char --> char *
 	//	char *nomf="  ";
 	//	wcstombs(nomf,strFileName.GetBuffer(3),90);
 	//	char *nomf = reinterpret_cast<char *> (nom.GetBuffer(3));
@@ -5186,12 +5187,12 @@ char* CEntornVGIView::CString2Char(CString entrada)
 	// append the type of string to the new string.
 	//----------------------------------------------------------------------------------
 
-	// Variable de tipus char *nomfitx contÈ el nom del fitxer seleccionat
+	// Variable de tipus char *nomfitx cont√© el nom del fitxer seleccionat
 	return par_sortida;
 }
 
 
-// Refl_MaterialOff: Desactivar ReflexiÛ de Material
+// Refl_MaterialOff: Desactivar Reflexi√≥ de Material
 void CEntornVGIView::Refl_MaterialOff()
 {
 	sw_material_old[0] = sw_material[0];	sw_material[0] = false;
@@ -5200,7 +5201,7 @@ void CEntornVGIView::Refl_MaterialOff()
 	sw_material_old[3] = sw_material[3];	sw_material[3] = false;
 }
 
-// Refl_MaterialOn: Activar ReflexiÛ de Material
+// Refl_MaterialOn: Activar Reflexi√≥ de Material
 void CEntornVGIView::Refl_MaterialOn()
 {
 	sw_material[0] = sw_material_old[0];
@@ -5255,7 +5256,7 @@ int CEntornVGIView::llegir_ptsC(char* nomf)
 	return i;
 }
 
-// ConversiÛ CString --> std::string
+// Conversi√≥ CString --> std::string
 std::string CEntornVGIView::CString2String(const CString& cString)
 {
 	std::string strStd;
@@ -5275,7 +5276,7 @@ std::string CEntornVGIView::CString2String(const CString& cString)
 
 void CEntornVGIView::OnObjecteTetris()
 {
-	// TODO: Agregue aquÌ su cÛdigo de controlador de comandos
+	// TODO: Agregue aqu√≠ su c√≥digo de controlador de comandos
 	objecte = OBJOBJ;	textura = false;		tFlag_invert_Y = true; tetris = true;
 
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
