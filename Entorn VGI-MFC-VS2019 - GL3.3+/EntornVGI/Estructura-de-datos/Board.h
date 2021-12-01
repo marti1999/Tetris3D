@@ -51,7 +51,7 @@ public:
     // comprobar si s'ha completat algun pis del taulell
     bool checkFloors();
     //Esborrar fila del taulell
-    vector<aEliminar> deleteRow();
+    vector<aEsborrar> deleteRow();
 
     //hernan 01/12/2021
     vector<aEsborrar> fila;
@@ -89,13 +89,14 @@ Board::~Board()
 {
 }
 
-vector<aEliminar> Board::deleteRow() {
-    aEliminar row;
-    vector<aEliminar> eliminacions;
+vector<aEsborrar> Board::deleteRow() {
+    aEsborrar row;
+    vector<aEsborrar> eliminacions;
     int countX = 0;
     int countZ = 0;
     for (int height = 0; height < MAX_HEIGHT; height++) {
-        row.Y = height;
+        row.yInici = height;
+        row.yFinal = height;
         for (int x_1 = 0; x_1 < MAX_X; x_1++) {
             row.xInici = x_1;
             row.xFinal = x_1;
@@ -133,10 +134,10 @@ vector<aEliminar> Board::deleteRow() {
         }
         countZ = 0;
     }
-    for (aEliminar el : eliminacions) {
+    for (aEsborrar el : eliminacions) {
         for (int x = el.xInici; x <= el.xFinal; x++) {
             for (int z = el.zInici; z <= el.zFinal; z++) {
-                m_blocks[x][el.Y][z].m_lliure = true;
+                m_blocks[x][el.yInici][z].m_lliure = true;
             }
         }
     }
@@ -209,7 +210,7 @@ inline void Board::reiniciaCanvis()
 
 
 bool Board::checkFloors(){
-    vector<aEliminar> eliminacions = this->deleteRow();
+    vector<aEsborrar> eliminacions = this->deleteRow();
     if (eliminacions.size() != 0)
     {
         // ha trobar files a eliminar
