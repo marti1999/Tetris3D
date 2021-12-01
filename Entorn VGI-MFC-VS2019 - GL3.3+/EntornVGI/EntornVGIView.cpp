@@ -1792,6 +1792,7 @@ void CEntornVGIView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 			pieces[numPiece].ViewcauPeca();
 		}
 		else {
+			m_board.checkFloors();
 			numPiece = rand() % (sizeof(pieces) / sizeof(pieces[0]));
 			pieces[numPiece].posIni();
 		}

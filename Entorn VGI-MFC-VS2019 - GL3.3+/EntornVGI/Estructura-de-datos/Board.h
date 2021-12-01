@@ -38,7 +38,7 @@ public:
     void setMatrix(mat4 matriu) { m_Matriu = matriu; }
 
     // comprobar si s'ha completat algun pis del taulell
-    void checkFloors();
+    bool checkFloors();
     //Esborrar fila del taulell
     vector<aEliminar> deleteRow();
 };
@@ -126,8 +126,16 @@ vector<aEliminar> Board::deleteRow() {
     return eliminacions;
 }
 
-void Board::checkFloors(){
+bool Board::checkFloors(){
     vector<aEliminar> eliminacions = this->deleteRow();
+    if (eliminacions.size() != 0)
+    {
+        // ha trobar files a eliminar
+        return true;
+    }
+
+    // no ha trobar files a eliminar
+    return false;
 }
 
 // TODO:
