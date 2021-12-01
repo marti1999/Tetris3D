@@ -251,7 +251,7 @@ public:
 	std::string CEntornVGIView::CString2String(const CString& cString); // Conversió CString --> std::string
 
 	void OnObjecteTetris();
-	void playSound(CString dir, CString file, CString command);
+	void playSound(CString dir, CString file, CString command, bool loop = false);
 
 // Entorn VGI: Funcions de càrrega i activació de shaders
 	GLuint CEntornVGIView::initializeShaders(CString filename);

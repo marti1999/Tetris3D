@@ -5367,7 +5367,7 @@ void CEntornVGIView::OnObjecteTetris()
 void CEntornVGIView::mainTetris() {
 	OnObjecteTetris();
 	tetris = true;
-	playSound(_T("./sounds/"), _T("theme.mp3"), _T("play"));
+	playSound(_T("./sounds/"), _T("theme.mp3"), _T("play"), true);
 
 	srand(time(nullptr));
 
@@ -5378,7 +5378,11 @@ void CEntornVGIView::mainTetris() {
 	}
 }
 
-void CEntornVGIView::playSound(CString dir, CString file, CString command) {
+void CEntornVGIView::playSound(CString dir, CString file, CString command, bool loop) {
+	CString repeat = _T("");
+	if (loop) {
+		repeat = _T(" repeat");
+	}
 
 	if (command == "play")
 	{
@@ -5387,7 +5391,7 @@ void CEntornVGIView::playSound(CString dir, CString file, CString command) {
 		mciSendString(LOAD_IT, NULL, 0, 0);
 
 		//play
-		CString PLAY_IT = _T("play ") + file + _T(" from 0");
+		CString PLAY_IT = _T("play ") + file + repeat + _T(" from 0");
 		mciSendString(PLAY_IT, NULL, 0, 0);
 	}
 }
