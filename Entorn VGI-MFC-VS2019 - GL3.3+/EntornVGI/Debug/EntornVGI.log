@@ -1,1 +1,38 @@
-﻿  EntornVGI.vcxproj -> C:\Users\mcaix\Desktop\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\Debug\EntornVGI.exe
+﻿  stdafx.cpp
+  ChildFrm.cpp
+  ClassView.cpp
+  EntornVGI.cpp
+  EntornVGIDoc.cpp
+  EntornVGIView.cpp
+  escena.cpp
+  FileView.cpp
+  glut_geometry.cpp
+  Load3DS.cpp
+  MainFrm.cpp
+  material.cpp
+  Obj3DS.cpp
+  objLoader.cpp
+  OutputWnd.cpp
+  PropertiesWnd.cpp
+  shader.cpp
+  ViewTree.cpp
+C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Board.h(146,23): warning C4018: '<': no coinciden signed/unsigned (compilando archivo de origen EntornVGIView.cpp)
+C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(108,20): warning C4018: '<': no coinciden signed/unsigned (compilando archivo de origen EntornVGIView.cpp)
+C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(199,20): warning C4018: '<': no coinciden signed/unsigned (compilando archivo de origen EntornVGIView.cpp)
+C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(217,20): warning C4018: '<': no coinciden signed/unsigned (compilando archivo de origen EntornVGIView.cpp)
+C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(234,20): warning C4018: '<': no coinciden signed/unsigned (compilando archivo de origen EntornVGIView.cpp)
+C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(251,20): warning C4018: '<': no coinciden signed/unsigned (compilando archivo de origen EntornVGIView.cpp)
+  visualitzacio.cpp
+C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(1009,21): warning C4018: '<': no coinciden signed/unsigned (compilando archivo de origen EntornVGIView.cpp)
+C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(1032,21): warning C4018: '<': no coinciden signed/unsigned (compilando archivo de origen EntornVGIView.cpp)
+C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(1056,21): warning C4018: '<': no coinciden signed/unsigned (compilando archivo de origen EntornVGIView.cpp)
+C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(1069,21): warning C4018: '<': no coinciden signed/unsigned (compilando archivo de origen EntornVGIView.cpp)
+C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(1082,21): warning C4018: '<': no coinciden signed/unsigned (compilando archivo de origen EntornVGIView.cpp)
+C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(1095,21): warning C4018: '<': no coinciden signed/unsigned (compilando archivo de origen EntornVGIView.cpp)
+C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(1108,21): warning C4018: '<': no coinciden signed/unsigned (compilando archivo de origen EntornVGIView.cpp)
+C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\EntornVGIView.cpp(1098,30): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\EntornVGIView.cpp(1100,31): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\EntornVGIView.cpp(1102,32): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(1122): warning C4715: 'Piece::check_move_colision': no todas las rutas de acceso de control devuelven un valor
+     Creando biblioteca C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\Debug\EntornVGI.lib y objeto C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\Debug\EntornVGI.exp
+  EntornVGI.vcxproj -> C:\Users\sbons\Documents\GitHub\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\Debug\EntornVGI.exe

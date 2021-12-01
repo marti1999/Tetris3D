@@ -37,6 +37,7 @@ private:
 	int m_z;
 
 	// rotacions
+
 	void rotateTRigthOverY();
 	void rotateTLeftOverY();
 	void rotateLRightOverY();
@@ -73,6 +74,12 @@ public:
 	void sety(int y) { m_x = y; }
 	void setz(int z) { m_x = z; }
 	void posIni();
+	void rotateQuatXleft();
+	void rotateQuatYleft();
+	void rotateQuatZleft();
+	void rotateQuatXright();
+	void rotateQuatYright();
+	void rotateQuatZright();
 
 	// rotacions
 	bool rotateRightOverY(vector<vector<vector<Block>>>& blocksTaulell);
@@ -326,6 +333,84 @@ void Piece::rotateTLeftOverY() {
 
 		m_blocks[2].setX(m_blocks[2].getPosX() + 1);
 		m_blocks[2].setZ(m_blocks[2].getPosZ() - 1);
+	}
+}
+
+inline void Piece::rotateQuatXleft()
+{
+	vec3 pivot(m_blocks.front().getPosX(), m_blocks.front().getPosY(), m_blocks.front().getPosZ());
+	for (Block &b : m_blocks)
+	{
+		vec3 pos(b.getPosX(), b.getPosY(), b.getPosZ());
+		vec3 new_pos = (pos-pivot)*quat(0.707106, 0.707106,0,0)+pivot;
+		b.setX(trunc(new_pos.x));
+		b.setY(trunc(new_pos.y));
+		b.setZ(trunc(new_pos.z));
+	}
+}
+
+inline void Piece::rotateQuatYleft()
+{
+	vec3 pivot(m_blocks.front().getPosX(), m_blocks.front().getPosY(), m_blocks.front().getPosZ());
+	for (Block& b : m_blocks)
+	{
+		vec3 pos(b.getPosX(), b.getPosY(), b.getPosZ());
+		vec3 new_pos = (pos - pivot) * quat(0.707106, 0, 0.707106, 0) + pivot;
+		b.setX(trunc(new_pos.x));
+		b.setY(trunc(new_pos.y));
+		b.setZ(trunc(new_pos.z));
+	}
+}
+
+inline void Piece::rotateQuatZleft()
+{
+	vec3 pivot(m_blocks.front().getPosX(), m_blocks.front().getPosY(), m_blocks.front().getPosZ());
+	for (Block& b : m_blocks)
+	{
+		vec3 pos(b.getPosX(), b.getPosY(), b.getPosZ());
+		vec3 new_pos = (pos - pivot) * quat(0.707106, 0, 0, 0.707106) + pivot;
+		b.setX(trunc(new_pos.x));
+		b.setY(trunc(new_pos.y));
+		b.setZ(trunc(new_pos.z));
+	}
+}
+
+inline void Piece::rotateQuatXright()
+{
+	vec3 pivot(m_blocks.front().getPosX(), m_blocks.front().getPosY(), m_blocks.front().getPosZ());
+	for (Block& b : m_blocks)
+	{
+		vec3 pos(b.getPosX(), b.getPosY(), b.getPosZ());
+		vec3 new_pos = (pos - pivot) * quat(0.707106, -0.707106, 0, 0) + pivot;
+		b.setX(trunc(new_pos.x));
+		b.setY(trunc(new_pos.y));
+		b.setZ(trunc(new_pos.z));
+	}
+}
+
+inline void Piece::rotateQuatYright()
+{
+	vec3 pivot(m_blocks.front().getPosX(), m_blocks.front().getPosY(), m_blocks.front().getPosZ());
+	for (Block& b : m_blocks)
+	{
+		vec3 pos(b.getPosX(), b.getPosY(), b.getPosZ());
+		vec3 new_pos = (pos - pivot) * quat(0.707106, 0, -0.707106, 0) + pivot;
+		b.setX(trunc(new_pos.x));
+		b.setY(trunc(new_pos.y));
+		b.setZ(trunc(new_pos.z));
+	}
+}
+
+inline void Piece::rotateQuatZright()
+{
+	vec3 pivot(m_blocks.front().getPosX(), m_blocks.front().getPosY(), m_blocks.front().getPosZ());
+	for (Block& b : m_blocks)
+	{
+		vec3 pos(b.getPosX(), b.getPosY(), b.getPosZ());
+		vec3 new_pos = (pos - pivot) * quat(0.707106, 0, 0, -0.707106) + pivot;
+		b.setX(trunc(new_pos.x));
+		b.setY(trunc(new_pos.y));
+		b.setZ(trunc(new_pos.z));
 	}
 }
 

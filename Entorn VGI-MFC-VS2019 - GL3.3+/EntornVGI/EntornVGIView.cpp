@@ -1111,12 +1111,9 @@ void CEntornVGIView::dibuixa_Escena2()
 						ViewMatrix,
 						sendposite);
 				}
-
-
 			}
 		}
 	}
-
 	/*
 	dibuixa_EscenaGL(shader_programID, eixos, eixos_Id, grid, hgrid, objecte, col_obj, sw_material,
 		textura, texturesID, textura_map, tFlag_invert_Y,
