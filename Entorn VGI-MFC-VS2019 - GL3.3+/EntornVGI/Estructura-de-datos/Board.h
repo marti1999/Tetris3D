@@ -12,6 +12,14 @@
 // TODO: altura máxima del taulell en pisos
 #define MAX_HEIGHT 10
 
+struct aEliminar {
+    int xInici;
+    int Y;
+    int zInici;
+    int xFinal;
+    int zFinal;
+};
+
 class Board
 {
 private:
@@ -31,6 +39,8 @@ public:
 
     // comprobar si s'ha completat algun pis del taulell
     void checkFloors();
+    //Esborrar fila del taulell
+    vector<aEliminar> deleteRow();
 };
 
 Board::Board()
@@ -62,29 +72,62 @@ Board::~Board()
 {
 }
 
+vector<aEliminar> Board::deleteRow() {
+    aEliminar row;
+    vector<aEliminar> eliminacions;
+    int countX = 0;
+    int countZ = 0;
+    for (int height = 0; height < MAX_HEIGHT; height++) {
+        row.Y = height;
+        for (int x_1 = 0; x_1 < MAX_X; x_1++) {
+            row.xInici = x_1;
+            row.xFinal = x_1;
+            for (int z_1 = 0; z_1 < MAX_Z; z_1++) {
+                //Si la primera posicio conté un bloc, el registrem com a punt d'inici i possible final
+                if (m_blocks[x_1][height][z_1].m_lliure == false) {
+                    countZ++;
+                    //Si aconseguim arribar al final de la fila, registrem l'index per eliminar-la
+                    if (countZ == MAX_Z) {
+                        row.zInici = 0;
+                        row.zFinal = z_1;
+                        eliminacions.push_back(row);
+                    }
+                }
+            }
+            countZ = 0;
+        }
+        countX = 0;
+        for (int z_2 = 0; z_2 < MAX_Z; z_2++) {
+            row.zInici = z_2;
+            row.zFinal = z_2;
+            for (int x_2 = 0; x_2 < MAX_X; x_2++) {
+                //Si la primera posicio conté un bloc, el registrem com a punt d'inici i possible final
+                if (m_blocks[x_2][height][z_2].m_lliure == false) {
+                    countX++;
+                    //Si aconseguim arribar al final de la fila, registrem l'index per eliminar-la
+                    if (countX == MAX_X) {
+                        row.xInici = 0;
+                        row.xFinal = x_2;
+                        eliminacions.push_back(row);
+                    }
+                }
+            }
+            countX = 0;
+        }
+        countZ = 0;
+    }
+    for (aEliminar el : eliminacions) {
+        for (int x = el.xInici; x <= el.xFinal; x++) {
+            for (int z = el.zInici; z <= el.zFinal; z++) {
+                m_blocks[x][el.Y][z].m_lliure = true;
+            }
+        }
+    }
+    return eliminacions;
+}
 
 void Board::checkFloors(){
-    //list<list<Block>>::iterator it = m_blocks.begin();
-
-    //for(it; it != m_blocks.end(); it++){
-    //    if(it.length() == MAX_BLOCK){
-    //        // DESTROY pis
-    //        im_blocks[it].delete();
-
-    //        // Bucle per baixar les peces de sobre
-
-    //        // Creem un iterador auxiliar que anirá desde el pis on hem esborrat fins al pis mes alt
-    //        list<Block>::iterator it_aux = it;
-    //        // Per cada bloc dins cada pis decrementem la seva Y
-    //        for(it_aux; it_aux != m_blocks.end(); it_aux++){ // Pis
-    //            list<Block>::iterator it_block = m_blocks[it_aux].begin();
-    //            for(it_block; it_block != it_block.end(); it++){ // Bloc
-    //                it_block->setPosition(it_block->getPosX(), it_block->getPosY() - BLOCK_SIZE, it_block->getPosZ());
-    //            }
-    //        }
-    //        
-    //    }
-    //}
+    vector<aEliminar> eliminacions = this->deleteRow();
 }
 
 // TODO:
