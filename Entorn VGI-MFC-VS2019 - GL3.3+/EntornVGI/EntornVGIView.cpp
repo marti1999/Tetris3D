@@ -1738,7 +1738,7 @@ void CEntornVGIView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		else if (!sw_color) Teclat_ColorFons(nChar, nRepCnt);
 		else Teclat_ColorObjecte(nChar, nRepCnt);
 	}
-	if ((nChar == 'W') || (nChar == 'w')) {
+	if ((nChar == 'W' || nChar == 'w') && !tetrisPause) {
 		//pieces[2].moveUp(m_board.m_blocks);
 		if (pieces[numPiece].moveUp(m_board.m_blocks)) {
 			playSound(_T("./sounds/"), _T("se_game_move.wav"), _T("play"));
@@ -1749,7 +1749,7 @@ void CEntornVGIView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		}
 
 	}
-	if ((nChar == 'S') || (nChar == 's')) {
+	if ((nChar == 'S' || nChar == 's') && !tetrisPause) {
 		//pieces[2].moveDown();
 		if (pieces[numPiece].moveDown(m_board.m_blocks)) {
 			playSound(_T("./sounds/"), _T("se_game_move.wav"), _T("play")); 
@@ -1760,7 +1760,7 @@ void CEntornVGIView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		}
 
 	}
-	if ((nChar == 'A') || (nChar == 'a')) {
+	if ((nChar == 'A' || nChar == 'a') && !tetrisPause) {
 		if (pieces[numPiece].moveLeft(m_board.m_blocks)) {
 			playSound(_T("./sounds/"), _T("se_game_move.wav"), _T("play"));
 			pieces[numPiece].ViewMoveLeft();
@@ -1770,7 +1770,7 @@ void CEntornVGIView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		}
 
 	}
-	if ((nChar == 'D') || (nChar == 'd')) {
+	if ((nChar == 'D' || nChar == 'd') && !tetrisPause) {
 		if (pieces[numPiece].moveRight(m_board.m_blocks)) {
 			playSound(_T("./sounds/"), _T("se_game_move.wav"), _T("play"));
 			pieces[numPiece].ViewMoveRight();
@@ -1779,7 +1779,7 @@ void CEntornVGIView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 			playSound(_T("./sounds/"), _T("se_sys_alert.wav"), _T("play"));
 		}
 	}
-	if ((nChar == 'Q') || (nChar == 'q')) {
+	if ((nChar == 'Q' || nChar == 'q') && !tetrisPause) {
 		if (pieces[numPiece].rotateLeftOverY(m_board.m_blocks)) {
 			playSound(_T("./sounds/"), _T("se_game_rotate.wav"), _T("play"));
 			pieces[numPiece].ViewRotateLeftOverY();
@@ -1788,7 +1788,7 @@ void CEntornVGIView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 			playSound(_T("./sounds/"), _T("se_sys_alert.wav"), _T("play"));
 		}
 	}
-	if ((nChar == 'E') || (nChar == 'e')) {
+	if ((nChar == 'E' || nChar == 'e') && !tetrisPause) {
 		if (pieces[numPiece].rotateRightOverY(m_board.m_blocks)) {
 			playSound(_T("./sounds/"), _T("se_game_rotate.wav"), _T("play"));
 			pieces[numPiece].ViewRotateRightOverY();
@@ -1797,7 +1797,7 @@ void CEntornVGIView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 			playSound(_T("./sounds/"), _T("se_sys_alert.wav"), _T("play"));
 		}
 	}
-	if ((nChar == 'P') || (nChar == 'p')) {
+	if ((nChar == 'P' || nChar == 'p') && !tetrisPause) {
 		if (tetris) {
 			KillTimer(WM_TIMER);
 		}
@@ -1807,7 +1807,13 @@ void CEntornVGIView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 		tetris = !tetris;
 	}
-	if ((nChar == 'z') || (nChar == 'Z'))
+
+	if (nChar == 0x1B)
+	{
+		tetrisPause = !tetrisPause;
+	}
+
+	if ((nChar == 'z' || nChar == 'Z') && !tetrisPause)
 	{
 		if (pieces[numPiece].cauPeca(m_board.m_blocks)) {
 			pieces[numPiece].ViewcauPeca();
@@ -2982,7 +2988,7 @@ void CEntornVGIView::OnTimer(UINT_PTR nIDEvent)
 		// Crida a OnPaint() per redibuixar l'escena
 		InvalidateRect(NULL, false);
 	}
-	if (tetris) {
+	if (tetris && !tetrisPause) {
 		if (pieces[numPiece].cauPeca(m_board.m_blocks)) {
 			pieces[numPiece].ViewcauPeca();
 			playSound(_T("./sounds/"), _T("se_game_softdrop.wav"), _T("play"));
@@ -5315,7 +5321,7 @@ std::string CEntornVGIView::CString2String(const CString& cString)
 void CEntornVGIView::OnObjecteTetris()
 {
 	// TODO: Agregue aquí su código de controlador de comandos
-	objecte = OBJOBJ;	textura = false;		tFlag_invert_Y = true; tetris = true;
+	objecte = OBJOBJ;	textura = false;		tFlag_invert_Y = true; tetris = true; tetrisPause = false;
 
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
 
