@@ -1788,6 +1788,24 @@ void CEntornVGIView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 			playSound(_T("./sounds/"), _T("se_sys_alert.wav"), _T("play"));
 		}
 	}
+	if ((nChar == 'r' || nChar == 'R') && !tetrisPause) {
+		if (pieces[numPiece].rotateRightOverX(m_board.m_blocks)) {
+			playSound(_T("./sounds/"), _T("se_game_rotate.wav"), _T("play"));
+			pieces[numPiece].ViewRotateRightOverX();
+		}
+		else {
+			playSound(_T("./sounds/"), _T("se_sys_alert.wav"), _T("play"));
+		}
+	}
+	if ((nChar == 'c' || nChar == 'C') && !tetrisPause) {
+		if (pieces[numPiece].rotateLeftOverX(m_board.m_blocks)) {
+			playSound(_T("./sounds/"), _T("se_game_rotate.wav"), _T("play"));
+			pieces[numPiece].ViewRotateLeftOverX();
+		}
+		else {
+			playSound(_T("./sounds/"), _T("se_sys_alert.wav"), _T("play"));
+		}
+	}
 	if ((nChar == 'E' || nChar == 'e') && !tetrisPause) {
 		if (pieces[numPiece].rotateRightOverY(m_board.m_blocks)) {
 			playSound(_T("./sounds/"), _T("se_game_rotate.wav"), _T("play"));
