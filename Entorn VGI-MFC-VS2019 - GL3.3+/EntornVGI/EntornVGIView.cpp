@@ -1845,6 +1845,12 @@ void CEntornVGIView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 			playSound(_T("./sounds/"), _T("se_game_softdrop.wav"), _T("play"));
 		}
 		else {
+			if (pieces[numPiece].isGameOver())
+			{
+				playSound(_T("./sounds/"), _T("me_game_ko_vo_es.wav"), _T("play"));
+				m_board.clear();
+			}
+
 			if (m_board.checkFloors()) {
 				playSound(_T("./sounds/"), _T("se_game_single.wav"), _T("play"));
 
