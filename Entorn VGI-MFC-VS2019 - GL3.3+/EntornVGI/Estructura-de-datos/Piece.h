@@ -48,6 +48,9 @@ public:
 	Piece(int form);
 	~Piece();
 
+	bool isGameOver();
+
+
 	// funcions per generar les peces de la forma dessitjada
 	void TForm(int x, int y, int z);
 	void LForm(int x, int y, int z);
@@ -129,6 +132,13 @@ bool Piece::colisionsBlocsTaulellCorrecte(vector<vector<vector<Block>>>& blocksT
 		if (blocksTaulell[b.getPosX()][b.getPosY()][b.getPosZ()].m_lliure == false) return false;
 	}
 	return true;
+}
+
+bool Piece::isGameOver() {
+	for (Block b : m_blocks) {
+		if (b.getPosY() >= MAXY) return true;
+	}
+	return false;
 }
 
 

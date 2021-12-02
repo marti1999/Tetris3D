@@ -3021,6 +3021,12 @@ void CEntornVGIView::OnTimer(UINT_PTR nIDEvent)
 		}
 		else {
 			
+			if (pieces[numPiece].isGameOver())
+			{
+				playSound(_T("./sounds/"), _T("me_game_ko_vo_es.wav"), _T("play"));	
+				m_board.clear();
+			}
+
 			if (m_board.checkFloors()) {
 				playSound(_T("./sounds/"), _T("se_game_single.wav"), _T("play"));
 
@@ -3028,6 +3034,9 @@ void CEntornVGIView::OnTimer(UINT_PTR nIDEvent)
 			else {
 				playSound(_T("./sounds/"), _T("se_game_landing.wav"), _T("play"));
 			}
+
+			
+
 			numPiece = rand() % (sizeof(pieces) / sizeof(pieces[0]));
 			pieces[numPiece].posIni();
 		}

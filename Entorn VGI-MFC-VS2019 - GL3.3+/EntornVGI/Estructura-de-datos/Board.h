@@ -34,6 +34,7 @@ private:
 public:
     Board();
     ~Board();
+    void clear();
     vector<vector<vector<Block>>> m_blocks;
     int m_height;
 
@@ -82,7 +83,29 @@ Board::Board()
 Board::~Board()
 {
 }
+void Board::clear() {
+        m_Matriu = glm::mat4(1.0);
 
+        m_blocks.clear();
+
+        for (int i = 0; i < MAX_X; i++)
+        {
+            vector<vector<Block>> x;
+            m_blocks.push_back(x);
+            for (int j = 0; j < MAX_HEIGHT; j++)
+            {
+                vector<Block> y;
+                m_blocks[i].push_back(y);
+                for (int k = 0; k < MAX_Z; k++)
+                {
+                    Block z(i, j, k);
+                    m_blocks[i][j].push_back(z);
+                }
+
+            }
+        }
+        m_height = 0;
+}
 vector<aEsborrar> Board::deleteRow() {
     aEsborrar row;
     vector<aEsborrar> eliminacions;
