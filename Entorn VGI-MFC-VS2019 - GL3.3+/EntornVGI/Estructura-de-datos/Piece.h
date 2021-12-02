@@ -36,7 +36,6 @@ private:
 	int m_y;
 	int m_z;
 
-	// rotacions
 
 
 
@@ -63,6 +62,8 @@ public:
 	void sety(int y) { m_x = y; }
 	void setz(int z) { m_x = z; }
 	void posIni();
+
+	// rotacions estructura dades
 	void rotateQuatXleft();
 	void rotateQuatYleft();
 	void rotateQuatZleft();
@@ -70,9 +71,16 @@ public:
 	void rotateQuatYright();
 	void rotateQuatZright();
 
-	// rotacions
+	// rotació crida
 	bool rotateRightOverY(vector<vector<vector<Block>>>& blocksTaulell);
 	bool rotateLeftOverY(vector<vector<vector<Block>>>& blocksTaulell);
+	bool rotateRightOverX(vector<vector<vector<Block>>>& blocksTaulell);
+	bool rotateLeftOverX(vector<vector<vector<Block>>>& blocksTaulell);
+	bool rotateRightOverZ(vector<vector<vector<Block>>>& blocksTaulell);
+	bool rotateLeftOverZ(vector<vector<vector<Block>>>& blocksTaulell);
+
+
+	// rotació openGL
 	void ViewRotateRightOverY();
 	void ViewRotateLeftOverY();
 
@@ -246,6 +254,58 @@ bool Piece::rotateLeftOverY(vector<vector<vector<Block>>>& blocksTaulell) {
 	}
 	rotateQuatYright();
 	
+	return false;
+}
+
+bool Piece::rotateRightOverX(vector<vector<vector<Block>>>& blocksTaulell) {
+	rotateQuatXright();
+
+	if (colisionsLimitsTaulellCorrecte()) {
+		if (colisionsBlocsTaulellCorrecte(blocksTaulell)) {
+			return true;
+		}
+	}
+
+	rotateQuatXleft();
+
+	return false;
+}
+bool Piece::rotateLeftOverX(vector<vector<vector<Block>>>& blocksTaulell) {
+	rotateQuatXleft();
+
+	if (colisionsLimitsTaulellCorrecte()) {
+		if (colisionsBlocsTaulellCorrecte(blocksTaulell)) {
+			return true;
+		}
+	}
+
+	rotateQuatXright();
+
+	return false;
+}
+bool Piece::rotateRightOverZ(vector<vector<vector<Block>>>& blocksTaulell) {
+	rotateQuatZright();
+
+	if (colisionsLimitsTaulellCorrecte()) {
+		if (colisionsBlocsTaulellCorrecte(blocksTaulell)) {
+			return true;
+		}
+	}
+
+	rotateQuatZleft();
+	return false;
+}
+
+bool Piece::rotateLeftOverZ(vector<vector<vector<Block>>>& blocksTaulell) {
+	rotateQuatZleft();
+
+	if (colisionsLimitsTaulellCorrecte()) {
+		if (colisionsBlocsTaulellCorrecte(blocksTaulell)) {
+			return true;
+		}
+	}
+
+	rotateQuatZright();
 	return false;
 }
 
