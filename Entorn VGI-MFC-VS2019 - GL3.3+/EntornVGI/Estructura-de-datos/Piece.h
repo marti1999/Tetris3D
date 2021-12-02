@@ -83,6 +83,10 @@ public:
 	// rotació openGL
 	void ViewRotateRightOverY();
 	void ViewRotateLeftOverY();
+	void ViewRotateRightOverX();
+	void ViewRotateLeftOverX();
+	void ViewRotateRightOverZ();
+	void ViewRotateLeftOverZ();
 
 
 
@@ -393,10 +397,21 @@ void Piece::ViewRotateRightOverY()
 {
 	m_Quaternio = m_Quaternio * quat(0.7071, 0, -0.7071, 0);
 }
-
 void Piece::ViewRotateLeftOverY()
 {
 	m_Quaternio = m_Quaternio * quat(0.7071, 0, 0.7071, 0);
+}
+void Piece::ViewRotateRightOverX() {
+	m_Quaternio = m_Quaternio * quat(0.7071, -0.7071, 0, 0);
+}
+void Piece::ViewRotateLeftOverX() {
+	m_Quaternio = m_Quaternio * quat(0.7071, 0.7071, 0, 0);
+}
+void Piece::ViewRotateRightOverZ() {
+	m_Quaternio = m_Quaternio * quat(0.7071, 0, 0, -0.7071);
+}
+void Piece::ViewRotateLeftOverZ() {
+	m_Quaternio = m_Quaternio * quat(0.7071, 0, 0, 0.7071);
 }
 
 void Piece::ViewMoveUp()
