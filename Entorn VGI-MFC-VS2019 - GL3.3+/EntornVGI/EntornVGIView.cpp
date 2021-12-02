@@ -1810,6 +1810,13 @@ void CEntornVGIView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 	if (nChar == 0x1B)
 	{
+		if (tetrisPause)
+		{
+			playSound(_T("./sounds/"), _T("theme.mp3"), _T("resume"));
+		}
+		else {
+			playSound(_T("./sounds/"), _T("theme.mp3"), _T("pause"));
+		}
 		tetrisPause = !tetrisPause;
 	}
 
@@ -5396,7 +5403,26 @@ void CEntornVGIView::playSound(CString dir, CString file, CString command, bool 
 		//play
 		CString PLAY_IT = _T("play ") + file + repeat + _T(" from 0");
 		mciSendString(PLAY_IT, NULL, 0, 0);
+		return;
+	}
+
+	if (command == "pause")
+	{
+		//load
+		CString PAUSE_IT = _T("pause ") + file;
+		mciSendString(PAUSE_IT, NULL, 0, 0);
+		return;
+	}
+
+	if (command == "resume") {
+		//load
+		CString RESUME_IT = _T("resume ") + file;
+		mciSendString(RESUME_IT, NULL, 0, 0);
+		return;
 	}
 }
+
+
+
 
 
