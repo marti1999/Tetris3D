@@ -5402,37 +5402,6 @@ void CEntornVGIView::OnObjecteTetris()
 		}
 	}
 
-	int test = 0; /* Selecció de la configuració predeterminada per a testejar casos en concret.
-						Canviar a -1 si es vol tornat a la configuració de tauler buit. */
-
-	switch (test)
-	{
-	case 0: /* Cas: eliminar múltiples files no consecutives en el eix Y */
-		m_board.m_blocks[0][0][2].m_lliure = false;
-		m_board.m_blocks[1][0][2].m_lliure = false;
-		m_board.m_blocks[3][0][2].m_lliure = false;
-		m_board.m_blocks[4][0][2].m_lliure = false;
-		m_board.m_blocks[5][0][2].m_lliure = false;
-		m_board.m_blocks[0][1][2].m_lliure = false;
-		m_board.m_blocks[4][1][2].m_lliure = false;
-		m_board.m_blocks[5][1][2].m_lliure = false;
-		m_board.m_blocks[0][2][2].m_lliure = false;
-		m_board.m_blocks[4][2][2].m_lliure = false;
-		m_board.m_blocks[5][2][2].m_lliure = false;
-		m_board.m_blocks[0][3][2].m_lliure = false;
-		m_board.m_blocks[1][3][2].m_lliure = false;
-		m_board.m_blocks[3][3][2].m_lliure = false;
-		m_board.m_blocks[4][3][2].m_lliure = false;
-		m_board.m_blocks[5][3][2].m_lliure = false;
-		m_board.m_blocks[4][4][2].m_lliure = false;
-		m_board.m_blocks[5][4][2].m_lliure = false;
-		break;;
-
-	default: /* Cas: iniciar el joc normal, amb tauler buit */
-		break;;
-	}
-	/* Final de la secció de tests */
-
 	wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);	// Desactivem contexte OpenGL
 
 // Crida a OnPaint() per redibuixar l'escena
