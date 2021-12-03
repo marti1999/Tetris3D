@@ -53,6 +53,11 @@ public:
     void caureFila(vector<aEsborrar> fila);
     void reiniciaCanvis();
     //fi hernan
+
+    // Llistat de tests:
+    void setupTest1();  /* Cas: eliminar múltiples files no consecutives en el eix Y */
+    void setupTest2();  /* Cas: eliminar dues files encreuades a la vegada */
+    // Fi llistat
 };
 
 Board::Board()
@@ -78,6 +83,9 @@ Board::Board()
         }
     }
     m_height = 0;
+
+    // Selecció del test a continuació (descomentar i canviar al setup de test desitjat)
+    // this->setupTest1();
 }
 
 Board::~Board()
@@ -161,8 +169,6 @@ vector<aEsborrar> Board::deleteRow() {
     return eliminacions;
 }
 
-
-
 void Board::caureFila(vector<aEsborrar> fila)
 {
     //Recorrer cada elemento del vector. Que será cada fila a bajar
@@ -240,6 +246,51 @@ bool Board::checkFloors(){
     // no ha trobat files a eliminar
     return false;
 }
+
+void Board::setupTest1()    /* Cas: eliminar múltiples files no consecutives en el eix Y */
+{
+    m_blocks[0][0][2].m_lliure = false;
+    m_blocks[1][0][2].m_lliure = false;
+    m_blocks[3][0][2].m_lliure = false;
+    m_blocks[4][0][2].m_lliure = false;
+    m_blocks[5][0][2].m_lliure = false;
+    m_blocks[0][1][2].m_lliure = false;
+    m_blocks[4][1][2].m_lliure = false;
+    m_blocks[5][1][2].m_lliure = false;
+    m_blocks[0][2][2].m_lliure = false;
+    m_blocks[4][2][2].m_lliure = false;
+    m_blocks[5][2][2].m_lliure = false;
+    m_blocks[0][3][2].m_lliure = false;
+    m_blocks[1][3][2].m_lliure = false;
+    m_blocks[3][3][2].m_lliure = false;
+    m_blocks[4][3][2].m_lliure = false;
+    m_blocks[5][3][2].m_lliure = false;
+    m_blocks[4][4][2].m_lliure = false;
+    m_blocks[5][4][2].m_lliure = false;
+}
+
+void Board::setupTest2()    /* Cas: eliminar dues files encreuades a la vegada */
+{
+    m_blocks[0][0][2].m_lliure = false;
+    m_blocks[1][0][2].m_lliure = false;
+    m_blocks[3][0][2].m_lliure = false;
+    m_blocks[4][0][2].m_lliure = false;
+    m_blocks[5][0][2].m_lliure = false;
+    m_blocks[2][0][0].m_lliure = false;
+    m_blocks[2][0][1].m_lliure = false;
+    m_blocks[2][0][3].m_lliure = false;
+    m_blocks[2][0][4].m_lliure = false;
+    m_blocks[2][0][5].m_lliure = false;
+    m_blocks[0][1][2].m_lliure = false;
+    m_blocks[4][1][2].m_lliure = false;
+    m_blocks[5][1][2].m_lliure = false;
+    m_blocks[4][2][2].m_lliure = false;
+    m_blocks[5][2][2].m_lliure = false;
+    m_blocks[3][2][2].m_lliure = false;
+    m_blocks[2][1][4].m_lliure = false;
+    m_blocks[2][1][5].m_lliure = false;
+}
+
 
 // TODO:
     // Funcio (càmera): fa falta un getHeight()
