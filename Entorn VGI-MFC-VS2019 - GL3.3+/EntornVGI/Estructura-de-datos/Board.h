@@ -1,4 +1,5 @@
 #include <list>
+#include <queue>
 //#include "Block.h"
 
 // TODO: límits de la base del taulell 
@@ -16,12 +17,12 @@
 
 //afegit hernan 01/12/2021
 struct aEsborrar {
-    int xInici = 0;
-    int yInici = 0;
-    int zInici = 0;
-    int xFinal = 0;
-    int yFinal = 0;
-    int zFinal = 0;
+    int xInici;
+    int zInici;
+    int xFinal;
+    int yInici;
+    int zFinal;
+    vector<int> y;
 };
 //fi afegit hernan
 
@@ -85,7 +86,7 @@ Board::Board()
     m_height = 0;
 
     // Selecció del test a continuació (descomentar i canviar al setup de test desitjat)
-    // this->setupTest1();
+    this->setupTest2();
 }
 
 Board::~Board()
@@ -119,9 +120,9 @@ vector<aEsborrar> Board::deleteRow() {
     vector<aEsborrar> eliminacions;
     int countX = 0;
     int countZ = 0;
+    bool repetida = false;
     for (int height = 0; height < MAX_HEIGHT; height++) {
         row.yInici = height;
-        row.yFinal = height;
         for (int x_1 = 0; x_1 < MAX_X; x_1++) {
             row.xInici = x_1;
             row.xFinal = x_1;
@@ -133,7 +134,20 @@ vector<aEsborrar> Board::deleteRow() {
                     if (countZ == MAX_Z) {
                         row.zInici = 0;
                         row.zFinal = z_1;
-                        eliminacions.push_back(row);
+                        for (int el = 0; el < eliminacions.size(); el++) {
+                            if ((row.xInici == eliminacions[el].xInici) && (row.xFinal == eliminacions[el].xFinal) &&
+                                (row.yInici != eliminacions[el].yInici) && (row.zInici == eliminacions[el].zInici) &&
+                                (row.zFinal == eliminacions[el].zFinal)) {
+                                eliminacions[el].y.push_back(row.yInici);
+                                repetida = true;
+                            }
+                        }
+                        if (!repetida) {
+                            row.y.push_back(row.yInici);
+                            eliminacions.push_back(row);
+                        }
+                        row.y.clear();
+                        repetida = false;
                     }
                 }
             }
@@ -151,7 +165,20 @@ vector<aEsborrar> Board::deleteRow() {
                     if (countX == MAX_X) {
                         row.xInici = 0;
                         row.xFinal = x_2;
-                        eliminacions.push_back(row);
+                        for (int el = 0; el < eliminacions.size(); el++) {
+                            if ((row.xInici == eliminacions[el].xInici) && (row.xFinal == eliminacions[el].xFinal) &&
+                                (row.yInici != eliminacions[el].yInici) && (row.zInici == eliminacions[el].zInici) &&
+                                (row.zFinal == eliminacions[el].zFinal)) {
+                                eliminacions[el].y.push_back(row.yInici);
+                                repetida = true;
+                            }
+                        }
+                        if (!repetida) {
+                            row.y.push_back(row.yInici);
+                            eliminacions.push_back(row);
+                        }
+                        row.y.clear();
+                        repetida = false;
                     }
                 }
             }
@@ -159,10 +186,15 @@ vector<aEsborrar> Board::deleteRow() {
         }
         countZ = 0;
     }
+    /*for (aEsborrar el : eliminacions) {
+        el.y.push_back(MAX_HEIGHT);
+    }*/
+
     for (aEsborrar el : eliminacions) {
         for (int x = el.xInici; x <= el.xFinal; x++) {
             for (int z = el.zInici; z <= el.zFinal; z++) {
-                m_blocks[x][el.yInici][z].m_lliure = true;
+                for (int pis = 0; pis < el.y.size(); pis++)
+                    m_blocks[x][el.y[pis]][z].m_lliure = true;
             }
         }
     }
@@ -171,27 +203,57 @@ vector<aEsborrar> Board::deleteRow() {
 
 void Board::caureFila(vector<aEsborrar> fila)
 {
+    
+    
+
     //Recorrer cada elemento del vector. Que será cada fila a bajar
     for (int i = 0; i < fila.size(); i++) { //i itera el vector
+
+  
 
         //Si Z no cambia significa que se moverá por el eje X y que lo que cambiará será el eje X a cada bloque avanzado
         //Con lo cual iterar sobre el eje X
         if (fila[i].zInici == fila[i].zFinal) { //z no es mou, z es z
             for (int x = fila[i].xInici; x <= fila[i].xFinal; x++) { //j sera la nostra x
 
-                //Para cada bloque de la fila, bajamos 1 la altura
-                for (int y = fila[i].yInici + 1; y < MAX_HEIGHT; y++) { //q sera la nostra y
+                queue<int> yQueue;
+                for (int f : fila[i].y) {
+                    yQueue.push(f);
+                }
 
-                    if (!m_blocks[x][y][fila[i].zInici].moguda) { //Només entrarem si NO ha estat moguda
-                        //No hago la comprobación de si q-1 está m_lliure porque en principio Álex ya lo ha hecho y me asegura que lo estará
-                        m_blocks[x][y - 1][fila[i].zInici].m_lliure = m_blocks[x][y][fila[i].zInici].m_lliure;
-                        m_blocks[x][y - 1][fila[i].zInici].setIdVao(m_blocks[x][y][fila[i].zInici].getIdVao());
-                        m_blocks[x][y][fila[i].zInici].m_lliure = true;
-
-                        //Com no ha estat moguda indiquem que ara ja ho està
-                        m_blocks[x][y][fila[i].zInici].swapMoguda();
+                int levels = 1;
+                int oldLevels = 1;
+                int currentY, upperY;
+                while (!yQueue.empty())
+                {
+                    currentY = yQueue.front();
+                    yQueue.pop();
+                    
+                    upperY;
+                    if (yQueue.empty())
+                    {
+                        upperY = MAX_HEIGHT;
                     }
-                    //Si ja havia sigut moguda, no necessitem baixar-la, doncs ja ho aviem fet. Seguim iterant
+                    else {
+                        upperY = yQueue.front();
+                    }
+                    
+                    //Para cada bloque de la fila, bajamos 1 la altura
+                    for (int y = currentY+oldLevels; y < upperY; y++) { //q sera la nostra y
+
+                        if (!m_blocks[x][y][fila[i].zInici].moguda) { //Només entrarem si NO ha estat moguda
+                            //No hago la comprobación de si q-1 está m_lliure porque en principio Álex ya lo ha hecho y me asegura que lo estará
+                            m_blocks[x][y-levels][fila[i].zInici].m_lliure = m_blocks[x][y][fila[i].zInici].m_lliure;
+                            m_blocks[x][y-levels][fila[i].zInici].setIdVao(m_blocks[x][y][fila[i].zInici].getIdVao());
+                            m_blocks[x][y][fila[i].zInici].m_lliure = true;
+
+                            //Com no ha estat moguda indiquem que ara ja ho està
+                            m_blocks[x][y][fila[i].zInici].swapMoguda();
+                        }
+                        //Si ja havia sigut moguda, no necessitem baixar-la, doncs ja ho aviem fet. Seguim iterant
+                    }
+                    oldLevels = levels;
+                    levels++;
                 }
             }
         }
@@ -201,20 +263,49 @@ void Board::caureFila(vector<aEsborrar> fila)
         if (fila[i].xInici == fila[i].xFinal) { //x no es mou, x es x
             for (int z = fila[i].zInici; z <= fila[i].zFinal; z++) { //j sera la nostra z
 
-                //Para cada bloque de la fila, bajamos 1 la altura
-                for (int y = fila[i].yInici + 1; y < MAX_HEIGHT; y++) { //q sera la nostra y
 
-                    if (!m_blocks[fila[i].xInici][y][z].moguda) { //Només entrarem si NO ha estat moguda
-                        //No hago la comprobación de si q-1 está m_lliure porque en principio Álex ya lo ha hecho y me asegura que lo estará
-                        m_blocks[fila[i].xInici][y - 1][z].m_lliure = m_blocks[fila[i].xInici][y][z].m_lliure;
-                        m_blocks[fila[i].xInici][y - 1][z].setIdVao(m_blocks[fila[i].xInici][y][z].getIdVao());
-                        m_blocks[fila[i].xInici][y][z].m_lliure = true;
-
-                        //Com no ha estat moguda indiquem que ara ja ho està
-                        m_blocks[fila[i].xInici][y][z].swapMoguda();
-                    }
-                    //Si ja havia sigut moguda, no necessitem baixar-la, doncs ja ho aviem fet. Seguim iterant
+                queue<int> yQueue;
+                for (int f : fila[i].y) {
+                    yQueue.push(f);
                 }
+
+                int levels = 1;
+                int oldLevels = 1;
+                int currentY, upperY;
+                while (!yQueue.empty())
+                {
+                    currentY = yQueue.front();
+                    yQueue.pop();
+
+                    upperY;
+                    if (yQueue.empty())
+                    {
+                        upperY = MAX_HEIGHT;
+                    }
+                    else {
+                        upperY = yQueue.front();
+                    }
+
+                    //Para cada bloque de la fila, bajamos 1 la altura
+                    for (int y = currentY + oldLevels; y < upperY; y++) { //q sera la nostra y
+
+                        if (!m_blocks[fila[i].xInici][y][z].moguda) { //Només entrarem si NO ha estat moguda
+                        //No hago la comprobación de si q-1 está m_lliure porque en principio Álex ya lo ha hecho y me asegura que lo estará
+                            m_blocks[fila[i].xInici][y - levels][z].m_lliure = m_blocks[fila[i].xInici][y][z].m_lliure;
+                            m_blocks[fila[i].xInici][y - levels][z].setIdVao(m_blocks[fila[i].xInici][y][z].getIdVao());
+                            m_blocks[fila[i].xInici][y][z].m_lliure = true;
+
+                            //Com no ha estat moguda indiquem que ara ja ho està
+                            m_blocks[fila[i].xInici][y][z].swapMoguda();
+                        }
+                        //Si ja havia sigut moguda, no necessitem baixar-la, doncs ja ho aviem fet. Seguim iterant
+                    }
+                    oldLevels = levels;
+                    levels++;
+                }
+
+
+             
             }
         }
     }
