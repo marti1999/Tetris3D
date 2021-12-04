@@ -206,8 +206,8 @@ void Board::caureFila(vector<aEsborrar> fila)
 
                     if (!m_blocks[fila[i].xInici][y][z].moguda) { //Només entrarem si NO ha estat moguda
                         //No hago la comprobación de si q-1 está m_lliure porque en principio Álex ya lo ha hecho y me asegura que lo estará
-                        m_blocks[fila[i].xInici][y - 1][z].m_lliure = m_blocks[fila[i].xInici][y - 1][z].m_lliure;
-                        m_blocks[fila[i].xInici][y - 1][z].setIdVao(m_blocks[fila[i].xInici][y - 1][z].getIdVao());
+                        m_blocks[fila[i].xInici][y - 1][z].m_lliure = m_blocks[fila[i].xInici][y][z].m_lliure;
+                        m_blocks[fila[i].xInici][y - 1][z].setIdVao(m_blocks[fila[i].xInici][y][z].getIdVao());
                         m_blocks[fila[i].xInici][y][z].m_lliure = true;
 
                         //Com no ha estat moguda indiquem que ara ja ho està
