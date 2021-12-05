@@ -405,23 +405,23 @@ inline void Piece::rotateQuatZright()
 
 void Piece::ViewRotateRightOverY()
 {
-	m_Quaternio = m_Quaternio * quat(0.7071, 0, -0.7071, 0);
+	m_Quaternio =  quat(0.7071, 0, -0.7071, 0) *  m_Quaternio;
 }
 void Piece::ViewRotateLeftOverY()
 {
-	m_Quaternio = m_Quaternio * quat(0.7071, 0, 0.7071, 0);
+	m_Quaternio =  quat(0.7071, 0, 0.7071, 0) * m_Quaternio;
 }
 void Piece::ViewRotateRightOverX() {
-	m_Quaternio = m_Quaternio * quat(0.7071, -0.7071, 0, 0);
+	m_Quaternio = quat(0.7071, -0.7071, 0, 0) * m_Quaternio;
 }
 void Piece::ViewRotateLeftOverX() {
-	m_Quaternio = m_Quaternio * quat(0.7071, 0.7071, 0, 0);
+	m_Quaternio =  quat(0.7071, 0.7071, 0, 0) * m_Quaternio;
 }
 void Piece::ViewRotateRightOverZ() {
-	m_Quaternio = m_Quaternio * quat(0.7071, 0, 0, -0.7071);
+	m_Quaternio = quat(0.7071, 0, 0, -0.7071) * m_Quaternio;
 }
 void Piece::ViewRotateLeftOverZ() {
-	m_Quaternio = m_Quaternio * quat(0.7071, 0, 0, 0.7071);
+	m_Quaternio = quat(0.7071, 0, 0, 0.7071) * m_Quaternio;
 }
 
 void Piece::ViewMoveUp()
