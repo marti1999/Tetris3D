@@ -1740,70 +1740,357 @@ void CEntornVGIView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	}
 	if ((nChar == 'W' || nChar == 'w') && !tetrisPause) {
 		//pieces[2].moveUp(m_board.m_blocks);
-		if (pieces[numPiece].moveUp(m_board.m_blocks)) {
-			playSound(_T("./sounds/"), _T("se_game_move.wav"), _T("play"));
-			pieces[numPiece].ViewMoveUp();
+		if (OPV.beta < 45 || OPV.beta > 330) 
+		{
+			if (pieces[numPiece].moveUp(m_board.m_blocks)) 
+			{
+				playSound(_T("./sounds/"), _T("se_game_move.wav"), _T("play"));
+				pieces[numPiece].ViewMoveUp();
+			}
+			else 
+			{
+				playSound(_T("./sounds/"), _T("se_sys_alert.wav"), _T("play"));
+			}
 		}
-		else {
-			playSound(_T("./sounds/"), _T("se_sys_alert.wav"), _T("play"));
+		else
+		{
+			if (OPV.beta < 120)
+			{
+				if (pieces[numPiece].moveLeft(m_board.m_blocks)) 
+				{
+					playSound(_T("./sounds/"), _T("se_game_move.wav"), _T("play"));
+					pieces[numPiece].ViewMoveLeft();
+				}
+				else 
+				{
+					playSound(_T("./sounds/"), _T("se_sys_alert.wav"), _T("play"));
+				}
+			}
+			else
+			{
+				if (OPV.beta < 225)
+				{
+					if (pieces[numPiece].moveDown(m_board.m_blocks)) 
+					{
+						playSound(_T("./sounds/"), _T("se_game_move.wav"), _T("play"));
+						pieces[numPiece].ViewMoveDown();
+					}
+					else 
+					{
+						playSound(_T("./sounds/"), _T("se_sys_alert.wav"), _T("play"));
+					}
+				
+				}
+				else 
+				{
+					if (pieces[numPiece].moveRight(m_board.m_blocks)) 
+					{
+						playSound(_T("./sounds/"), _T("se_game_move.wav"), _T("play"));
+						pieces[numPiece].ViewMoveRight();
+					}
+					else 
+					{
+						playSound(_T("./sounds/"), _T("se_sys_alert.wav"), _T("play"));
+					}
+				}
+			}
 		}
 
 	}
 	if ((nChar == 'S' || nChar == 's') && !tetrisPause) {
-		//pieces[2].moveDown();
-		if (pieces[numPiece].moveDown(m_board.m_blocks)) {
-			playSound(_T("./sounds/"), _T("se_game_move.wav"), _T("play")); 
-			pieces[numPiece].ViewMoveDown();
+		if (OPV.beta < 45 || OPV.beta > 330)
+		{
+			if (pieces[numPiece].moveDown(m_board.m_blocks)) 
+			{
+				playSound(_T("./sounds/"), _T("se_game_move.wav"), _T("play"));
+				pieces[numPiece].ViewMoveDown();
+			}
+			else 
+			{
+				playSound(_T("./sounds/"), _T("se_sys_alert.wav"), _T("play"));
+			}
 		}
-		else {
-			playSound(_T("./sounds/"), _T("se_sys_alert.wav"), _T("play"));
+		else
+		{
+			if (OPV.beta < 120)
+			{
+				if (pieces[numPiece].moveRight(m_board.m_blocks)) 
+				{
+					playSound(_T("./sounds/"), _T("se_game_move.wav"), _T("play"));
+					pieces[numPiece].ViewMoveRight();
+				}
+				else 
+				{
+					playSound(_T("./sounds/"), _T("se_sys_alert.wav"), _T("play"));
+				}
+			}
+			else
+			{
+				if (OPV.beta < 225)
+				{
+					if (pieces[numPiece].moveUp(m_board.m_blocks)) 
+					{
+						playSound(_T("./sounds/"), _T("se_game_move.wav"), _T("play"));
+						pieces[numPiece].ViewMoveUp();
+					}
+					else 
+					{
+						playSound(_T("./sounds/"), _T("se_sys_alert.wav"), _T("play"));
+					}
+				}
+				else
+				{
+					if (pieces[numPiece].moveLeft(m_board.m_blocks)) 
+					{
+						playSound(_T("./sounds/"), _T("se_game_move.wav"), _T("play"));
+						pieces[numPiece].ViewMoveLeft();
+					}
+					else 
+					{
+						playSound(_T("./sounds/"), _T("se_sys_alert.wav"), _T("play"));
+					}
+				}
+			}
 		}
 
 	}
 	if ((nChar == 'A' || nChar == 'a') && !tetrisPause) {
-		if (pieces[numPiece].moveLeft(m_board.m_blocks)) {
-			playSound(_T("./sounds/"), _T("se_game_move.wav"), _T("play"));
-			pieces[numPiece].ViewMoveLeft();
+		if (OPV.beta < 45 || OPV.beta > 330)
+		{
+			if (pieces[numPiece].moveLeft(m_board.m_blocks)) 
+			{
+				playSound(_T("./sounds/"), _T("se_game_move.wav"), _T("play"));
+				pieces[numPiece].ViewMoveLeft();
+			}
+			else 
+			{
+				playSound(_T("./sounds/"), _T("se_sys_alert.wav"), _T("play"));
+			}
 		}
-		else {
-			playSound(_T("./sounds/"), _T("se_sys_alert.wav"), _T("play"));
+		else
+		{
+			if (OPV.beta < 120)
+			{
+				if (pieces[numPiece].moveDown(m_board.m_blocks)) 
+				{
+					playSound(_T("./sounds/"), _T("se_game_move.wav"), _T("play"));
+					pieces[numPiece].ViewMoveDown();
+				}
+				else 
+				{
+					playSound(_T("./sounds/"), _T("se_sys_alert.wav"), _T("play"));
+				}
+			}
+			else
+			{
+				if (OPV.beta < 225)
+				{
+					if (pieces[numPiece].moveRight(m_board.m_blocks)) 
+					{
+						playSound(_T("./sounds/"), _T("se_game_move.wav"), _T("play"));
+						pieces[numPiece].ViewMoveRight();
+					}
+					else 
+					{
+						playSound(_T("./sounds/"), _T("se_sys_alert.wav"), _T("play"));
+					}
+				}
+				else
+				{
+					if (pieces[numPiece].moveUp(m_board.m_blocks)) 
+					{
+						playSound(_T("./sounds/"), _T("se_game_move.wav"), _T("play"));
+						pieces[numPiece].ViewMoveUp();
+					}
+					else 
+					{
+						playSound(_T("./sounds/"), _T("se_sys_alert.wav"), _T("play"));
+					}
+				}
+			}
 		}
 
 	}
 	if ((nChar == 'D' || nChar == 'd') && !tetrisPause) {
-		if (pieces[numPiece].moveRight(m_board.m_blocks)) {
-			playSound(_T("./sounds/"), _T("se_game_move.wav"), _T("play"));
-			pieces[numPiece].ViewMoveRight();
+		if (OPV.beta < 45 || OPV.beta > 330)
+		{
+			if (pieces[numPiece].moveRight(m_board.m_blocks)) 
+			{
+				playSound(_T("./sounds/"), _T("se_game_move.wav"), _T("play"));
+				pieces[numPiece].ViewMoveRight();
+			}
+			else 
+			{
+				playSound(_T("./sounds/"), _T("se_sys_alert.wav"), _T("play"));
+			}
 		}
-		else {
-			playSound(_T("./sounds/"), _T("se_sys_alert.wav"), _T("play"));
+		else
+		{
+			if (OPV.beta < 120)
+			{
+				if (pieces[numPiece].moveUp(m_board.m_blocks)) 
+				{
+					playSound(_T("./sounds/"), _T("se_game_move.wav"), _T("play"));
+					pieces[numPiece].ViewMoveUp();
+				}
+				else 
+				{
+					playSound(_T("./sounds/"), _T("se_sys_alert.wav"), _T("play"));
+				}
+			}
+			else
+			{
+				if (OPV.beta < 225)
+				{
+					if (pieces[numPiece].moveLeft(m_board.m_blocks)) 
+					{
+						playSound(_T("./sounds/"), _T("se_game_move.wav"), _T("play"));
+						pieces[numPiece].ViewMoveLeft();
+					}
+					else 
+					{
+						playSound(_T("./sounds/"), _T("se_sys_alert.wav"), _T("play"));
+					}
+
+				}
+				else
+				{
+					if (pieces[numPiece].moveDown(m_board.m_blocks)) 
+					{
+						playSound(_T("./sounds/"), _T("se_game_move.wav"), _T("play"));
+						pieces[numPiece].ViewMoveDown();
+					}
+					else 
+					{
+						playSound(_T("./sounds/"), _T("se_sys_alert.wav"), _T("play"));
+					}
+				}
+			}
 		}
+
 	}
 	if ((nChar == 'Q' || nChar == 'q') && !tetrisPause) {
-		if (pieces[numPiece].rotateLeftOverY(m_board.m_blocks)) {
-			playSound(_T("./sounds/"), _T("se_game_rotate.wav"), _T("play"));
-			pieces[numPiece].ViewRotateLeftOverY();
-		}
-		else {
-			playSound(_T("./sounds/"), _T("se_sys_alert.wav"), _T("play"));
-		}
+
+			if (pieces[numPiece].rotateLeftOverY(m_board.m_blocks)) 
+			{
+				playSound(_T("./sounds/"), _T("se_game_rotate.wav"), _T("play"));
+				pieces[numPiece].ViewRotateLeftOverY();
+			}
+			else 
+			{
+				playSound(_T("./sounds/"), _T("se_sys_alert.wav"), _T("play"));
+			}
 	}
 	if ((nChar == 'r' || nChar == 'R') && !tetrisPause) {
-		if (pieces[numPiece].rotateRightOverX(m_board.m_blocks)) {
-			playSound(_T("./sounds/"), _T("se_game_rotate.wav"), _T("play"));
-			pieces[numPiece].ViewRotateRightOverX();
+		if (OPV.beta < 45 || OPV.beta > 330) 
+		{
+			if (pieces[numPiece].rotateRightOverX(m_board.m_blocks)) 
+			{
+				playSound(_T("./sounds/"), _T("se_game_rotate.wav"), _T("play"));
+				pieces[numPiece].ViewRotateRightOverX();
+			}
+			else 
+			{
+				playSound(_T("./sounds/"), _T("se_sys_alert.wav"), _T("play"));
+			}
 		}
-		else {
-			playSound(_T("./sounds/"), _T("se_sys_alert.wav"), _T("play"));
+		else
+		{
+			if (OPV.beta < 120)
+			{
+				if (pieces[numPiece].rotateLeftOverZ(m_board.m_blocks))
+				{
+					playSound(_T("./sounds/"), _T("se_game_rotate.wav"), _T("play"));
+					pieces[numPiece].ViewRotateLeftOverZ();
+				}
+				else
+				{
+					playSound(_T("./sounds/"), _T("se_sys_alert.wav"), _T("play"));
+				}
+			}
+			else
+			{
+				if (OPV.beta < 225)
+				{
+					if (pieces[numPiece].rotateLeftOverX(m_board.m_blocks))
+					{
+						playSound(_T("./sounds/"), _T("se_game_rotate.wav"), _T("play"));
+						pieces[numPiece].ViewRotateLeftOverX();
+					}
+					else
+					{
+						playSound(_T("./sounds/"), _T("se_sys_alert.wav"), _T("play"));
+					}
+				}
+				else
+				{
+					if (pieces[numPiece].rotateRightOverZ(m_board.m_blocks))
+					{
+						playSound(_T("./sounds/"), _T("se_game_rotate.wav"), _T("play"));
+						pieces[numPiece].ViewRotateRightOverZ();
+					}
+					else
+					{
+						playSound(_T("./sounds/"), _T("se_sys_alert.wav"), _T("play"));
+					}
+				}
+			}
 		}
 	}
 	if ((nChar == 'c' || nChar == 'C') && !tetrisPause) {
-		if (pieces[numPiece].rotateLeftOverX(m_board.m_blocks)) {
-			playSound(_T("./sounds/"), _T("se_game_rotate.wav"), _T("play"));
-			pieces[numPiece].ViewRotateLeftOverX();
+		if (OPV.beta < 45 || OPV.beta > 330)
+		{
+			if (pieces[numPiece].rotateLeftOverX(m_board.m_blocks))
+			{
+				playSound(_T("./sounds/"), _T("se_game_rotate.wav"), _T("play"));
+				pieces[numPiece].ViewRotateLeftOverX();
+			}
+			else
+			{
+				playSound(_T("./sounds/"), _T("se_sys_alert.wav"), _T("play"));
+			}
 		}
-		else {
-			playSound(_T("./sounds/"), _T("se_sys_alert.wav"), _T("play"));
+		else
+		{
+			if (OPV.beta < 120)
+			{
+				if (pieces[numPiece].rotateRightOverZ(m_board.m_blocks))
+				{
+					playSound(_T("./sounds/"), _T("se_game_rotate.wav"), _T("play"));
+					pieces[numPiece].ViewRotateRightOverZ();
+				}
+				else
+				{
+					playSound(_T("./sounds/"), _T("se_sys_alert.wav"), _T("play"));
+				}
+			}
+			else
+			{
+				if (OPV.beta < 225)
+				{
+					if (pieces[numPiece].rotateRightOverX(m_board.m_blocks))
+					{
+						playSound(_T("./sounds/"), _T("se_game_rotate.wav"), _T("play"));
+						pieces[numPiece].ViewRotateRightOverX();
+					}
+					else
+					{
+						playSound(_T("./sounds/"), _T("se_sys_alert.wav"), _T("play"));
+					}
+				}
+				else
+				{
+					if (pieces[numPiece].rotateLeftOverZ(m_board.m_blocks))
+					{
+						playSound(_T("./sounds/"), _T("se_game_rotate.wav"), _T("play"));
+						pieces[numPiece].ViewRotateLeftOverZ();
+					}
+					else
+					{
+						playSound(_T("./sounds/"), _T("se_sys_alert.wav"), _T("play"));
+					}
+				}
+			}
 		}
 	}
 	if ((nChar == 'E' || nChar == 'e') && !tetrisPause) {
