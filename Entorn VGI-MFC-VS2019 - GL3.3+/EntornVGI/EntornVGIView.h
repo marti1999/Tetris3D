@@ -41,7 +41,7 @@ protected: // Crear sólo a partir de serialización
 // Atributos
 public:
 
-	// se li passa a vista_esferica i serveix per, des del entornView, modificar a la força la posicó de la càmera sobre l'eix X
+	// se li passa a vista_esferica i serveix per, des del entornView, modificar a la força cubela posicó de la càmera sobre l'eix X
 	int camerax;
 
 	CEntornVGIDoc* GetDocument() const;

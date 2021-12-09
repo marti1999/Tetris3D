@@ -5653,7 +5653,7 @@ void CEntornVGIView::OnObjecteTetris()
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
 
 
-	CString nom[15] = {
+	CString nom[25] = {
 		CString(_T("..\\..\\objects\\fig1_color.obj")),
 		CString(_T("..\\..\\objects\\fig2_color.obj")),
 		CString(_T("..\\..\\objects\\fig3_color.obj")),
@@ -5664,9 +5664,25 @@ void CEntornVGIView::OnObjecteTetris()
 		CString(_T("..\\..\\objects\\fig3_cub_red.obj")),
 		CString(_T("..\\..\\objects\\fig4_cub_purple.obj")),
 		CString(_T("..\\..\\objects\\fig5_cub_green.obj")),
-		CString(_T("..\\..\\objects\\fig_tauler.obj"))
+		CString(_T("..\\..\\objects\\fig_tauler.obj")),
+		CString(_T("..\\..\\objects\\start.obj")),
+		CString(_T("..\\..\\objects\\score.obj")),
+		CString(_T("..\\..\\objects\\game_over.obj")),
+		CString(_T("..\\..\\objects\\help.obj")),
+		CString(_T("..\\..\\objects\\0.obj")),
+		CString(_T("..\\..\\objects\\1.obj")),
+		CString(_T("..\\..\\objects\\2.obj")),
+		CString(_T("..\\..\\objects\\3.obj")),
+		CString(_T("..\\..\\objects\\4.obj")),
+		CString(_T("..\\..\\objects\\5.obj")),
+		CString(_T("..\\..\\objects\\6.obj")),
+		CString(_T("..\\..\\objects\\7.obj")),
+		CString(_T("..\\..\\objects\\8.obj")),
+		CString(_T("..\\..\\objects\\9.obj")),
 	};
-	for (int i = 0; i < 11; i++) {
+
+	//a partir de la 11 esta los textos y numeros para el score
+	for (int i = 0; i < 25; i++) {
 
 		char* nomfitx = CString2Char(nom[i]);
 		if (ObOBJ == NULL) ObOBJ = new COBJModel;
@@ -5695,6 +5711,7 @@ void CEntornVGIView::OnObjecteTetris()
 	InvalidateRect(NULL, false);
 
 }
+
 void CEntornVGIView::mainTetris() {
 	OnObjecteTetris();
 	tetris = true;

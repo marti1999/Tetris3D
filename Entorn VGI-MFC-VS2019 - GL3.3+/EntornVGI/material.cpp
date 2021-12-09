@@ -233,7 +233,8 @@ void SeleccionaColorMaterial(GLuint sh_programID, CColor c_obj, bool sw_mater[5]
 				material.emission[0] = 0.0f;
 				material.emission[1] = 0.0f;
 				material.emission[2] = 0.0f;
-				material.emission[3] = 1.0f;
+				//material.emission[3] = 1.0f;
+				material.emission[3] = 0.0f;
 			}
 // Pas component emission del material al Shader
 	//glUniform4fv(glGetUniformLocation(sh_programID, "material.emission"), 1, material.emission);
