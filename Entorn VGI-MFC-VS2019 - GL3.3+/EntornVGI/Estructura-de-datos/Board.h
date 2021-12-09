@@ -58,6 +58,7 @@ public:
     // Llistat de tests:
     void setupTest1();  /* Cas: eliminar múltiples files no consecutives en el eix Y */
     void setupTest2();  /* Cas: eliminar dues files encreuades a la vegada */
+    void setupTest3();  /* Cas: eliminar dues files encreuades (2 en un eix i 1 en l'altre) a la vegada */
     // Fi llistat
 };
 
@@ -86,7 +87,7 @@ Board::Board()
     m_height = 0;
 
     // Selecció del test a continuació (descomentar i canviar al setup de test desitjat)
-    this->setupTest2();
+    this->setupTest3();
 }
 
 Board::~Board()
@@ -380,6 +381,34 @@ void Board::setupTest2()    /* Cas: eliminar dues files encreuades a la vegada *
     m_blocks[3][2][2].m_lliure = false;
     m_blocks[2][1][4].m_lliure = false;
     m_blocks[2][1][5].m_lliure = false;
+}
+
+
+void Board::setupTest3()    /* Cas: eliminar dues files encreuades (2 en un eix i 1 en l'altre) a la vegada */
+{
+    m_blocks[0][0][2].m_lliure = false;
+    m_blocks[1][0][2].m_lliure = false;
+    m_blocks[3][0][2].m_lliure = false;
+    m_blocks[4][0][2].m_lliure = false;
+    m_blocks[5][0][2].m_lliure = false;
+    m_blocks[2][0][0].m_lliure = false;
+    m_blocks[2][0][1].m_lliure = false;
+    m_blocks[2][0][3].m_lliure = false;
+    m_blocks[2][0][4].m_lliure = false;
+    m_blocks[2][0][5].m_lliure = false;
+    m_blocks[0][1][2].m_lliure = false;
+    m_blocks[1][1][2].m_lliure = false;
+    m_blocks[3][1][2].m_lliure = false;
+    m_blocks[4][1][2].m_lliure = false;
+    m_blocks[5][1][2].m_lliure = false;
+    m_blocks[4][2][2].m_lliure = false;
+    m_blocks[5][2][2].m_lliure = false;
+    m_blocks[3][2][2].m_lliure = false;
+    m_blocks[2][1][4].m_lliure = false;
+    m_blocks[2][1][5].m_lliure = false;
+    m_blocks[0][2][2].m_lliure = false;
+    m_blocks[0][3][2].m_lliure = false;
+    m_blocks[1][3][2].m_lliure = false;
 }
 
 
