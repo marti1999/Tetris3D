@@ -1168,7 +1168,13 @@ void CEntornVGIView::dibuixa_Escena2()
 			FIT_3DS, start+1, // VAO's i nombre de vèrtexs dels objectes 3DS i OBJ
 			ViewMatrix, sendposite);
 	}
-	
+	if (estat == pause) {
+		dibuixa_EscenaGL(shader_programID, eixos, eixos_Id, grid, hgrid, objecte, col_obj, sw_material,
+			textura, texturesID, textura_map, tFlag_invert_Y,
+			npts_T, PC_t, pas_CS, sw_Punts_Control, dibuixa_TriedreFrenet,
+			FIT_3DS, start + 2, // VAO's i nombre de vèrtexs dels objectes 3DS i OBJ
+			ViewMatrix, sendposite);
+	}
 
 	// Matriu de transformacions de la peça en questio
 
@@ -2206,6 +2212,13 @@ void CEntornVGIView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		else {
 			playSound(_T("./sounds/"), _T("theme.mp3"), _T("pause"));
 		}
+		if (estat != pause) {
+			estat = pause;
+		}
+		else {
+			estat = play;
+		}
+		
 		tetrisPause = !tetrisPause;
 	}
 
@@ -5749,7 +5762,7 @@ void CEntornVGIView::OnObjecteTetris()
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
 
 
-	CString nom[26] = {
+	CString nom[27] = {
 		CString(_T("..\\..\\objects\\fig1_color.obj")),
 		CString(_T("..\\..\\objects\\fig2_color.obj")),
 		CString(_T("..\\..\\objects\\fig3_color.obj")),
@@ -5766,6 +5779,7 @@ void CEntornVGIView::OnObjecteTetris()
 		CString(_T("..\\..\\objects\\exit.obj")),
 		CString(_T("..\\..\\objects\\score.obj")),
 		CString(_T("..\\..\\objects\\game_over.obj")),
+		CString(_T("..\\..\\objects\\pause.obj")),
 		CString(_T("..\\..\\objects\\0.obj")),
 		CString(_T("..\\..\\objects\\1.obj")),
 		CString(_T("..\\..\\objects\\2.obj")),

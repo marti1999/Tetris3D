@@ -209,7 +209,7 @@ public:
 //-------------- Entorn VGI: Fi De Variables globals de CEntornVGIView
 
 // Variables creades per nosaltres
-	GLuint idVao[26];
+	GLuint idVao[27];
 	//vector<Piece> pieces;
 //-------------- Entorn VGI: Fi De Variables globals de CEntornVGIView
 
