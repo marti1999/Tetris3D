@@ -58,6 +58,7 @@ public:
 	bool tetris;
 	bool tetrisPause;
 
+
 // Entorn VGI: Variables de control de l'opció Càmera->Navega?
 	GLdouble n[3];			// Punt cap on mira.
 	CPunt3D opvN;			// Definició Orígen Punt de Vista (en coordenades món)
@@ -208,7 +209,7 @@ public:
 //-------------- Entorn VGI: Fi De Variables globals de CEntornVGIView
 
 // Variables creades per nosaltres
-	GLuint idVao[15];
+	GLuint idVao[26];
 	//vector<Piece> pieces;
 //-------------- Entorn VGI: Fi De Variables globals de CEntornVGIView
 
@@ -242,6 +243,7 @@ public:
 	void CEntornVGIView::configura_Escena();
 	void CEntornVGIView::dibuixa_Escena();
 	void CEntornVGIView::dibuixa_Escena2();
+	void CEntornVGIView::dibuixa_Menu();
 	void CEntornVGIView::Barra_Estat();
 	void CEntornVGIView::double2CString(double varf);
 	int CEntornVGIView::Log2(int num);							// Log2: Càlcul del log base 2 de num
@@ -295,6 +297,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void mainTetris();
+	afx_msg void initTetris();
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnDestroy();
 	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);

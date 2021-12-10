@@ -1,2 +1,12 @@
-﻿  material.cpp
+﻿  EntornVGIView.cpp
+C:\Users\ricar.LAPTOP-D6I7L1KP\source\repos\Visualitzacio grafica\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(112,20): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\ricar.LAPTOP-D6I7L1KP\source\repos\Visualitzacio grafica\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(180,20): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\ricar.LAPTOP-D6I7L1KP\source\repos\Visualitzacio grafica\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(198,20): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\ricar.LAPTOP-D6I7L1KP\source\repos\Visualitzacio grafica\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(215,20): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\ricar.LAPTOP-D6I7L1KP\source\repos\Visualitzacio grafica\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(232,20): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\ricar.LAPTOP-D6I7L1KP\source\repos\Visualitzacio grafica\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(634,21): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\ricar.LAPTOP-D6I7L1KP\source\repos\Visualitzacio grafica\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\Estructura-de-datos\Piece.h(657,21): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\ricar.LAPTOP-D6I7L1KP\source\repos\Visualitzacio grafica\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\EntornVGIView.cpp(1112,30): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\ricar.LAPTOP-D6I7L1KP\source\repos\Visualitzacio grafica\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\EntornVGIView.cpp(1114,31): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\ricar.LAPTOP-D6I7L1KP\source\repos\Visualitzacio grafica\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\EntornVGI\EntornVGIView.cpp(1116,32): warning C4018: '<': no coinciden signed/unsigned
   EntornVGI.vcxproj -> C:\Users\ricar.LAPTOP-D6I7L1KP\source\repos\Visualitzacio grafica\ProjecteVGI\Entorn VGI-MFC-VS2019 - GL3.3+\Debug\EntornVGI.exe

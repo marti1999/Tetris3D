@@ -46,9 +46,16 @@ Piece pieces[5];
 Block vaoBlocks[5];
 Board m_board;
 int numPiece;
+enum Estate
+{
+	init,
+	play,
+	pause,
+	gameOver
+};
+Estate estat = init;
 /////////////////////////////////////////////////////////////////////////////
 // CEntornVGIView
-
 IMPLEMENT_DYNCREATE(CEntornVGIView, CView)
 
 BEGIN_MESSAGE_MAP(CEntornVGIView, CView)
@@ -997,7 +1004,14 @@ void CEntornVGIView::OnPaint()
 
 		// Dibuix de l'Objecte o l'Escena
 		configura_Escena();     // Aplicar Transformacions Geometriques segons persiana Transformacio i configurar objectes.
-		dibuixa_Escena2();		// Dibuix geometria de l'escena amb comandes GL.
+		//dibuixa_Escena2();		// Dibuix geometria de l'escena amb comandes GL.
+		
+		if (estat == init) {
+			dibuixa_Menu();
+		}
+		if (estat != init) {
+			dibuixa_Escena2();
+		}
 
 // Intercanvia l'escena al front de la pantalla
 		SwapBuffers(m_pDC->GetSafeHdc());
@@ -1020,8 +1034,9 @@ void CEntornVGIView::OnPaint()
 		projeccio = PERSPECT;
 		OnIluminacioGouraud();
 		OnVistaSkyBox();
+		dibuixa_Menu();
 		mainTetris();
-
+		
 
 		// Crida a la funció Fons Blanc
 		FonsB();
@@ -1030,7 +1045,6 @@ void CEntornVGIView::OnPaint()
 		SwapBuffers(m_pDC->GetSafeHdc());
 		break;
 	}
-
 	// Entorn VGI: Activació el contexte OpenGL. Permet la coexistencia d'altres contextes de generació
 	wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
 
@@ -1139,7 +1153,22 @@ void CEntornVGIView::dibuixa_Escena2()
 		FIT_3DS, pieces[numPiece].getIdVao(), // VAO's i nombre de vèrtexs dels objectes 3DS i OBJ
 		ViewMatrix, pieces[numPiece].getMatrix() * rotM);
 
+	sendposite = glm::mat4(1.0);
+	GLuint start = I + 14;
+	dibuixa_EscenaGL(shader_programID, eixos, eixos_Id, grid, hgrid, objecte, col_obj, sw_material,
+		textura, texturesID, textura_map, tFlag_invert_Y,
+		npts_T, PC_t, pas_CS, sw_Punts_Control, dibuixa_TriedreFrenet,
+		FIT_3DS, start, // VAO's i nombre de vèrtexs dels objectes 3DS i OBJ
+		ViewMatrix, sendposite);
 
+	if (estat == gameOver) {
+		dibuixa_EscenaGL(shader_programID, eixos, eixos_Id, grid, hgrid, objecte, col_obj, sw_material,
+			textura, texturesID, textura_map, tFlag_invert_Y,
+			npts_T, PC_t, pas_CS, sw_Punts_Control, dibuixa_TriedreFrenet,
+			FIT_3DS, start+1, // VAO's i nombre de vèrtexs dels objectes 3DS i OBJ
+			ViewMatrix, sendposite);
+	}
+	
 
 	// Matriu de transformacions de la peça en questio
 
@@ -1151,7 +1180,62 @@ void CEntornVGIView::dibuixa_Escena2()
 	//	Dibuix Coordenades Món i Reixes.
 			//if (SkyBoxCube) dibuixa_Skybox(skC_programID, cubemapTexture, ProjectionMatrix, ViewMatrix);
 }
+void CEntornVGIView::dibuixa_Menu()
+{
+	//	Dibuix SkyBox Cúbic.
+	if (SkyBoxCube) dibuixa_Skybox(skC_programID, cubemapTexture, Vis_Polar, ProjectionMatrix, ViewMatrix);
 
+	//	Dibuix Coordenades Món i Reixes.
+	dibuixa_Eixos(eixos_programID, eixos, eixos_Id, grid, hgrid, ProjectionMatrix, ViewMatrix);
+
+	//	GTMatrix = glm::scalef(GTMatrix,vec3());			// Escalat d'objectes, per adequar-los a les vistes ortogràfiques (Pràctica 2)
+
+	//	Dibuix geometria de l'escena amb comandes GL.
+
+	objecte = PROPI;
+
+
+	glm::mat4 posite(1.0);
+	glm::mat4 sendposite(1.0);
+	int boardI = 0, boardJ = 0, boardK = 0;
+	
+	/*
+	dibuixa_EscenaGL(shader_programID, eixos, eixos_Id, grid, hgrid, objecte, col_obj, sw_material,
+		textura, texturesID, textura_map, tFlag_invert_Y,
+		npts_T, PC_t, pas_CS, sw_Punts_Control, dibuixa_TriedreFrenet,
+		FIT_3DS, pieces[2].getIdVao(), // VAO's i nombre de vèrtexs dels objectes 3DS i OBJ
+		ViewMatrix,
+		pieces[2].getMatrix());
+
+	*/
+	GLuint start = I+11;
+	// Dibuix del tauler en escena
+	dibuixa_EscenaGL(shader_programID, eixos, eixos_Id, grid, hgrid, objecte, col_obj, sw_material,
+		textura, texturesID, textura_map, tFlag_invert_Y,
+		npts_T, PC_t, pas_CS, sw_Punts_Control, dibuixa_TriedreFrenet,
+		FIT_3DS, start, // VAO's i nombre de vèrtexs dels objectes 3DS i OBJ
+		ViewMatrix, sendposite);
+
+	dibuixa_EscenaGL(shader_programID, eixos, eixos_Id, grid, hgrid, objecte, col_obj, sw_material,
+		textura, texturesID, textura_map, tFlag_invert_Y,
+		npts_T, PC_t, pas_CS, sw_Punts_Control, dibuixa_TriedreFrenet,
+		FIT_3DS, start+1, // VAO's i nombre de vèrtexs dels objectes 3DS i OBJ
+		ViewMatrix, sendposite);
+
+	dibuixa_EscenaGL(shader_programID, eixos, eixos_Id, grid, hgrid, objecte, col_obj, sw_material,
+		textura, texturesID, textura_map, tFlag_invert_Y,
+		npts_T, PC_t, pas_CS, sw_Punts_Control, dibuixa_TriedreFrenet,
+		FIT_3DS, start+2, // VAO's i nombre de vèrtexs dels objectes 3DS i OBJ
+		ViewMatrix, sendposite);
+
+	dibuixa_EscenaGL(shader_programID, eixos, eixos_Id, grid, hgrid, objecte, col_obj, sw_material,
+		textura, texturesID, textura_map, tFlag_invert_Y,
+		npts_T, PC_t, pas_CS, sw_Punts_Control, dibuixa_TriedreFrenet,
+		FIT_3DS, m_board.getIdVao(), // VAO's i nombre de vèrtexs dels objectes 3DS i OBJ
+		ViewMatrix,
+		m_board.getMatrix());
+	
+}
 
 // Barra_Estat: Actualitza la barra d'estat (Status Bar) de l'aplicació amb els
 //      valors R,A,B,PVx,PVy,PVz en Visualització Interactiva.
@@ -2135,18 +2219,20 @@ void CEntornVGIView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 			if (pieces[numPiece].isGameOver())
 			{
 				playSound(_T("./sounds/"), _T("me_game_ko_vo_es.wav"), _T("play"));
-				m_board.clear();
-			}
-
-			if (m_board.checkFloors()) {
-				playSound(_T("./sounds/"), _T("se_game_single.wav"), _T("play"));
-
+				//m_board.clear();
+				estat = gameOver;
 			}
 			else {
-				playSound(_T("./sounds/"), _T("se_game_landing.wav"), _T("play"));
+				if (m_board.checkFloors()) {
+					playSound(_T("./sounds/"), _T("se_game_single.wav"), _T("play"));
+
+				}
+				else {
+					playSound(_T("./sounds/"), _T("se_game_landing.wav"), _T("play"));
+				}
+				numPiece = rand() % (sizeof(pieces) / sizeof(pieces[0]));
+				pieces[numPiece].posIni();
 			}
-			numPiece = rand() % (sizeof(pieces) / sizeof(pieces[0]));
-			pieces[numPiece].posIni();
 		}
 
 
@@ -2936,7 +3022,14 @@ void CEntornVGIView::OnLButtonDown(UINT nFlags, CPoint point)
 	m_ButoEAvall = true;
 	m_PosEAvall = point;
 	m_EsfeEAvall = OPV;
-
+	if (point.x >= 550 && point.x <= 730) {
+		if (point.y >= 250 && point.y <= 275) {
+			//tetris = true;
+			estat = play;
+			initTetris();
+		}
+		
+	}
 	CView::OnLButtonDown(nFlags, point);
 }
 
@@ -3306,7 +3399,7 @@ void CEntornVGIView::OnTimer(UINT_PTR nIDEvent)
 		// Crida a OnPaint() per redibuixar l'escena
 		InvalidateRect(NULL, false);
 	}
-	if (tetris && !tetrisPause) {
+	if (estat == play && !tetrisPause) {
 		if (pieces[numPiece].cauPeca(m_board.m_blocks)) {
 			pieces[numPiece].ViewcauPeca();
 			playSound(_T("./sounds/"), _T("se_game_softdrop.wav"), _T("play"));
@@ -3317,21 +3410,24 @@ void CEntornVGIView::OnTimer(UINT_PTR nIDEvent)
 			if (pieces[numPiece].isGameOver())
 			{
 				playSound(_T("./sounds/"), _T("me_game_ko_vo_es.wav"), _T("play"));	
-				m_board.clear();
+				//m_board.clear();
+				estat = gameOver;
 			}
+			else{
+				if (m_board.checkFloors()) {
+					playSound(_T("./sounds/"), _T("se_game_single.wav"), _T("play"));
 
-			if (m_board.checkFloors()) {
-				playSound(_T("./sounds/"), _T("se_game_single.wav"), _T("play"));
+				}
+				else {
+					playSound(_T("./sounds/"), _T("se_game_landing.wav"), _T("play"));
+				}
 
+
+
+				numPiece = rand() % (sizeof(pieces) / sizeof(pieces[0]));
+				pieces[numPiece].posIni();
 			}
-			else {
-				playSound(_T("./sounds/"), _T("se_game_landing.wav"), _T("play"));
-			}
-
 			
-
-			numPiece = rand() % (sizeof(pieces) / sizeof(pieces[0]));
-			pieces[numPiece].posIni();
 		}
 
 		InvalidateRect(NULL, false);
@@ -5653,7 +5749,7 @@ void CEntornVGIView::OnObjecteTetris()
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
 
 
-	CString nom[25] = {
+	CString nom[26] = {
 		CString(_T("..\\..\\objects\\fig1_color.obj")),
 		CString(_T("..\\..\\objects\\fig2_color.obj")),
 		CString(_T("..\\..\\objects\\fig3_color.obj")),
@@ -5666,9 +5762,10 @@ void CEntornVGIView::OnObjecteTetris()
 		CString(_T("..\\..\\objects\\fig5_cub_green.obj")),
 		CString(_T("..\\..\\objects\\fig_tauler.obj")),
 		CString(_T("..\\..\\objects\\start.obj")),
+		CString(_T("..\\..\\objects\\help.obj")),
+		CString(_T("..\\..\\objects\\exit.obj")),
 		CString(_T("..\\..\\objects\\score.obj")),
 		CString(_T("..\\..\\objects\\game_over.obj")),
-		CString(_T("..\\..\\objects\\help.obj")),
 		CString(_T("..\\..\\objects\\0.obj")),
 		CString(_T("..\\..\\objects\\1.obj")),
 		CString(_T("..\\..\\objects\\2.obj")),
@@ -5693,7 +5790,7 @@ void CEntornVGIView::OnObjecteTetris()
 			piece.posIni();
 			pieces[i] = piece;
 		}
-		if ((i >= 5) && (i != 10))
+		if ((i >= 5) && (i < 9))
 		{
 			Block block(-1, -1, -1);
 			block.setIdVao(I + i);
@@ -5712,18 +5809,20 @@ void CEntornVGIView::OnObjecteTetris()
 
 }
 
-void CEntornVGIView::mainTetris() {
-	OnObjecteTetris();
-	tetris = true;
+void CEntornVGIView::initTetris() {
 	playSound(_T("./sounds/"), _T("theme.mp3"), _T("play"), true);
 
 	srand(time(nullptr));
 
 	int tamanyPe = sizeof(pieces) / sizeof(pieces[0]);
 	pieces[numPiece].posIni();
-	if (tetris) {
+	if (estat == play) {
 		SetTimer(WM_TIMER, 1000, NULL);
 	}
+}
+void CEntornVGIView::mainTetris() {
+	OnObjecteTetris();
+	
 }
 
 void CEntornVGIView::playSound(CString dir, CString file, CString command, bool loop) {
