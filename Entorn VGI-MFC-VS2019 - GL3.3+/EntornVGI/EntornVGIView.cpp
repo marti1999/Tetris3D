@@ -3162,10 +3162,10 @@ void CEntornVGIView::OnMouseMove(UINT nFlags, CPoint point)
 
 
 			// zoom amb el botó esquerra
-			CSize zoomincr = posEAvallOld - point;
+			/*CSize zoomincr = posEAvallOld - point;
 			long int incr = zoomincr.cy / 4.0;
 			OPV.R = OPV.R + incr;
-			if (OPV.R < 0.25) OPV.R = 0.25;
+			if (OPV.R < 0.25) OPV.R = 0.25;*/
 		}
 		else { // Càmera Geode
 			OPV_G.beta = OPV_G.beta + gir.cx / 2;
@@ -5781,6 +5781,7 @@ void CEntornVGIView::OnObjecteTetris()
 
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
 
+	OPV.R = 30.25;
 
 	CString nom[27] = {
 		CString(_T("..\\..\\objects\\fig1_color.obj")),
@@ -5844,6 +5845,9 @@ void CEntornVGIView::OnObjecteTetris()
 }
 
 void CEntornVGIView::initTetris() {
+
+	OPV.R = 30.25;
+
 	playSound(_T("./sounds/"), _T("theme.mp3"), _T("play"), true);
 
 	srand(time(nullptr));

@@ -20,6 +20,6 @@ Fer projecció perspectiva per defecte
 SkyBox per defecte
 Gouround per defecte
 
-mostrar totes les peces de tetris en un mateix lloc(per la pocició)
+mostrar totes les peces de tetris en un mateix lloc(per la posició)
 
 Les peces roten visualment cada cop que es crida la funcio de rotació de l'estructura de dades
