@@ -86,7 +86,7 @@ Board::Board()
     m_height = 0;
 
     // Selecció del test a continuació (descomentar i canviar al setup de test desitjat)
-    this->setupTest3();
+    //this->setupTest3();
 }
 
 Board::~Board()
