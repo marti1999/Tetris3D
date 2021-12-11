@@ -1835,6 +1835,13 @@ void CEntornVGIView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		initTetris();
 	}
 
+	if (estat == gameOver && nChar == 0x1B)
+	{
+		m_board.clear();
+		estat = play;
+		return;
+	}
+
 	if (estat == play)
 	{
 		if ((nChar == 'W' || nChar == 'w') && !tetrisPause) {
@@ -2221,7 +2228,6 @@ void CEntornVGIView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 				if (pieces[numPiece].isGameOver())
 				{
 					playSound(_T("./sounds/"), _T("me_game_ko_vo_es.wav"), _T("play"));
-					//m_board.clear();
 					estat = gameOver;
 				}
 				else {
