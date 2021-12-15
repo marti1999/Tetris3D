@@ -219,9 +219,10 @@ bool Board::checkFloors(){
     return false;
 }
 
-vector<int> Board::getPunts(int punts) {
+vector<int> Board::getPunts() {
     vector<int> p_inv;
     vector<int> p;
+    int punts = m_punts;
     while (punts >= 10) {
         p_inv.push_back(punts % 10);
         punts = punts / 10;
