@@ -43,7 +43,7 @@ public:
     void setIdVao(GLuint idVao) { m_idVao = idVao; }
     void setMatrix(mat4 matriu) { m_Matriu = matriu; }
     
-    vector<int> getPunts(int punts);
+    vector<int> getPunts();
 
     // comprobar si s'ha completat algun pis del taulell
     bool checkFloors();
@@ -220,6 +220,7 @@ bool Board::checkFloors(){
 }
 
 vector<int> Board::getPunts() {
+    m_punts = 10;
     vector<int> p_inv;
     vector<int> p;
     int punts = m_punts;
@@ -227,10 +228,10 @@ vector<int> Board::getPunts() {
         p_inv.push_back(punts % 10);
         punts = punts / 10;
     }
-    if(punts != 0)
-        p_inv.push_back(punts);
+    //if(punts != 0)
+    p_inv.push_back(punts);
 
-    for (int i = p.size(); i >= 0; i--) {
+    for (int i = p_inv.size()-1; i >= 0; i--) {
         p.push_back(p_inv.back());
         p_inv.pop_back();
     }

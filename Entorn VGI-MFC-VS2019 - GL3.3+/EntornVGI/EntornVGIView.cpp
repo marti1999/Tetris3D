@@ -1160,6 +1160,21 @@ void CEntornVGIView::dibuixa_Escena2()
 		npts_T, PC_t, pas_CS, sw_Punts_Control, dibuixa_TriedreFrenet,
 		FIT_3DS, start, // VAO's i nombre de vèrtexs dels objectes 3DS i OBJ
 		ViewMatrix, sendposite);
+	
+	vector<int> puntuacio = m_board.getPunts();
+	//vector<int> puntuacio = { 9,0 };
+	for (int i = 0; i < puntuacio.size(); i++) {
+		glm::mat4 posNum(1.0f);
+		posNum = glm::translate(posNum, glm::vec3(30.0f+(10.0*i), 0.0f, 5.0f));
+		GLuint num = I + 17 + puntuacio[i];
+		dibuixa_EscenaGL(shader_programID, eixos, eixos_Id, grid, hgrid, objecte, col_obj, sw_material,
+			textura, texturesID, textura_map, tFlag_invert_Y,
+			npts_T, PC_t, pas_CS, sw_Punts_Control, dibuixa_TriedreFrenet,
+			FIT_3DS, num, // VAO's i nombre de vèrtexs dels objectes 3DS i OBJ
+			ViewMatrix, posNum);
+
+	}
+
 
 	if (estat == gameOver) {
 		dibuixa_EscenaGL(shader_programID, eixos, eixos_Id, grid, hgrid, objecte, col_obj, sw_material,
@@ -5814,7 +5829,7 @@ void CEntornVGIView::OnObjecteTetris()
 	};
 
 	//a partir de la 11 esta los textos y numeros para el score
-	for (int i = 0; i < 25; i++) {
+	for (int i = 0; i < 27; i++) {
 
 		char* nomfitx = CString2Char(nom[i]);
 		if (ObOBJ == NULL) ObOBJ = new COBJModel;
