@@ -42,6 +42,8 @@ public:
     mat4 getMatrix() { return m_Matriu; }
     void setIdVao(GLuint idVao) { m_idVao = idVao; }
     void setMatrix(mat4 matriu) { m_Matriu = matriu; }
+    
+    vector<int> getPunts(int punts);
 
     // comprobar si s'ha completat algun pis del taulell
     bool checkFloors();
@@ -216,6 +218,24 @@ bool Board::checkFloors(){
     // no ha trobat files a eliminar
     return false;
 }
+
+vector<int> Board::getPunts(int punts) {
+    vector<int> p_inv;
+    vector<int> p;
+    while (punts >= 10) {
+        p_inv.push_back(punts % 10);
+        punts = punts / 10;
+    }
+    if(punts != 0)
+        p_inv.push_back(punts);
+
+    for (int i = p.size(); i >= 0; i--) {
+        p.push_back(p_inv.back());
+        p_inv.pop_back();
+    }
+    return p;
+}
+
 void Board::setupTest1()    /* Cas: eliminar múltiples files no consecutives en el eix Y */
 {
     m_blocks[0][0][2].m_lliure = false;
