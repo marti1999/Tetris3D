@@ -1166,7 +1166,7 @@ void CEntornVGIView::dibuixa_Escena2()
 	//vector<int> puntuacio = { 9,0 };
 	for (int i = 0; i < puntuacio.size(); i++) {
 		glm::mat4 posNum(1.0f);
-		posNum = glm::translate(posNum, glm::vec3(30.0f+(10.0*i), 0.0f, 5.0f));
+		posNum = glm::translate(posNum, glm::vec3(15.0f+(10.0*i), 0.0f, 5.0f));
 		GLuint num = I + 17 + puntuacio[i];
 		dibuixa_EscenaGL(shader_programID, eixos, eixos_Id, grid, hgrid, objecte, col_obj, sw_material,
 			textura, texturesID, textura_map, tFlag_invert_Y,
