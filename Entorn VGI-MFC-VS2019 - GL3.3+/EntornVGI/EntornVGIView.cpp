@@ -3465,11 +3465,11 @@ void CEntornVGIView::OnTimer(UINT_PTR nIDEvent)
 			else{
 				if (m_board.checkFloors()) {
 					playSound(_T("./sounds/"), _T("se_game_single.wav"), _T("play"));
-					if (m_board.m_punts >= 500){
-						if(m_board.m_punts < 1000) 
+					if (m_board.m_punts >= 1000){
+						if(m_board.m_punts < 2000) 
 							dificultat = 750;
 						else
-							dificultat = 600;
+							dificultat = 500;
 						KillTimer(WM_TIMER);
 						SetTimer(WM_TIMER,dificultat,NULL);
 					}
