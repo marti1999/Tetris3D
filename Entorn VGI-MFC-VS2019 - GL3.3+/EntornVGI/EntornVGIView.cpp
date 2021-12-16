@@ -1033,7 +1033,6 @@ void CEntornVGIView::OnPaint()
 // Definció projecció PERSPECTIVA
 
 		projeccio = PERSPECT;
-		OnVistaFullscreen();
 		OnIluminacioGouraud();
 		OnVistaSkyBox();
 		dibuixa_Menu();
@@ -1176,15 +1175,31 @@ void CEntornVGIView::dibuixa_Escena2()
 			ViewMatrix, posNum);
 
 	}
-
+	glm::mat4 dificultMat(1.0);
+	GLuint dificult = I + 27;
 	if (m_board.m_punts >= 1000) {
 		if (m_board.m_punts >= 2000)
 			//printar HARD
+			dibuixa_EscenaGL(shader_programID, eixos, eixos_Id, grid, hgrid, objecte, col_obj, sw_material,
+				textura, texturesID, textura_map, tFlag_invert_Y,
+				npts_T, PC_t, pas_CS, sw_Punts_Control, dibuixa_TriedreFrenet,
+				FIT_3DS, dificult + 2, // VAO's i nombre de vèrtexs dels objectes 3DS i OBJ
+				ViewMatrix, dificultMat);
 		else
 			//printar INTERMEDIATE
+			dibuixa_EscenaGL(shader_programID, eixos, eixos_Id, grid, hgrid, objecte, col_obj, sw_material,
+				textura, texturesID, textura_map, tFlag_invert_Y,
+				npts_T, PC_t, pas_CS, sw_Punts_Control, dibuixa_TriedreFrenet,
+				FIT_3DS, dificult + 1, // VAO's i nombre de vèrtexs dels objectes 3DS i OBJ
+				ViewMatrix, dificultMat);
 	}
 	else
 		//printar EASY
+		dibuixa_EscenaGL(shader_programID, eixos, eixos_Id, grid, hgrid, objecte, col_obj, sw_material,
+			textura, texturesID, textura_map, tFlag_invert_Y,
+			npts_T, PC_t, pas_CS, sw_Punts_Control, dibuixa_TriedreFrenet,
+			FIT_3DS, dificult, // VAO's i nombre de vèrtexs dels objectes 3DS i OBJ
+			ViewMatrix, dificultMat);
 
 	if (estat == gameOver) {
 		dibuixa_EscenaGL(shader_programID, eixos, eixos_Id, grid, hgrid, objecte, col_obj, sw_material,
@@ -5815,7 +5830,7 @@ void CEntornVGIView::OnObjecteTetris()
 
 	OPV.R = 30.25;
 
-	CString nom[27] = {
+	CString nom[30] = {
 		CString(_T("..\\..\\objects\\fig1_color.obj")),
 		CString(_T("..\\..\\objects\\fig2_color.obj")),
 		CString(_T("..\\..\\objects\\fig3_color.obj")),
@@ -5843,10 +5858,13 @@ void CEntornVGIView::OnObjecteTetris()
 		CString(_T("..\\..\\objects\\7.obj")),
 		CString(_T("..\\..\\objects\\8.obj")),
 		CString(_T("..\\..\\objects\\9.obj")),
+		CString(_T("..\\..\\objects\\easy.obj")),
+		CString(_T("..\\..\\objects\\medium.obj")),
+		CString(_T("..\\..\\objects\\hard.obj"))
 	};
 
 	//a partir de la 11 esta los textos y numeros para el score
-	for (int i = 0; i < 27; i++) {
+	for (int i = 0; i < 30; i++) {
 
 		char* nomfitx = CString2Char(nom[i]);
 		if (ObOBJ == NULL) ObOBJ = new COBJModel;
