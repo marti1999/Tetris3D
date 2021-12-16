@@ -117,6 +117,7 @@ void Board::clear() {
         }
     }
     m_height = 0;
+    m_punts = 0;
 }
 
 vector<aEsborrar> Board::deleteRow() {
