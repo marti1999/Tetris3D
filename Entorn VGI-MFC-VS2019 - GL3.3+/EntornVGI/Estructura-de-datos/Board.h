@@ -163,7 +163,7 @@ vector<aEsborrar> Board::deleteRow() {
         }
         countZ = 0;
     }
-    m_punts += (100 * eliminacions.size());
+    m_punts += eliminacions.size()*(100 * eliminacions.size());
     for (aEsborrar el : eliminacions) {
         for (int x = el.xInici; x <= el.xFinal; x++) {
             for (int z = el.zInici; z <= el.zFinal; z++) {
