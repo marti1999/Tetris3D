@@ -46,6 +46,7 @@ Piece pieces[5];
 Block vaoBlocks[5];
 Board m_board;
 int numPiece;
+int dificultat;
 enum Estate
 {
 	init,
@@ -2228,7 +2229,7 @@ void CEntornVGIView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 				KillTimer(WM_TIMER);
 			}
 			else {
-				SetTimer(WM_TIMER, 1000, NULL);
+				SetTimer(WM_TIMER, dificultat, NULL);
 			}
 
 			tetris = !tetris;
@@ -3464,7 +3465,14 @@ void CEntornVGIView::OnTimer(UINT_PTR nIDEvent)
 			else{
 				if (m_board.checkFloors()) {
 					playSound(_T("./sounds/"), _T("se_game_single.wav"), _T("play"));
-
+					if (m_board.m_punts >= 500){
+						if(m_board.m_punts < 1000) 
+							dificultat = 750;
+						else
+							dificultat = 500;
+						KillTimer(WM_TIMER);
+						SetTimer(WM_TIMER,dificultat,NULL);
+					}
 				}
 				else {
 					playSound(_T("./sounds/"), _T("se_game_landing.wav"), _T("play"));
@@ -5867,10 +5875,12 @@ void CEntornVGIView::initTetris() {
 
 	srand(time(nullptr));
 
+	dificultat = 1000;
+
 	int tamanyPe = sizeof(pieces) / sizeof(pieces[0]);
 	pieces[numPiece].posIni();
 	if (estat == play) {
-		SetTimer(WM_TIMER, 1000, NULL);
+		SetTimer(WM_TIMER, dificultat, NULL);
 	}
 }
 void CEntornVGIView::mainTetris() {
