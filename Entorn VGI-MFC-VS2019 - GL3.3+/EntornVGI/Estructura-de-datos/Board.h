@@ -220,7 +220,6 @@ bool Board::checkFloors(){
 }
 
 vector<int> Board::getPunts() {
-    m_punts = 10;
     vector<int> p_inv;
     vector<int> p;
     int punts = m_punts;
