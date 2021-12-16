@@ -3469,7 +3469,7 @@ void CEntornVGIView::OnTimer(UINT_PTR nIDEvent)
 						if(m_board.m_punts < 1000) 
 							dificultat = 750;
 						else
-							dificultat = 500;
+							dificultat = 600;
 						KillTimer(WM_TIMER);
 						SetTimer(WM_TIMER,dificultat,NULL);
 					}
