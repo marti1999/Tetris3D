@@ -1177,6 +1177,14 @@ void CEntornVGIView::dibuixa_Escena2()
 
 	}
 
+	if (m_board.m_punts >= 1000) {
+		if (m_board.m_punts >= 2000)
+			//printar HARD
+		else
+			//printar INTERMEDIATE
+	}
+	else
+		//printar EASY
 
 	if (estat == gameOver) {
 		dibuixa_EscenaGL(shader_programID, eixos, eixos_Id, grid, hgrid, objecte, col_obj, sw_material,
