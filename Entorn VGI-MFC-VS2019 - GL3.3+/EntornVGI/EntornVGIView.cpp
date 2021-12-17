@@ -1878,6 +1878,9 @@ void CEntornVGIView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	if (estat == gameOver && nChar == 0x1B)
 	{
 		m_board.clear();
+		dificultat = 1000;
+		KillTimer(WM_TIMER);
+		SetTimer(WM_TIMER, dificultat, NULL);
 		estat = play;
 		return;
 	}
